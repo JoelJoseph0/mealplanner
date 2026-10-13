@@ -1,0 +1,148 @@
+{
+  "source": "https://huggingface.co/datasets/SunnyAgarwal4274/Food_and_Vegetables",
+  "license": "apache-2.0",
+  "image_max_side": 320,
+  "classes": {
+    "Apple": {
+      "train": 54,
+      "validation": 9,
+      "test": 10
+    },
+    "Banana": {
+      "train": 60,
+      "validation": 9,
+      "test": 11
+    },
+    "Beetroot": {
+      "train": 73,
+      "validation": 10,
+      "test": 13
+    },
+    "Brinjal": {
+      "train": 68,
+      "validation": 8,
+      "test": 12
+    },
+    "Cabbage": {
+      "train": 76,
+      "validation": 10,
+      "test": 13
+    },
+    "Capsicum": {
+      "train": 85,
+      "validation": 15,
+      "test": 15
+    },
+    "Carrot": {
+      "train": 66,
+      "validation": 9,
+      "test": 12
+    },
+    "Cauliflower": {
+      "train": 65,
+      "validation": 10,
+      "test": 12
+    },
+    "Cucumber": {
+      "train": 76,
+      "validation": 8,
+      "test": 13
+    },
+    "Garlic": {
+      "train": 76,
+      "validation": 10,
+      "test": 14
+    },
+    "Ginger": {
+      "train": 54,
+      "validation": 9,
+      "test": 10
+    },
+    "Grapes": {
+      "train": 78,
+      "validation": 9,
+      "test": 14
+    },
+    "Green Chilli": {
+      "train": 85,
+      "validation": 15,
+      "test": 15
+    },
+    "Green Peas": {
+      "train": 79,
+      "validation": 8,
+      "test": 14
+    },
+    "Lemon": {
+      "train": 65,
+      "validation": 8,
+      "test": 11
+    },
+    "Lettuce": {
+      "train": 78,
+      "validation": 9,
+      "test": 14
+    },
+    "Mango": {
+      "train": 71,
+      "validation": 9,
+      "test": 12
+    },
+    "Onion": {
+      "train": 76,
+      "validation": 10,
+      "test": 14
+    },
+    "Orange": {
+      "train": 53,
+      "validation": 8,
+      "test": 9
+    },
+    "Pineapple": {
+      "train": 74,
+      "validation": 9,
+      "test": 13
+    },
+    "Pomegranate": {
+      "train": 60,
+      "validation": 10,
+      "test": 10
+    },
+    "Potato": {
+      "train": 65,
+      "validation": 10,
+      "test": 11
+    },
+    "Radish": {
+      "train": 68,
+      "validation": 9,
+      "test": 12
+    },
+    "Spinach": {
+      "train": 77,
+      "validation": 9,
+      "test": 14
+    },
+    "Sweet Corn": {
+      "train": 85,
+      "validation": 15,
+      "test": 15
+    },
+    "Sweet Potato": {
+      "train": 58,
+      "validation": 10,
+      "test": 10
+    },
+    "Tomato": {
+      "train": 74,
+      "validation": 9,
+      "test": 13
+    },
+    "Watermelon": {
+      "train": 66,
+      "validation": 8,
+      "test": 12
+    }
+  },
+  "failed_downloads": 0
+}

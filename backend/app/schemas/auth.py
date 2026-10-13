@@ -1,0 +1,30 @@
+from typing import Optional
+from pydantic import BaseModel, EmailStr, Field
+
+
+from app.schemas.user import UserResponse
+
+
+class UserRegister(BaseModel):
+    full_name: str = Field(..., min_length=2, max_length=100)
+    email: EmailStr
+    password: str = Field(..., min_length=6, max_length=128)
+    age: Optional[int] = Field(None, ge=1, le=120)
+    gender: Optional[str] = Field(None, max_length=20)
+
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    user: Optional[UserResponse] = None
+
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
+    user_id: Optional[int] = None
+    role: Optional[str] = None
