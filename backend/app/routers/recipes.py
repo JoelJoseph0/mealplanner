@@ -12,6 +12,8 @@ from app.services.recipe_service import (
     update_recipe,
     delete_recipe
 )
+from app.schemas.shopping import RecipeRatingRequest
+from app.services.feedback_service import get_feedback_map, set_recipe_rating
 from app.utils.helpers import api_response
 
 router = APIRouter(prefix="/recipes", tags=["Recipes"])
@@ -44,6 +46,27 @@ def list_recipes(
         data=[RecipeResponse.model_validate(r) for r in recipes],
         message="Recipes retrieved successfully"
     )
+
+
+@router.get("/ratings")
+def my_recipe_ratings(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Return the signed-in user's like/dislike for every recipe they have rated or cooked."""
+    return api_response(data=get_feedback_map(db, current_user.id), message="Ratings retrieved successfully")
+
+
+@router.put("/{recipe_id}/rating")
+def rate_recipe(
+    recipe_id: int,
+    rating: RecipeRatingRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Like, dislike or clear the rating of a recipe; ratings tune recommendations and meal plans."""
+    value = set_recipe_rating(db, current_user.id, recipe_id, rating.feedback)
+    return api_response(data={"recipe_id": recipe_id, "feedback": value}, message="Rating saved")
 
 
 @router.get("/{recipe_id}")

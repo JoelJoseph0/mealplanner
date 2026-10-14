@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { Plus, Search, X } from 'lucide-react';
-import pantryService from '../../services/pantryService';
+import { ingredientService } from '../../services';
+import { ingredientEmoji } from '../food/visuals';
 
 const normalize = (text) => text.trim().replace(/\s+/g, ' ');
 
 export const IngredientPicker = ({
   value = [],
   onChange,
-  placeholder = 'Type an ingredient, e.g. tomato, papaya, egg...',
+  placeholder = 'Type an ingredient, e.g. tomato, papaya, egg',
   quickPicks = [],
   autoFocus = false,
+  onSubmit,
 }) => {
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -29,7 +31,7 @@ export const IngredientPicker = ({
     let cancelled = false;
     const timer = setTimeout(async () => {
       try {
-        const results = await pantryService.searchIngredients(term, 8);
+        const results = await ingredientService.search(term, 8);
         if (!cancelled) {
           setSuggestions(results);
           setHighlight(0);
@@ -38,7 +40,7 @@ export const IngredientPicker = ({
       } catch {
         if (!cancelled) setSuggestions([]);
       }
-    }, 180);
+    }, 160);
     return () => {
       cancelled = true;
       clearTimeout(timer);
@@ -47,9 +49,7 @@ export const IngredientPicker = ({
 
   useEffect(() => {
     const handleClick = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setOpen(false);
-      }
+      if (containerRef.current && !containerRef.current.contains(event.target)) setOpen(false);
     };
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
@@ -61,9 +61,7 @@ export const IngredientPicker = ({
       .map(normalize)
       .filter(Boolean)
       .forEach((name) => {
-        if (!next.some((existing) => existing.toLowerCase() === name.toLowerCase())) {
-          next.push(name);
-        }
+        if (!next.some((existing) => existing.toLowerCase() === name.toLowerCase())) next.push(name);
       });
     onChange(next);
     setQuery('');
@@ -72,26 +70,21 @@ export const IngredientPicker = ({
     inputRef.current?.focus();
   };
 
-  const removeItem = (name) => {
-    onChange(value.filter((item) => item !== name));
-  };
-
-  const visibleSuggestions = suggestions.filter((s) => !selectedLower.includes(s.name.toLowerCase()));
+  const removeItem = (name) => onChange(value.filter((item) => item !== name));
+  const visible = suggestions.filter((s) => !selectedLower.includes(s.name.toLowerCase()));
 
   const handleKeyDown = (event) => {
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      setHighlight((h) => Math.min(h + 1, Math.max(visibleSuggestions.length - 1, 0)));
+      setHighlight((h) => Math.min(h + 1, Math.max(visible.length - 1, 0)));
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
       setHighlight((h) => Math.max(h - 1, 0));
     } else if (event.key === 'Enter' || event.key === ',') {
       event.preventDefault();
-      if (open && visibleSuggestions[highlight]) {
-        addItems([visibleSuggestions[highlight].name]);
-      } else if (normalize(query)) {
-        addItems(query.split(','));
-      }
+      if (open && visible[highlight]) addItems([visible[highlight].name]);
+      else if (normalize(query)) addItems(query.split(','));
+      else if (event.key === 'Enter' && value.length && onSubmit) onSubmit();
     } else if (event.key === 'Backspace' && !query && value.length) {
       removeItem(value[value.length - 1]);
     } else if (event.key === 'Escape') {
@@ -99,21 +92,18 @@ export const IngredientPicker = ({
     }
   };
 
-  const remainingQuickPicks = quickPicks.filter((q) => !selectedLower.includes(q.toLowerCase()));
+  const remainingQuick = quickPicks.filter((q) => !selectedLower.includes(q.toLowerCase()));
 
   return (
     <div ref={containerRef} className="space-y-3">
       <div className="relative">
         <div
-          className="flex flex-wrap items-center gap-2 min-h-[52px] w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-emerald-500 transition-colors cursor-text"
+          className="flex min-h-[3.25rem] w-full cursor-text flex-wrap items-center gap-2 rounded-2xl border border-line bg-surface px-3 py-2 transition-colors focus-within:border-brand focus-within:ring-2 focus-within:ring-brand/25"
           onClick={() => inputRef.current?.focus()}
         >
-          <Search className="w-4 h-4 text-slate-400 shrink-0" />
+          <Search className="h-4 w-4 shrink-0 text-subtle" aria-hidden="true" />
           {value.map((item) => (
-            <span
-              key={item}
-              className="inline-flex items-center gap-1 pl-2.5 pr-1 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold"
-            >
+            <span key={item} className="inline-flex items-center gap-1 rounded-lg bg-brand-soft py-1 pl-2.5 pr-1 text-sm font-semibold text-brand">
               {item}
               <button
                 type="button"
@@ -122,9 +112,9 @@ export const IngredientPicker = ({
                   e.stopPropagation();
                   removeItem(item);
                 }}
-                className="p-0.5 rounded-md text-emerald-600 hover:bg-emerald-100 cursor-pointer"
+                className="rounded-md p-0.5 hover:bg-black/10"
               >
-                <X className="w-3 h-3" />
+                <X className="h-3.5 w-3.5" />
               </button>
             </span>
           ))}
@@ -134,10 +124,10 @@ export const IngredientPicker = ({
             autoFocus={autoFocus}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            onFocus={() => visibleSuggestions.length && setOpen(true)}
-            placeholder={value.length ? 'Add more...' : placeholder}
-            aria-label="Ingredient search"
-            className="flex-1 min-w-[160px] bg-transparent text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none py-1"
+            onFocus={() => visible.length && setOpen(true)}
+            placeholder={value.length ? 'Add more' : placeholder}
+            aria-label="Search ingredients"
+            className="min-w-[10rem] flex-1 bg-transparent py-1 text-sm text-fg placeholder:text-subtle focus:outline-none"
           />
           {normalize(query) && (
             <button
@@ -146,37 +136,31 @@ export const IngredientPicker = ({
                 e.stopPropagation();
                 addItems(query.split(','));
               }}
-              className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-lg cursor-pointer"
+              className="inline-flex items-center gap-1 rounded-lg bg-brand-soft px-2.5 py-1 text-sm font-semibold text-brand"
             >
-              <Plus className="w-3.5 h-3.5" /> Add
+              <Plus className="h-3.5 w-3.5" /> Add
             </button>
           )}
         </div>
 
-        {open && visibleSuggestions.length > 0 && (
-          <ul
-            role="listbox"
-            className="absolute z-30 mt-1.5 w-full max-h-72 overflow-y-auto rounded-2xl border border-slate-200 bg-white shadow-lg py-1"
-          >
-            {visibleSuggestions.map((item, idx) => (
+        {open && visible.length > 0 && (
+          <ul role="listbox" className="absolute z-30 mt-1.5 max-h-72 w-full overflow-y-auto rounded-2xl border border-line bg-surface py-1 shadow-card">
+            {visible.map((item, idx) => (
               <li key={item.id} role="option" aria-selected={idx === highlight}>
                 <button
                   type="button"
                   onMouseEnter={() => setHighlight(idx)}
                   onClick={() => addItems([item.name])}
-                  className={`w-full flex items-center justify-between gap-3 px-4 py-2.5 text-left text-sm cursor-pointer ${
-                    idx === highlight ? 'bg-emerald-50 text-emerald-900' : 'text-slate-700 hover:bg-slate-50'
-                  }`}
+                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm ${idx === highlight ? 'bg-brand-soft text-fg' : 'text-fg hover:bg-surface-2'}`}
                 >
-                  <span className="font-semibold">
+                  <span className="text-xl" aria-hidden="true">
+                    {ingredientEmoji(item.name, item.category)}
+                  </span>
+                  <span className="flex-1 font-semibold">
                     {item.name}
-                    {item.matched_alias && (
-                      <span className="ml-1.5 text-xs font-normal text-slate-400">({item.matched_alias})</span>
-                    )}
+                    {item.matched_alias && <span className="ml-1.5 font-normal text-subtle">({item.matched_alias})</span>}
                   </span>
-                  <span className="text-[11px] text-slate-400 shrink-0">
-                    {item.is_staple ? 'Staple' : item.category}
-                  </span>
+                  <span className="text-xs text-subtle">{item.is_staple ? 'Basic' : item.category}</span>
                 </button>
               </li>
             ))}
@@ -184,17 +168,18 @@ export const IngredientPicker = ({
         )}
       </div>
 
-      {remainingQuickPicks.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5">
-          <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mr-1">Quick add:</span>
-          {remainingQuickPicks.map((pick) => (
+      {remainingQuick.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm font-medium text-subtle">Quick add</span>
+          {remainingQuick.map((pick) => (
             <button
               key={pick}
               type="button"
               onClick={() => addItems([pick])}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg border border-slate-200 bg-white text-xs font-medium text-slate-600 hover:border-emerald-300 hover:text-emerald-700 cursor-pointer transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-semibold text-muted transition-colors hover:border-brand hover:text-brand"
             >
-              <Plus className="w-3 h-3" /> {pick}
+              <span aria-hidden="true">{ingredientEmoji(pick)}</span>
+              {pick}
             </button>
           ))}
         </div>

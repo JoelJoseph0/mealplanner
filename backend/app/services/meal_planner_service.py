@@ -1,4 +1,5 @@
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
+import random
 import re
 import zoneinfo
 from typing import Dict, Any, List, Optional, Union, Tuple
@@ -7,10 +8,12 @@ from fastapi import HTTPException, status
 from app.models.meal_plan import MealPlan
 from app.models.recipe import Recipe
 from app.models.dietary_profile import DietaryProfile
+from app.models.meal_history import MealHistory
 from app.recommendation.filters import filter_recipes
 from app.recommendation.scoring import calculate_recipe_score
 from app.recommendation.pantry_matcher import pantry_coverage
 from app.services.ingredient_service import get_user_pantry_context
+from app.services.feedback_service import get_feedback_map
 
 MEAL_SLOTS = [
     ("Breakfast", 0.25),
@@ -174,6 +177,168 @@ def _calculate_totals(items: List[MealPlan]) -> Dict[str, float]:
     }
 
 
+def _load_day(db: Session, user_id: int, plan_date: date) -> List[MealPlan]:
+    return (
+        db.query(MealPlan)
+        .options(joinedload(MealPlan.recipe))
+        .filter(MealPlan.user_id == user_id, MealPlan.plan_date == plan_date)
+        .all()
+    )
+
+
+def _day_payload(plan_date: date, items: List[MealPlan]) -> Dict[str, Any]:
+    meals_dict: Dict[str, Optional[MealPlan]] = {slot: None for slot, _ in MEAL_SLOTS}
+    for item in items:
+        meals_dict[item.meal_type] = item
+    return {
+        "date": plan_date,
+        "meals": meals_dict,
+        "totals": _calculate_totals(items),
+        "generated": len(items) > 0,
+    }
+
+
+def _pick_servings(recipe: Recipe, slot_target: float) -> int:
+    calories = recipe.calories or 0.0
+    if calories <= 0:
+        return 1
+    return 2 if abs(calories * 2 - slot_target) < abs(calories - slot_target) else 1
+
+
+def _balance_servings(items: List[MealPlan], recipes_by_id: Dict[int, Recipe], daily_calories: float) -> None:
+    def recipe_of(item: MealPlan) -> Optional[Recipe]:
+        return item.recipe or recipes_by_id.get(item.recipe_id)
+
+    def total() -> float:
+        return sum((recipe_of(i).calories or 0.0) * (i.servings or 1) for i in items if recipe_of(i))
+
+    current = total()
+    while current < daily_calories * 0.92:
+        options = [
+            i for i in items
+            if not i.locked and (i.servings or 1) < 2 and recipe_of(i)
+            and (recipe_of(i).calories or 0.0) > 0
+            and current + recipe_of(i).calories <= daily_calories * 1.08
+            and (recipe_of(i).calories or 0.0) * 2 <= 650
+        ]
+        if not options:
+            break
+        best = max(options, key=lambda i: recipe_of(i).calories)
+        best.servings = 2
+        current = total()
+
+
+def _eligible_recipes(db: Session, user_id: int, profile: Optional[DietaryProfile]) -> List[Recipe]:
+    all_recipes = db.query(Recipe).all()
+    safe_recipes = filter_recipes(all_recipes, profile) if profile else all_recipes
+    if not safe_recipes:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="No recipes match your dietary restrictions and allergy criteria"
+        )
+    disliked = {rid for rid, fb in get_feedback_map(db, user_id).items() if fb == "negative"}
+    liked_pool = [r for r in safe_recipes if r.id not in disliked]
+    return liked_pool if len(liked_pool) >= len(MEAL_SLOTS) else safe_recipes
+
+
+def _choose_for_slot(
+    pool: List[Recipe],
+    profile: Optional[DietaryProfile],
+    slot_name: str,
+    slot_target: float,
+    used_today: set,
+    coverage_map: Dict[int, float],
+    week_usage: Optional[Dict[int, int]] = None,
+    last_used_day: Optional[Dict[int, int]] = None,
+    day_index: int = 0
+) -> Recipe:
+    scored: List[Tuple[Recipe, float]] = []
+    for r in pool:
+        _, slot_bonus = _is_slot_appropriate(r, slot_name)
+        base_score, _ = calculate_recipe_score(
+            recipe=r,
+            profile=profile,
+            target_calories_per_meal=slot_target,
+            preferred_meal_type=slot_name,
+            pantry_coverage=coverage_map.get(r.id, 0.0) if coverage_map else None
+        )
+        score = base_score + slot_bonus
+        if r.id in used_today:
+            score -= 150.0
+        if last_used_day is not None and r.id in last_used_day:
+            days_since = day_index - last_used_day[r.id]
+            if days_since == 1:
+                score -= 80.0
+            elif days_since == 2:
+                score -= 40.0
+            elif days_since == 3:
+                score -= 20.0
+        if week_usage is not None:
+            usage = week_usage.get(r.id, 0)
+            score -= usage * 60.0
+            if usage == 0:
+                score += 25.0
+        scored.append((r, score))
+    scored.sort(key=lambda pair: pair[1], reverse=True)
+    return scored[0][0] if scored else pool[0]
+
+
+def _fill_day(
+    db: Session,
+    user_id: int,
+    plan_date: date,
+    profile: Optional[DietaryProfile],
+    daily_calories: float,
+    pool: List[Recipe],
+    coverage_map: Dict[int, float],
+    replace_unlocked: bool,
+    week_usage: Optional[Dict[int, int]] = None,
+    last_used_day: Optional[Dict[int, int]] = None,
+    day_index: int = 0
+) -> List[MealPlan]:
+    existing = _load_day(db, user_id, plan_date)
+    kept: List[MealPlan] = []
+    for item in existing:
+        if replace_unlocked and not item.locked:
+            db.delete(item)
+        else:
+            kept.append(item)
+    if replace_unlocked:
+        db.flush()
+
+    taken_slots = {item.meal_type for item in kept}
+    used_today = {item.recipe_id for item in kept}
+    created: List[MealPlan] = []
+
+    for slot_name, calorie_fraction in MEAL_SLOTS:
+        if slot_name in taken_slots:
+            continue
+        slot_target = daily_calories * calorie_fraction
+        candidates = [r for r in pool if r.id not in used_today] or pool
+        chosen = _choose_for_slot(
+            candidates, profile, slot_name, slot_target, used_today, coverage_map,
+            week_usage, last_used_day, day_index
+        )
+        used_today.add(chosen.id)
+        if week_usage is not None:
+            week_usage[chosen.id] = week_usage.get(chosen.id, 0) + 1
+        if last_used_day is not None:
+            last_used_day[chosen.id] = day_index
+        item = MealPlan(
+            user_id=user_id,
+            plan_date=plan_date,
+            meal_type=slot_name,
+            recipe_id=chosen.id,
+            servings=_pick_servings(chosen, slot_target)
+        )
+        db.add(item)
+        created.append(item)
+
+    _balance_servings(kept + created, {r.id: r for r in pool}, daily_calories)
+    db.commit()
+    return _load_day(db, user_id, plan_date)
+
+
 def generate_daily_meal_plan(
     db: Session,
     user_id: int,
@@ -183,106 +348,25 @@ def generate_daily_meal_plan(
     use_pantry: bool = False
 ) -> Dict[str, Any]:
     """
-    Generate or retrieve a balanced 5-meal daily plan tailored to user's dietary profile.
-    Strictly enforces zero intra-day repetition when sufficient recipes exist.
-    Calculates exact nutrition totals from actual recipes.
+    Create (or refresh) a balanced 5-meal day tailored to the user's profile.
+    Locked meals are kept, disliked recipes are avoided and portions are sized to the slot's calorie target.
     """
     norm_date = normalize_calendar_date(target_date, user_tz)
+    existing = _load_day(db, user_id, norm_date)
 
-    # Check for existing plan on this date
-    existing_items = (
-        db.query(MealPlan)
-        .options(joinedload(MealPlan.recipe))
-        .filter(MealPlan.user_id == user_id, MealPlan.plan_date == norm_date)
-        .all()
-    )
+    if existing and not force_regenerate and len({i.meal_type for i in existing}) >= len(MEAL_SLOTS):
+        return _day_payload(norm_date, existing)
 
-    if existing_items and not force_regenerate:
-        meals_dict = {slot: None for slot, _ in MEAL_SLOTS}
-        for item in existing_items:
-            meals_dict[item.meal_type] = item
-
-        return {
-            "date": norm_date,
-            "meals": meals_dict,
-            "totals": _calculate_totals(existing_items)
-        }
-
-    # If force_regenerate, clear previous plan for this day
-    if existing_items and force_regenerate:
-        for item in existing_items:
-            db.delete(item)
-        db.flush()
-
-    # Load user dietary profile
     profile = db.query(DietaryProfile).filter(DietaryProfile.user_id == user_id).first()
     daily_calories = profile.daily_calories if profile and profile.daily_calories else 2000.0
+    pool = _eligible_recipes(db, user_id, profile)
+    coverage_map = _pantry_coverage_map(db, user_id, pool) if use_pantry else {}
 
-    # Fetch and filter eligible recipes
-    all_recipes = db.query(Recipe).all()
-    safe_recipes = filter_recipes(all_recipes, profile) if profile else all_recipes
-
-    if not safe_recipes:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="No recipes match your dietary restrictions and allergy criteria"
-        )
-
-    coverage_map = _pantry_coverage_map(db, user_id, safe_recipes) if use_pantry else {}
-
-    meals_dict = {}
-    created_items = []
-    used_today_ids = set()
-
-    for slot_name, calorie_fraction in MEAL_SLOTS:
-        slot_target_cals = daily_calories * calorie_fraction
-
-        # Separate available recipes that have not been used today
-        available_candidates = [r for r in safe_recipes if r.id not in used_today_ids]
-        candidate_pool = available_candidates if available_candidates else safe_recipes
-
-        scored_candidates = []
-        for r in candidate_pool:
-            _, slot_bonus = _is_slot_appropriate(r, slot_name)
-            base_score, _ = calculate_recipe_score(
-                recipe=r,
-                profile=profile,
-                target_calories_per_meal=slot_target_cals,
-                preferred_meal_type=slot_name,
-                pantry_coverage=coverage_map.get(r.id, 0.0) if coverage_map else None
-            )
-            final_score = base_score + slot_bonus
-
-            # Strict intra-day penalty if forced to pick a previously used recipe
-            if r.id in used_today_ids:
-                final_score -= 150.0
-
-            scored_candidates.append((r, final_score))
-
-        scored_candidates.sort(key=lambda x: x[1], reverse=True)
-        chosen_recipe = scored_candidates[0][0] if scored_candidates else safe_recipes[0]
-        used_today_ids.add(chosen_recipe.id)
-
-        plan_item = MealPlan(
-            user_id=user_id,
-            plan_date=norm_date,
-            meal_type=slot_name,
-            recipe_id=chosen_recipe.id,
-            servings=1
-        )
-        db.add(plan_item)
-        created_items.append(plan_item)
-        meals_dict[slot_name] = plan_item
-
-    db.commit()
-    for item in created_items:
-        db.refresh(item)
-
-    return {
-        "date": norm_date,
-        "meals": meals_dict,
-        "totals": _calculate_totals(created_items)
-    }
+    items = _fill_day(
+        db, user_id, norm_date, profile, daily_calories, pool, coverage_map,
+        replace_unlocked=force_regenerate
+    )
+    return _day_payload(norm_date, items)
 
 
 def get_daily_meal_plan(
@@ -291,27 +375,34 @@ def get_daily_meal_plan(
     target_date: Optional[Union[date, str]] = None,
     user_tz: Optional[str] = None
 ) -> Dict[str, Any]:
-    """Retrieve existing daily meal plan for a specific date or generate automatically."""
+    """Return the stored plan for a date; nothing is generated until the user asks for it."""
     norm_date = normalize_calendar_date(target_date, user_tz)
+    return _day_payload(norm_date, _load_day(db, user_id, norm_date))
 
-    existing_items = (
-        db.query(MealPlan)
-        .options(joinedload(MealPlan.recipe))
-        .filter(MealPlan.user_id == user_id, MealPlan.plan_date == norm_date)
-        .all()
-    )
 
-    if not existing_items:
-        return generate_daily_meal_plan(db, user_id, target_date=norm_date, user_tz=user_tz)
+DAY_NAMES = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
-    meals_dict = {slot: None for slot, _ in MEAL_SLOTS}
-    for item in existing_items:
-        meals_dict[item.meal_type] = item
 
+def _week_response(start_date: date, days: List[Dict[str, Any]]) -> Dict[str, Any]:
+    keys = ("calories", "protein", "carbohydrates", "fat", "fiber")
+    sums = {k: sum(d["totals"][k] for d in days) for k in keys}
+    days_result = {DAY_NAMES[i]: day for i, day in enumerate(days)}
     return {
-        "date": norm_date,
-        "meals": meals_dict,
-        "totals": _calculate_totals(existing_items)
+        "start_date": start_date,
+        "end_date": start_date + timedelta(days=6),
+        "days": days_result,
+        "weekly_average_calories": round(sums["calories"] / 7.0, 1),
+        "weekly_totals": {
+            "average_daily_calories": round(sums["calories"] / 7.0, 1),
+            "average_protein": round(sums["protein"] / 7.0, 1),
+            "average_carbs": round(sums["carbohydrates"] / 7.0, 1),
+            "average_fat": round(sums["fat"] / 7.0, 1),
+            "average_fiber": round(sums["fiber"] / 7.0, 1),
+            "total_calories": round(sums["calories"], 1),
+            "total_protein": round(sums["protein"], 1),
+            "total_carbs": round(sums["carbohydrates"], 1),
+            "total_fat": round(sums["fat"], 1),
+        },
     }
 
 
@@ -324,186 +415,46 @@ def generate_weekly_meal_plan(
     use_pantry: bool = False
 ) -> Dict[str, Any]:
     """
-    Generate 7-day meal plan starting from Monday of target week.
-    Normalizes start_date to respect user's timezone consistently.
-    Enforces strict anti-repetition rotation to maximize variety across the week.
-    Calculates exact aggregate daily and weekly nutritional totals from actual recipes.
+    Create (or refresh) a 7-day plan starting on the Monday of the requested week, rotating recipes
+    for variety. Locked meals are kept and complete days are reused unless a refresh is requested.
     """
-    # 1. Consistently resolve calendar date for client's timezone
     norm_date = normalize_calendar_date(start_date, user_tz)
-    # Always align start_date to Monday of that week
-    aligned_start_date = norm_date - timedelta(days=norm_date.weekday())
+    aligned_start = norm_date - timedelta(days=norm_date.weekday())
 
     profile = db.query(DietaryProfile).filter(DietaryProfile.user_id == user_id).first()
     daily_calories = profile.daily_calories if profile and profile.daily_calories else 2000.0
+    pool = _eligible_recipes(db, user_id, profile)
+    coverage_map = _pantry_coverage_map(db, user_id, pool) if use_pantry else {}
 
-    all_recipes = db.query(Recipe).all()
-    safe_recipes = filter_recipes(all_recipes, profile) if profile else all_recipes
-
-    if not safe_recipes:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="No recipes match your dietary restrictions and allergy criteria"
-        )
-
-    coverage_map = _pantry_coverage_map(db, user_id, safe_recipes) if use_pantry else {}
-
-    days_result = {}
-    total_week_cals = 0.0
-    total_week_protein = 0.0
-    total_week_carbs = 0.0
-    total_week_fat = 0.0
-    total_week_fiber = 0.0
-
-    day_names = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
-    # Global weekly tracking for variety & anti-repetition
-    week_usage_counts: Dict[int, int] = {r.id: 0 for r in safe_recipes}
-    last_used_day: Dict[int, int] = {}  # recipe_id -> day_index (0..6)
+    week_usage: Dict[int, int] = {r.id: 0 for r in pool}
+    last_used_day: Dict[int, int] = {}
+    days: List[Dict[str, Any]] = []
 
     for i in range(7):
-        curr_date = aligned_start_date + timedelta(days=i)
-        day_name = day_names[i]
+        current = aligned_start + timedelta(days=i)
+        existing = _load_day(db, user_id, current)
+        complete = len({item.meal_type for item in existing}) >= len(MEAL_SLOTS)
 
-        # Check existing items
-        existing_items = (
-            db.query(MealPlan)
-            .options(joinedload(MealPlan.recipe))
-            .filter(MealPlan.user_id == user_id, MealPlan.plan_date == curr_date)
-            .all()
-        )
-
-        # If already populated and complete, reuse
-        if existing_items and len(existing_items) == len(MEAL_SLOTS) and not force_regenerate:
-            meals_dict = {slot: None for slot, _ in MEAL_SLOTS}
-            for item in existing_items:
-                meals_dict[item.meal_type] = item
-                if item.recipe_id:
-                    week_usage_counts[item.recipe_id] = week_usage_counts.get(item.recipe_id, 0) + 1
-                    last_used_day[item.recipe_id] = i
-
-            totals = _calculate_totals(existing_items)
-            total_week_cals += totals["calories"]
-            total_week_protein += totals["protein"]
-            total_week_carbs += totals["carbohydrates"]
-            total_week_fat += totals["fat"]
-            total_week_fiber += totals["fiber"]
-
-            days_result[day_name] = {
-                "date": curr_date,
-                "meals": meals_dict,
-                "totals": totals
-            }
+        if complete and not force_regenerate:
+            for item in existing:
+                week_usage[item.recipe_id] = week_usage.get(item.recipe_id, 0) + 1
+                last_used_day[item.recipe_id] = i
+            days.append(_day_payload(current, existing))
             continue
 
-        # If regenerating or incomplete, clear existing entries for this day
-        if existing_items:
-            for item in existing_items:
-                db.delete(item)
-            db.flush()
+        for item in existing:
+            if item.locked:
+                week_usage[item.recipe_id] = week_usage.get(item.recipe_id, 0) + 1
+                last_used_day[item.recipe_id] = i
 
-        created_items = []
-        meals_dict = {}
-        used_today_ids = set()
+        items = _fill_day(
+            db, user_id, current, profile, daily_calories, pool, coverage_map,
+            replace_unlocked=force_regenerate,
+            week_usage=week_usage, last_used_day=last_used_day, day_index=i
+        )
+        days.append(_day_payload(current, items))
 
-        for slot_name, calorie_fraction in MEAL_SLOTS:
-            slot_target = daily_calories * calorie_fraction
-
-            # Prefer recipes not used today
-            available_today = [r for r in safe_recipes if r.id not in used_today_ids]
-            pool = available_today if available_today else safe_recipes
-
-            scored_candidates = []
-            for r in pool:
-                _, slot_bonus = _is_slot_appropriate(r, slot_name)
-                base_score, _ = calculate_recipe_score(
-                    recipe=r,
-                    profile=profile,
-                    target_calories_per_meal=slot_target,
-                    preferred_meal_type=slot_name,
-                    pantry_coverage=coverage_map.get(r.id, 0.0) if coverage_map else None
-                )
-                score = base_score + slot_bonus
-
-                # 1. Intra-day penalty (prevent same recipe on same day)
-                if r.id in used_today_ids:
-                    score -= 150.0
-
-                # 2. Recency penalty (discourage eating what you had yesterday or 2 days ago)
-                if r.id in last_used_day:
-                    days_since = i - last_used_day[r.id]
-                    if days_since == 1:
-                        score -= 80.0
-                    elif days_since == 2:
-                        score -= 40.0
-                    elif days_since == 3:
-                        score -= 20.0
-
-                # 3. Frequency penalty (heavily penalize recipes already used multiple times this week)
-                usage_count = week_usage_counts.get(r.id, 0)
-                score -= (usage_count * 60.0)
-
-                # 4. Variety bonus for recipes completely unused this week
-                if usage_count == 0:
-                    score += 25.0
-
-                scored_candidates.append((r, score))
-
-            scored_candidates.sort(key=lambda x: x[1], reverse=True)
-            chosen_recipe = scored_candidates[0][0] if scored_candidates else safe_recipes[0]
-
-            used_today_ids.add(chosen_recipe.id)
-            week_usage_counts[chosen_recipe.id] = week_usage_counts.get(chosen_recipe.id, 0) + 1
-            last_used_day[chosen_recipe.id] = i
-
-            item = MealPlan(
-                user_id=user_id,
-                plan_date=curr_date,
-                meal_type=slot_name,
-                recipe_id=chosen_recipe.id,
-                servings=1
-            )
-            db.add(item)
-            created_items.append(item)
-            meals_dict[slot_name] = item
-
-        db.commit()
-        for item in created_items:
-            db.refresh(item)
-
-        totals = _calculate_totals(created_items)
-        total_week_cals += totals["calories"]
-        total_week_protein += totals["protein"]
-        total_week_carbs += totals["carbohydrates"]
-        total_week_fat += totals["fat"]
-        total_week_fiber += totals["fiber"]
-
-        days_result[day_name] = {
-            "date": curr_date,
-            "meals": meals_dict,
-            "totals": totals
-        }
-
-    weekly_totals = {
-        "average_daily_calories": round(total_week_cals / 7.0, 1),
-        "average_protein": round(total_week_protein / 7.0, 1),
-        "average_carbs": round(total_week_carbs / 7.0, 1),
-        "average_fat": round(total_week_fat / 7.0, 1),
-        "average_fiber": round(total_week_fiber / 7.0, 1),
-        "total_calories": round(total_week_cals, 1),
-        "total_protein": round(total_week_protein, 1),
-        "total_carbs": round(total_week_carbs, 1),
-        "total_fat": round(total_week_fat, 1),
-    }
-
-    end_date = aligned_start_date + timedelta(days=6)
-    return {
-        "start_date": aligned_start_date,
-        "end_date": end_date,
-        "days": days_result,
-        "weekly_average_calories": round(total_week_cals / 7.0, 1),
-        "weekly_totals": weekly_totals
-    }
+    return _week_response(aligned_start, days)
 
 
 def get_weekly_meal_plan(
@@ -512,6 +463,99 @@ def get_weekly_meal_plan(
     start_date: Optional[Union[date, str]] = None,
     user_tz: Optional[str] = None
 ) -> Dict[str, Any]:
-    """Retrieve existing weekly meal plan or generate if missing."""
-    return generate_weekly_meal_plan(db, user_id, start_date=start_date, user_tz=user_tz, force_regenerate=False)
+    """Return the stored week; days without a plan stay empty until the user generates one."""
+    norm_date = normalize_calendar_date(start_date, user_tz)
+    aligned_start = norm_date - timedelta(days=norm_date.weekday())
+    days = [
+        _day_payload(aligned_start + timedelta(days=i), _load_day(db, user_id, aligned_start + timedelta(days=i)))
+        for i in range(7)
+    ]
+    return _week_response(aligned_start, days)
 
+
+def _owned_item(db: Session, user_id: int, plan_id: int) -> MealPlan:
+    item = (
+        db.query(MealPlan)
+        .options(joinedload(MealPlan.recipe))
+        .filter(MealPlan.id == plan_id, MealPlan.user_id == user_id)
+        .first()
+    )
+    if not item:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Planned meal {plan_id} not found")
+    return item
+
+
+def _unlog_completed(db: Session, item: MealPlan) -> None:
+    if item.history_id:
+        history = db.query(MealHistory).filter(MealHistory.id == item.history_id).first()
+        if history and not history.feedback:
+            db.delete(history)
+    item.completed = False
+    item.history_id = None
+
+
+def swap_meal(db: Session, user_id: int, plan_id: int, use_pantry: bool = False) -> MealPlan:
+    item = _owned_item(db, user_id, plan_id)
+    if item.locked:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Unlock this meal before swapping it")
+
+    profile = db.query(DietaryProfile).filter(DietaryProfile.user_id == user_id).first()
+    daily_calories = profile.daily_calories if profile and profile.daily_calories else 2000.0
+    fraction = dict(MEAL_SLOTS).get(item.meal_type, 0.2)
+    slot_target = daily_calories * fraction
+
+    pool = _eligible_recipes(db, user_id, profile)
+    day_items = _load_day(db, user_id, item.plan_date)
+    unavailable = {i.recipe_id for i in day_items}
+    candidates = [r for r in pool if r.id not in unavailable]
+    if not candidates:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No other suitable recipe is available for this slot")
+
+    coverage_map = _pantry_coverage_map(db, user_id, candidates) if use_pantry else {}
+    ranked: List[Tuple[Recipe, float]] = []
+    for r in candidates:
+        _, slot_bonus = _is_slot_appropriate(r, item.meal_type)
+        base_score, _ = calculate_recipe_score(
+            recipe=r,
+            profile=profile,
+            target_calories_per_meal=slot_target,
+            preferred_meal_type=item.meal_type,
+            pantry_coverage=coverage_map.get(r.id, 0.0) if coverage_map else None
+        )
+        ranked.append((r, base_score + slot_bonus))
+    ranked.sort(key=lambda pair: pair[1], reverse=True)
+    chosen = random.choice([r for r, _ in ranked[:3]])
+
+    if item.completed:
+        _unlog_completed(db, item)
+    item.recipe_id = chosen.id
+    item.servings = _pick_servings(chosen, slot_target)
+    db.commit()
+    return _owned_item(db, user_id, plan_id)
+
+
+def set_meal_locked(db: Session, user_id: int, plan_id: int, locked: bool) -> MealPlan:
+    item = _owned_item(db, user_id, plan_id)
+    item.locked = locked
+    db.commit()
+    return _owned_item(db, user_id, plan_id)
+
+
+def set_meal_completed(db: Session, user_id: int, plan_id: int, completed: bool) -> MealPlan:
+    item = _owned_item(db, user_id, plan_id)
+    if completed and not item.completed:
+        history = MealHistory(
+            user_id=user_id,
+            recipe_id=item.recipe_id,
+            meal_type=item.meal_type,
+            consumed_at=datetime.now(timezone.utc),
+            notes="Completed from meal plan"
+        )
+        db.add(history)
+        db.flush()
+        item.history_id = history.id
+        item.completed = True
+    elif not completed and item.completed:
+        _unlog_completed(db, item)
+    db.commit()
+    return _owned_item(db, user_id, plan_id)

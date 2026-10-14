@@ -20,7 +20,7 @@ export default defineConfig([
     rules: {
       'no-unused-vars': ['warn', { varsIgnorePattern: '^_', argsIgnorePattern: '^_' }],
       'react-hooks/set-state-in-effect': 'off',
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': 'off',
     },
   },
 ])

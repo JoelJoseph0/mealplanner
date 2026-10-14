@@ -149,8 +149,8 @@ def seed_recipes(db) -> None:
         recipe.meal_type = rec["meal_type"]
         recipe.diet_type = rec["diet_type"]
         recipe.allergy_information = []
-        if rec.get("image_url"):
-            recipe.image_url = rec["image_url"]
+        if recipe.image_url and "unsplash.com" in recipe.image_url:
+            recipe.image_url = None
         recipe.preparation_time = rec["prep"]
         recipe.cooking_time = rec["cook"]
         recipe.servings = rec["servings"]

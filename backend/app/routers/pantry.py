@@ -4,6 +4,7 @@ from app.database import get_db
 from app.auth.dependencies import get_current_user
 from app.models.user import User
 from app.schemas.pantry import PantryAddRequest, PantryItemUpdate, CookSuggestionRequest
+from app.schemas.shopping import PantryConsumeRequest
 from app.services.pantry_service import (
     list_pantry,
     add_pantry_items,
@@ -11,6 +12,7 @@ from app.services.pantry_service import (
     remove_pantry_item,
     clear_pantry,
     suggest_recipes,
+    consume_ingredients,
 )
 from app.utils.helpers import api_response
 
@@ -51,6 +53,17 @@ def what_can_i_cook(
         data=result,
         message=f"{result['ready_count']} recipe(s) ready to cook, {result['almost_count']} need a few more items"
     )
+
+
+@router.post("/consume")
+def use_up_ingredients(
+    request: PantryConsumeRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    result = consume_ingredients(db, current_user.id, request.recipe_id, request.food_ids)
+    changed = len(result["removed"]) + len(result["reduced"])
+    return api_response(data=result, message=f"Pantry updated: {changed} ingredient(s) used")
 
 
 @router.put("/{item_id}")

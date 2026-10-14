@@ -7,6 +7,8 @@ from app.models.recognition import Recognition
 from app.models.recipe import Recipe
 from app.models.recipe_ingredient import RecipeIngredient
 from app.models.pantry_item import PantryItem
+from app.models.shopping_item import ShoppingItem
+from app.models.recipe_rating import RecipeRating
 from app.models.meal_plan import MealPlan
 from app.models.meal_history import MealHistory
 
@@ -20,6 +22,8 @@ __all__ = [
     "Recipe",
     "RecipeIngredient",
     "PantryItem",
+    "ShoppingItem",
+    "RecipeRating",
     "MealPlan",
     "MealHistory",
 ]

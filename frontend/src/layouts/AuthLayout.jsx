@@ -1,67 +1,62 @@
-import { Outlet, Navigate, Link } from 'react-router-dom';
-import { Camera, Sparkles, Activity, ShieldCheck } from 'lucide-react';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { ThemeToggle } from './AppLayout';
+
+const HIGHLIGHTS = [
+  { emoji: '🍅', title: 'Tell us what you have', text: 'Type it or photograph it. Local names like thakkali work too.' },
+  { emoji: '🍛', title: 'See what you can cook', text: 'Recipes you can make now, and ones that need just a couple of items.' },
+  { emoji: '🛒', title: 'Plan and shop smarter', text: 'Balanced weekly plans and a shopping list that fills your pantry.' },
+];
 
 export const AuthLayout = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={isAdmin ? '/admin' : '/dashboard'} replace />;
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-5xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left Branding Hero Section */}
-        <div className="lg:col-span-6 flex flex-col justify-center space-y-6">
-          <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold uppercase tracking-wider w-fit">
-            <Sparkles className="w-3.5 h-3.5" />
-            MCA Final-Year Project
-          </div>
-
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-              Smart Meal Planner <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
-                Using Computer Vision
-              </span>
-            </h1>
-            <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
-              Snap a food photo or upload an image to automatically recognize dishes, assess calorie counts, monitor macronutrients, and generate personalized dietary meal plans.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <div className="p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-xs flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-emerald-50 text-emerald-600">
-                <Camera className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="block text-xs font-bold text-slate-800">AI Vision Engine</span>
-                <span className="text-[11px] text-slate-500">Real-time dish prediction</span>
-              </div>
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-xs flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-50 text-blue-600">
-                <Activity className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="block text-xs font-bold text-slate-800">Macro Tracking</span>
-                <span className="text-[11px] text-slate-500">Target calorie balance</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 text-xs text-slate-400">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            <span>FastAPI REST Backend Architecture • Fast & Secure</span>
-          </div>
+    <div className="grid min-h-screen bg-bg lg:grid-cols-2">
+      <div className="hero-gradient relative m-3 hidden flex-col justify-between overflow-hidden rounded-[2rem] p-12 text-white shadow-lift lg:flex">
+        <div className="dot-grid pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
+        <div className="pointer-events-none absolute -right-6 top-24 flex flex-col gap-6 text-7xl" aria-hidden="true">
+          <span className="animate-float">🍅</span>
+          <span className="animate-float [animation-delay:1.5s] -translate-x-16">🥑</span>
+          <span className="animate-float [animation-delay:3s]">🥕</span>
         </div>
+        <div className="relative flex items-center gap-3">
+          <img src="/favicon.svg" alt="" className="h-10 w-10 rounded-xl" />
+          <span className="font-display text-xl font-semibold">Meal Planner</span>
+        </div>
+        <div className="relative">
+          <h1 className="max-w-md text-5xl font-semibold leading-[1.1]">Cook with what you already have.</h1>
+          <ul className="mt-10 space-y-6">
+            {HIGHLIGHTS.map((item) => (
+              <li key={item.title} className="flex items-start gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-2xl ring-1 ring-inset ring-white/20 backdrop-blur" aria-hidden="true">
+                  {item.emoji}
+                </span>
+                <div>
+                  <p className="font-semibold">{item.title}</p>
+                  <p className="text-sm opacity-85">{item.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <p className="relative text-sm opacity-75">Reduce waste, eat better, decide faster.</p>
+      </div>
 
-        {/* Right Auth Form Section */}
-        <div className="lg:col-span-6">
-          <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100">
+      <div className="flex flex-col">
+        <div className="flex items-center justify-between p-4 lg:justify-end">
+          <div className="flex items-center gap-2.5 lg:hidden">
+            <img src="/favicon.svg" alt="" className="h-9 w-9 rounded-xl" />
+            <span className="text-lg font-bold text-fg">Meal Planner</span>
+          </div>
+          <ThemeToggle />
+        </div>
+        <div className="flex flex-1 items-center justify-center px-6 pb-12">
+          <div className="w-full max-w-md">
             <Outlet />
           </div>
         </div>

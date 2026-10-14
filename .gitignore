@@ -1,0 +1,14 @@
+venv/
+.venv/
+node_modules/
+dist/
+__pycache__/
+*.py[cod]
+.env
+*.db
+*.backup-*.db
+backend/uploads/
+backend/ml/dataset/
+.vscode/
+.idea/
+.DS_Store

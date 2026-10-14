@@ -14,6 +14,8 @@ from app.recommendation.filters import filter_recipes
 from app.recommendation.scoring import calculate_recipe_score
 from app.recommendation.pantry_matcher import EXPIRY_WINDOW_DAYS, find_cookable_recipes, rank_matches
 from app.services.ingredient_service import load_catalog, build_pantry_context
+from app.services.feedback_service import get_feedback_map
+from app.utils.quantity import parse_quantity, compare_quantities, format_quantity
 
 
 def _serialize_item(item: PantryItem) -> Dict[str, Any]:
@@ -101,6 +103,39 @@ def add_pantry_items(db: Session, user_id: int, request: PantryAddRequest) -> Di
     }
 
 
+def consume_ingredients(db: Session, user_id: int, recipe_id: int, food_ids: List[int]) -> Dict[str, Any]:
+    recipe = (
+        db.query(Recipe)
+        .options(joinedload(Recipe.ingredient_links).joinedload(RecipeIngredient.food))
+        .filter(Recipe.id == recipe_id)
+        .first()
+    )
+    if not recipe:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Recipe with ID {recipe_id} not found")
+    needs = {link.food_id: link.quantity for link in recipe.ingredient_links}
+
+    removed: List[str] = []
+    reduced: List[Dict[str, Any]] = []
+    items = (
+        db.query(PantryItem)
+        .options(joinedload(PantryItem.food))
+        .filter(PantryItem.user_id == user_id, PantryItem.food_id.in_(food_ids or [-1]))
+        .all()
+    )
+    for item in items:
+        name = item.food.name if item.food else ""
+        comparison = compare_quantities(item.quantity, needs.get(item.food_id))
+        if comparison and comparison[0] > comparison[1] + 1e-9:
+            remaining = format_quantity(comparison[0] - comparison[1], comparison[2])
+            item.quantity = remaining
+            reduced.append({"name": name, "remaining": remaining})
+        else:
+            db.delete(item)
+            removed.append(name)
+    db.commit()
+    return {"removed": removed, "reduced": reduced}
+
+
 def _split_names(values: Optional[List[str]]) -> List[str]:
     parts: List[str] = []
     for value in values or []:
@@ -156,12 +191,7 @@ def _load_recipes(db: Session) -> List[Recipe]:
 
 
 def _feedback_map(db: Session, user_id: int) -> Dict[int, str]:
-    rows = (
-        db.query(MealHistory.recipe_id, MealHistory.feedback)
-        .filter(MealHistory.user_id == user_id, MealHistory.recipe_id.isnot(None))
-        .all()
-    )
-    return {row.recipe_id: row.feedback for row in rows if row.feedback}
+    return get_feedback_map(db, user_id)
 
 
 def suggest_recipes(db: Session, user_id: int, request: CookSuggestionRequest) -> Dict[str, Any]:

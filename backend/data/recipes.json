@@ -2,889 +2,5405 @@
   {
     "name": "Traditional Steamed Idli with Coconut Chutney",
     "description": "Soft and fluffy fermented rice and urad dal cakes paired with fresh coconut dip.",
-    "meal_type": "Breakfast", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 12, "servings": 2, "nutrition": [260, 8.5, 50, 2.5, 3.0],
-    "ingredients": [["Rice", "2 cups"], ["Urad Dal", "1/2 cup"], ["Fenugreek Seeds", "1/2 tsp", true], ["Salt", "1 tsp"], ["Coconut", "1 cup grated"], ["Green Chilli", "2"], ["Mustard Seeds", "1/2 tsp"], ["Curry Leaves", "1 sprig", true]],
-    "steps": ["Soak rice, urad dal and fenugreek separately for 5 hours.", "Grind to a smooth batter, add salt and ferment overnight.", "Pour into greased idli moulds and steam for 10-12 minutes.", "Grind coconut with green chillies and salt; temper with mustard seeds and curry leaves.", "Serve hot idlis with the chutney."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 12,
+    "servings": 2,
+    "nutrition": [
+      260,
+      8.5,
+      50,
+      2.5,
+      3.0
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "2 cups"
+      ],
+      [
+        "Urad Dal",
+        "1/2 cup"
+      ],
+      [
+        "Fenugreek Seeds",
+        "1/2 tsp",
+        true
+      ],
+      [
+        "Salt",
+        "1 tsp"
+      ],
+      [
+        "Coconut",
+        "1 cup grated"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Mustard Seeds",
+        "1/2 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ]
+    ],
+    "steps": [
+      "Soak rice, urad dal and fenugreek separately for 5 hours.",
+      "Grind to a smooth batter, add salt and ferment overnight.",
+      "Pour into greased idli moulds and steam for 10-12 minutes.",
+      "Grind coconut with green chillies and salt; temper with mustard seeds and curry leaves.",
+      "Serve hot idlis with the chutney."
+    ]
   },
   {
     "name": "Crispy Golden Dosa with Vegetable Sambar",
     "description": "Golden crispy fermented crepe served with warm lentil-vegetable sambar.",
-    "meal_type": "Breakfast", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=800&auto=format&fit=crop&q=80",
-    "prep": 10, "cook": 15, "servings": 1, "nutrition": [320, 9.2, 54, 6.8, 5.5],
-    "ingredients": [["Rice", "1 cup"], ["Urad Dal", "1/4 cup"], ["Toor Dal", "1/4 cup"], ["Drumstick", "1"], ["Carrot", "1"], ["Tamarind", "small ball"], ["Sambar Powder", "1 tbsp"], ["Curry Leaves", "1 sprig", true], ["Cooking Oil", "1 tbsp"], ["Salt", "to taste"]],
-    "steps": ["Grind soaked rice and urad dal into a batter and ferment overnight.", "Pressure cook toor dal; simmer drumstick and carrot in tamarind water with sambar powder, then add dal.", "Heat a tawa, spread a ladle of batter thin and drizzle oil.", "Cook until crisp and golden, fold and serve with hot sambar."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 15,
+    "servings": 1,
+    "nutrition": [
+      320,
+      9.2,
+      54,
+      6.8,
+      5.5
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 cup"
+      ],
+      [
+        "Urad Dal",
+        "1/4 cup"
+      ],
+      [
+        "Toor Dal",
+        "1/4 cup"
+      ],
+      [
+        "Drumstick",
+        "1"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "Tamarind",
+        "small ball"
+      ],
+      [
+        "Sambar Powder",
+        "1 tbsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ],
+      [
+        "Cooking Oil",
+        "1 tbsp"
+      ],
+      [
+        "Salt",
+        "to taste"
+      ]
+    ],
+    "steps": [
+      "Grind soaked rice and urad dal into a batter and ferment overnight.",
+      "Pressure cook toor dal; simmer drumstick and carrot in tamarind water with sambar powder, then add dal.",
+      "Heat a tawa, spread a ladle of batter thin and drizzle oil.",
+      "Cook until crisp and golden, fold and serve with hot sambar."
+    ]
   },
   {
     "name": "Kerala Puttu with Kadala Curry",
     "description": "Steamed ground rice cylinders served with rich spiced black chickpea curry.",
-    "meal_type": "Breakfast", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=800&auto=format&fit=crop&q=80",
-    "prep": 20, "cook": 25, "servings": 2, "nutrition": [380, 11.0, 68, 6.5, 7.0],
-    "ingredients": [["Rice Flour", "1 1/2 cups"], ["Coconut", "1/2 cup grated"], ["Black Chickpeas", "1 cup soaked"], ["Shallots", "8"], ["Garam Masala", "1 tsp"], ["Curry Leaves", "1 sprig"], ["Coconut Oil", "1 tbsp"], ["Salt", "to taste"]],
-    "steps": ["Moisten rice flour with warm salted water until crumbly.", "Layer the puttu steamer with coconut and flour; steam for 6-8 minutes.", "Pressure cook the soaked black chickpeas.", "Saute shallots and curry leaves in coconut oil, add garam masala and chickpeas, simmer until thick.", "Serve hot puttu with kadala curry."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 20,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      380,
+      11.0,
+      68,
+      6.5,
+      7.0
+    ],
+    "ingredients": [
+      [
+        "Rice Flour",
+        "1 1/2 cups"
+      ],
+      [
+        "Coconut",
+        "1/2 cup grated"
+      ],
+      [
+        "Black Chickpeas",
+        "1 cup soaked"
+      ],
+      [
+        "Shallots",
+        "8"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Coconut Oil",
+        "1 tbsp"
+      ],
+      [
+        "Salt",
+        "to taste"
+      ]
+    ],
+    "steps": [
+      "Moisten rice flour with warm salted water until crumbly.",
+      "Layer the puttu steamer with coconut and flour; steam for 6-8 minutes.",
+      "Pressure cook the soaked black chickpeas.",
+      "Saute shallots and curry leaves in coconut oil, add garam masala and chickpeas, simmer until thick.",
+      "Serve hot puttu with kadala curry."
+    ]
   },
   {
     "name": "Soft Appam with Vegetable Coconut Stew",
     "description": "Lacy fermented rice pancakes served with vegetables simmered in coconut milk.",
-    "meal_type": "Breakfast", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 15, "servings": 2, "nutrition": [280, 6.0, 48, 7.0, 4.0],
-    "ingredients": [["Rice Flour", "1 1/2 cups"], ["Coconut Milk", "1 1/2 cups"], ["Yeast", "1/2 tsp"], ["Carrot", "1"], ["Green Peas", "1/4 cup"], ["Potato", "1"], ["Ginger", "1 inch"], ["Green Chilli", "2"], ["Cardamom", "2 pods", true], ["Sugar", "1 tsp"], ["Salt", "to taste"]],
-    "steps": ["Mix rice flour, thin coconut milk, yeast and sugar; ferment for 6 hours.", "Swirl batter in an appam pan, cover and cook for 2-3 minutes.", "Simmer diced vegetables with ginger and green chilli in thin coconut milk.", "Finish the stew with thick coconut milk and crushed cardamom.", "Serve appams with warm stew."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      280,
+      6.0,
+      48,
+      7.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Rice Flour",
+        "1 1/2 cups"
+      ],
+      [
+        "Coconut Milk",
+        "1 1/2 cups"
+      ],
+      [
+        "Yeast",
+        "1/2 tsp"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "Green Peas",
+        "1/4 cup"
+      ],
+      [
+        "Potato",
+        "1"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Cardamom",
+        "2 pods",
+        true
+      ],
+      [
+        "Sugar",
+        "1 tsp"
+      ],
+      [
+        "Salt",
+        "to taste"
+      ]
+    ],
+    "steps": [
+      "Mix rice flour, thin coconut milk, yeast and sugar; ferment for 6 hours.",
+      "Swirl batter in an appam pan, cover and cook for 2-3 minutes.",
+      "Simmer diced vegetables with ginger and green chilli in thin coconut milk.",
+      "Finish the stew with thick coconut milk and crushed cardamom.",
+      "Serve appams with warm stew."
+    ]
   },
   {
     "name": "Vegetable Poha with Roasted Peanuts",
     "description": "Fluffy flattened rice tossed with onions, peas, crunchy peanuts and lemon.",
-    "meal_type": "Breakfast", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800&auto=format&fit=crop&q=80",
-    "prep": 10, "cook": 10, "servings": 2, "nutrition": [270, 6.5, 46, 7.0, 4.5],
-    "ingredients": [["Poha", "2 cups"], ["Peanuts", "2 tbsp"], ["Onion", "1"], ["Green Peas", "1/4 cup"], ["Green Chilli", "1"], ["Mustard Seeds", "1 tsp"], ["Turmeric", "1/4 tsp"], ["Lemon", "1/2"], ["Curry Leaves", "1 sprig", true], ["Coriander Leaves", "2 tbsp", true]],
-    "steps": ["Rinse poha and drain well.", "Splutter mustard seeds in oil and roast the peanuts until crunchy.", "Saute onion, green chilli and curry leaves; add turmeric and peas.", "Fold in poha, steam covered for 2 minutes and finish with lemon juice and coriander."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      270,
+      6.5,
+      46,
+      7.0,
+      4.5
+    ],
+    "ingredients": [
+      [
+        "Poha",
+        "2 cups"
+      ],
+      [
+        "Peanuts",
+        "2 tbsp"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Green Peas",
+        "1/4 cup"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Turmeric",
+        "1/4 tsp"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Rinse poha and drain well.",
+      "Splutter mustard seeds in oil and roast the peanuts until crunchy.",
+      "Saute onion, green chilli and curry leaves; add turmeric and peas.",
+      "Fold in poha, steam covered for 2 minutes and finish with lemon juice and coriander."
+    ]
   },
   {
     "name": "Paneer Stuffed Paratha with Fresh Curd",
     "description": "Whole wheat flatbread stuffed with spiced paneer, served with curd.",
-    "meal_type": "Breakfast", "diet_type": "Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 15, "servings": 1, "nutrition": [390, 16.0, 48, 14.0, 5.0],
-    "ingredients": [["Wheat Flour", "1 cup"], ["Paneer", "100 g"], ["Green Chilli", "1"], ["Cumin Seeds", "1/2 tsp"], ["Amchur", "1/2 tsp", true], ["Curd", "1/2 cup"], ["Ghee", "2 tsp"]],
-    "steps": ["Knead a soft dough with wheat flour, salt and water.", "Mix grated paneer with chopped chilli, cumin and amchur.", "Stuff the dough ball, seal and roll out evenly.", "Roast on a hot tawa with ghee and serve with curd."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegetarian",
+    "prep": 15,
+    "cook": 15,
+    "servings": 1,
+    "nutrition": [
+      390,
+      16.0,
+      48,
+      14.0,
+      5.0
+    ],
+    "ingredients": [
+      [
+        "Wheat Flour",
+        "1 cup"
+      ],
+      [
+        "Paneer",
+        "100 g"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Cumin Seeds",
+        "1/2 tsp"
+      ],
+      [
+        "Amchur",
+        "1/2 tsp",
+        true
+      ],
+      [
+        "Curd",
+        "1/2 cup"
+      ],
+      [
+        "Ghee",
+        "2 tsp"
+      ]
+    ],
+    "steps": [
+      "Knead a soft dough with wheat flour, salt and water.",
+      "Mix grated paneer with chopped chilli, cumin and amchur.",
+      "Stuff the dough ball, seal and roll out evenly.",
+      "Roast on a hot tawa with ghee and serve with curd."
+    ]
   },
   {
     "name": "Masala Scrambled Eggs with Multigrain Toast",
     "description": "Protein-packed scrambled eggs with onions, tomatoes and chillies on toast.",
-    "meal_type": "Breakfast", "diet_type": "Eggetarian",
-    "image_url": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&auto=format&fit=crop&q=80",
-    "prep": 5, "cook": 8, "servings": 1, "nutrition": [310, 18.0, 24, 14.0, 3.5],
-    "ingredients": [["Egg", "2"], ["Onion", "1 small"], ["Tomato", "1"], ["Green Chilli", "1"], ["Bread", "2 slices"], ["Olive Oil", "1 tsp"], ["Black Pepper", "pinch"], ["Coriander Leaves", "1 tbsp", true]],
-    "steps": ["Whisk eggs with salt and pepper.", "Saute onion, tomato and chilli in olive oil until soft.", "Add eggs and scramble gently on low heat.", "Toast the bread and top with the eggs and coriander."]
+    "meal_type": "Breakfast",
+    "diet_type": "Eggetarian",
+    "prep": 5,
+    "cook": 8,
+    "servings": 1,
+    "nutrition": [
+      310,
+      18.0,
+      24,
+      14.0,
+      3.5
+    ],
+    "ingredients": [
+      [
+        "Egg",
+        "2"
+      ],
+      [
+        "Onion",
+        "1 small"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Bread",
+        "2 slices"
+      ],
+      [
+        "Olive Oil",
+        "1 tsp"
+      ],
+      [
+        "Black Pepper",
+        "pinch"
+      ],
+      [
+        "Coriander Leaves",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Whisk eggs with salt and pepper.",
+      "Saute onion, tomato and chilli in olive oil until soft.",
+      "Add eggs and scramble gently on low heat.",
+      "Toast the bread and top with the eggs and coriander."
+    ]
   },
   {
     "name": "Blueberry Almond Oatmeal Bowl",
     "description": "Rolled oats cooked in almond milk, topped with blueberries and almond butter.",
-    "meal_type": "Breakfast", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1584776296944-ab6fb57b0bdd?w=800&auto=format&fit=crop&q=80",
-    "prep": 5, "cook": 8, "servings": 1, "nutrition": [310, 11.0, 48, 9.0, 8.0],
-    "ingredients": [["Rolled Oats", "1/2 cup"], ["Almond Milk", "1 cup"], ["Blueberry", "1/2 cup"], ["Almond Butter", "1 tbsp"], ["Chia Seeds", "1 tsp", true], ["Cinnamon", "pinch", true]],
-    "steps": ["Simmer oats in almond milk for 6 minutes.", "Stir in cinnamon and a pinch of salt.", "Top with blueberries, almond butter and chia seeds."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 8,
+    "servings": 1,
+    "nutrition": [
+      310,
+      11.0,
+      48,
+      9.0,
+      8.0
+    ],
+    "ingredients": [
+      [
+        "Rolled Oats",
+        "1/2 cup"
+      ],
+      [
+        "Almond Milk",
+        "1 cup"
+      ],
+      [
+        "Blueberry",
+        "1/2 cup"
+      ],
+      [
+        "Almond Butter",
+        "1 tbsp"
+      ],
+      [
+        "Chia Seeds",
+        "1 tsp",
+        true
+      ],
+      [
+        "Cinnamon",
+        "pinch",
+        true
+      ]
+    ],
+    "steps": [
+      "Simmer oats in almond milk for 6 minutes.",
+      "Stir in cinnamon and a pinch of salt.",
+      "Top with blueberries, almond butter and chia seeds."
+    ]
   },
   {
     "name": "Tomato Onion Uttapam",
     "description": "Thick, soft dosa topped with tomato, onion and green chilli.",
-    "meal_type": "Breakfast", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 15, "servings": 2, "nutrition": [290, 8.0, 52, 6.0, 4.0],
-    "ingredients": [["Rice", "1 cup"], ["Urad Dal", "1/4 cup"], ["Tomato", "2"], ["Onion", "1"], ["Green Chilli", "1"], ["Coriander Leaves", "2 tbsp", true], ["Cooking Oil", "2 tsp"], ["Salt", "to taste"]],
-    "steps": ["Use fermented rice and urad dal batter.", "Pour a thick round on a hot tawa.", "Press chopped tomato, onion, chilli and coriander on top.", "Drizzle oil, flip after 2 minutes and cook until golden."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      290,
+      8.0,
+      52,
+      6.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 cup"
+      ],
+      [
+        "Urad Dal",
+        "1/4 cup"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ],
+      [
+        "Cooking Oil",
+        "2 tsp"
+      ],
+      [
+        "Salt",
+        "to taste"
+      ]
+    ],
+    "steps": [
+      "Use fermented rice and urad dal batter.",
+      "Pour a thick round on a hot tawa.",
+      "Press chopped tomato, onion, chilli and coriander on top.",
+      "Drizzle oil, flip after 2 minutes and cook until golden."
+    ]
   },
   {
     "name": "Rava Upma",
     "description": "Savoury semolina porridge tempered with mustard, ginger and curry leaves.",
-    "meal_type": "Breakfast", "diet_type": "Vegan", "image_url": null,
-    "prep": 5, "cook": 12, "servings": 2, "nutrition": [280, 7.0, 46, 7.0, 3.0],
-    "ingredients": [["Semolina", "1 cup"], ["Onion", "1"], ["Green Chilli", "2"], ["Ginger", "1 inch"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig"], ["Carrot", "1 small", true], ["Water", "2 1/2 cups"]],
-    "steps": ["Dry roast semolina until aromatic and set aside.", "Temper mustard seeds and curry leaves; saute onion, ginger, chilli and carrot.", "Add water and salt and bring to a boil.", "Stir in semolina slowly, cover and cook for 3 minutes."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 12,
+    "servings": 2,
+    "nutrition": [
+      280,
+      7.0,
+      46,
+      7.0,
+      3.0
+    ],
+    "ingredients": [
+      [
+        "Semolina",
+        "1 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Carrot",
+        "1 small",
+        true
+      ],
+      [
+        "Water",
+        "2 1/2 cups"
+      ]
+    ],
+    "steps": [
+      "Dry roast semolina until aromatic and set aside.",
+      "Temper mustard seeds and curry leaves; saute onion, ginger, chilli and carrot.",
+      "Add water and salt and bring to a boil.",
+      "Stir in semolina slowly, cover and cook for 3 minutes."
+    ]
   },
   {
     "name": "Masala Omelette",
     "description": "Fluffy Indian omelette loaded with onion, tomato and green chilli.",
-    "meal_type": "Breakfast", "diet_type": "Eggetarian", "image_url": null,
-    "prep": 5, "cook": 5, "servings": 1, "nutrition": [220, 14.0, 6, 15.0, 1.5],
-    "ingredients": [["Egg", "2"], ["Onion", "1 small"], ["Tomato", "1 small"], ["Green Chilli", "1"], ["Coriander Leaves", "1 tbsp", true], ["Cooking Oil", "1 tsp"], ["Salt", "to taste"]],
-    "steps": ["Beat eggs with salt.", "Mix in finely chopped onion, tomato, chilli and coriander.", "Pour onto a hot oiled pan and cook until set.", "Flip, cook for a minute and serve."]
+    "meal_type": "Breakfast",
+    "diet_type": "Eggetarian",
+    "prep": 5,
+    "cook": 5,
+    "servings": 1,
+    "nutrition": [
+      220,
+      14.0,
+      6,
+      15.0,
+      1.5
+    ],
+    "ingredients": [
+      [
+        "Egg",
+        "2"
+      ],
+      [
+        "Onion",
+        "1 small"
+      ],
+      [
+        "Tomato",
+        "1 small"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Coriander Leaves",
+        "1 tbsp",
+        true
+      ],
+      [
+        "Cooking Oil",
+        "1 tsp"
+      ],
+      [
+        "Salt",
+        "to taste"
+      ]
+    ],
+    "steps": [
+      "Beat eggs with salt.",
+      "Mix in finely chopped onion, tomato, chilli and coriander.",
+      "Pour onto a hot oiled pan and cook until set.",
+      "Flip, cook for a minute and serve."
+    ]
   },
   {
     "name": "Aloo Paratha with Curd",
     "description": "Wheat flatbread stuffed with spiced mashed potato, roasted with ghee.",
-    "meal_type": "Breakfast", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 20, "cook": 15, "servings": 2, "nutrition": [360, 9.0, 56, 11.0, 5.5],
-    "ingredients": [["Wheat Flour", "1 1/2 cups"], ["Potato", "2"], ["Green Chilli", "1"], ["Coriander Leaves", "2 tbsp", true], ["Ghee", "1 tbsp"], ["Curd", "1/2 cup", true], ["Garam Masala", "1/2 tsp"]],
-    "steps": ["Boil and mash the potatoes with chilli, coriander, garam masala and salt.", "Stuff dough balls with the filling and roll out gently.", "Roast on a hot tawa with ghee until golden on both sides.", "Serve with curd."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegetarian",
+    "prep": 20,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      360,
+      9.0,
+      56,
+      11.0,
+      5.5
+    ],
+    "ingredients": [
+      [
+        "Wheat Flour",
+        "1 1/2 cups"
+      ],
+      [
+        "Potato",
+        "2"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ],
+      [
+        "Ghee",
+        "1 tbsp"
+      ],
+      [
+        "Curd",
+        "1/2 cup",
+        true
+      ],
+      [
+        "Garam Masala",
+        "1/2 tsp"
+      ]
+    ],
+    "steps": [
+      "Boil and mash the potatoes with chilli, coriander, garam masala and salt.",
+      "Stuff dough balls with the filling and roll out gently.",
+      "Roast on a hot tawa with ghee until golden on both sides.",
+      "Serve with curd."
+    ]
   },
   {
     "name": "Besan Tomato Chilla",
     "description": "High-protein gram flour pancakes with tomato and onion.",
-    "meal_type": "Breakfast", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 10, "servings": 2, "nutrition": [250, 12.0, 32, 8.0, 6.0],
-    "ingredients": [["Besan", "1 cup"], ["Tomato", "1"], ["Onion", "1 small"], ["Green Chilli", "1"], ["Coriander Leaves", "2 tbsp", true], ["Turmeric", "pinch"], ["Cooking Oil", "2 tsp"]],
-    "steps": ["Whisk besan with water, salt and turmeric into a smooth batter.", "Stir in chopped tomato, onion, chilli and coriander.", "Spread thin on a hot oiled pan.", "Cook both sides until golden spots appear."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      250,
+      12.0,
+      32,
+      8.0,
+      6.0
+    ],
+    "ingredients": [
+      [
+        "Besan",
+        "1 cup"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Onion",
+        "1 small"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ],
+      [
+        "Turmeric",
+        "pinch"
+      ],
+      [
+        "Cooking Oil",
+        "2 tsp"
+      ]
+    ],
+    "steps": [
+      "Whisk besan with water, salt and turmeric into a smooth batter.",
+      "Stir in chopped tomato, onion, chilli and coriander.",
+      "Spread thin on a hot oiled pan.",
+      "Cook both sides until golden spots appear."
+    ]
   },
   {
     "name": "Banana Oat Pancakes",
     "description": "Three-ingredient style pancakes sweetened only with ripe banana.",
-    "meal_type": "Breakfast", "diet_type": "Eggetarian", "image_url": null,
-    "prep": 5, "cook": 10, "servings": 2, "nutrition": [290, 11.0, 44, 8.0, 5.0],
-    "ingredients": [["Rolled Oats", "1 cup"], ["Banana", "2"], ["Egg", "2"], ["Milk", "1/4 cup"], ["Cinnamon", "pinch", true], ["Honey", "1 tbsp", true]],
-    "steps": ["Blend oats, banana, eggs and milk into a thick batter.", "Pour small rounds on a lightly greased pan.", "Cook until bubbles form, flip and cook for another minute.", "Serve with a drizzle of honey."]
+    "meal_type": "Breakfast",
+    "diet_type": "Eggetarian",
+    "prep": 5,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      290,
+      11.0,
+      44,
+      8.0,
+      5.0
+    ],
+    "ingredients": [
+      [
+        "Rolled Oats",
+        "1 cup"
+      ],
+      [
+        "Banana",
+        "2"
+      ],
+      [
+        "Egg",
+        "2"
+      ],
+      [
+        "Milk",
+        "1/4 cup"
+      ],
+      [
+        "Cinnamon",
+        "pinch",
+        true
+      ],
+      [
+        "Honey",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Blend oats, banana, eggs and milk into a thick batter.",
+      "Pour small rounds on a lightly greased pan.",
+      "Cook until bubbles form, flip and cook for another minute.",
+      "Serve with a drizzle of honey."
+    ]
   },
   {
     "name": "Vegetable Semiya Upma",
     "description": "Roasted vermicelli cooked with vegetables and South Indian tempering.",
-    "meal_type": "Breakfast", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 12, "servings": 2, "nutrition": [300, 8.0, 54, 6.0, 4.0],
-    "ingredients": [["Vermicelli", "1 1/2 cups"], ["Onion", "1"], ["Carrot", "1"], ["Green Peas", "1/4 cup"], ["Green Chilli", "1"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig"]],
-    "steps": ["Roast the vermicelli until golden.", "Temper mustard seeds and curry leaves, saute onion and chilli.", "Add carrot, peas, salt and 2 cups water; bring to a boil.", "Add vermicelli and cook until the water is absorbed."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 12,
+    "servings": 2,
+    "nutrition": [
+      300,
+      8.0,
+      54,
+      6.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Vermicelli",
+        "1 1/2 cups"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "Green Peas",
+        "1/4 cup"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ]
+    ],
+    "steps": [
+      "Roast the vermicelli until golden.",
+      "Temper mustard seeds and curry leaves, saute onion and chilli.",
+      "Add carrot, peas, salt and 2 cups water; bring to a boil.",
+      "Add vermicelli and cook until the water is absorbed."
+    ]
   },
   {
     "name": "Egg Bhurji with Buttered Toast",
     "description": "Spicy Indian scrambled eggs with tomato served with buttered toast.",
-    "meal_type": "Breakfast", "diet_type": "Eggetarian", "image_url": null,
-    "prep": 5, "cook": 10, "servings": 1, "nutrition": [380, 19.0, 28, 21.0, 3.0],
-    "ingredients": [["Egg", "3"], ["Onion", "1"], ["Tomato", "1"], ["Green Chilli", "1"], ["Bread", "2 slices"], ["Butter", "1 tbsp"], ["Turmeric", "pinch"], ["Red Chilli Powder", "1/4 tsp"]],
-    "steps": ["Saute onion and chilli until soft, add tomato and spices.", "Pour in beaten eggs and stir continuously until cooked.", "Toast the bread with butter.", "Serve the bhurji hot with toast."]
+    "meal_type": "Breakfast",
+    "diet_type": "Eggetarian",
+    "prep": 5,
+    "cook": 10,
+    "servings": 1,
+    "nutrition": [
+      380,
+      19.0,
+      28,
+      21.0,
+      3.0
+    ],
+    "ingredients": [
+      [
+        "Egg",
+        "3"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Bread",
+        "2 slices"
+      ],
+      [
+        "Butter",
+        "1 tbsp"
+      ],
+      [
+        "Turmeric",
+        "pinch"
+      ],
+      [
+        "Red Chilli Powder",
+        "1/4 tsp"
+      ]
+    ],
+    "steps": [
+      "Saute onion and chilli until soft, add tomato and spices.",
+      "Pour in beaten eggs and stir continuously until cooked.",
+      "Toast the bread with butter.",
+      "Serve the bhurji hot with toast."
+    ]
   },
   {
     "name": "Ragi Onion Dosa",
     "description": "Instant finger millet dosa with onion and cumin, rich in calcium.",
-    "meal_type": "Breakfast", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 15, "servings": 2, "nutrition": [240, 6.0, 46, 4.0, 6.5],
-    "ingredients": [["Ragi Flour", "1 cup"], ["Rice Flour", "1/4 cup"], ["Onion", "1"], ["Green Chilli", "1"], ["Cumin Seeds", "1/2 tsp"], ["Curry Leaves", "1 sprig", true]],
-    "steps": ["Mix both flours with water and salt into a thin batter.", "Add chopped onion, chilli, cumin and curry leaves.", "Pour the batter from the edges onto a hot tawa to make a lacy dosa.", "Drizzle oil and cook until crisp."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      240,
+      6.0,
+      46,
+      4.0,
+      6.5
+    ],
+    "ingredients": [
+      [
+        "Ragi Flour",
+        "1 cup"
+      ],
+      [
+        "Rice Flour",
+        "1/4 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Cumin Seeds",
+        "1/2 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ]
+    ],
+    "steps": [
+      "Mix both flours with water and salt into a thin batter.",
+      "Add chopped onion, chilli, cumin and curry leaves.",
+      "Pour the batter from the edges onto a hot tawa to make a lacy dosa.",
+      "Drizzle oil and cook until crisp."
+    ]
   },
   {
     "name": "Paneer Bhurji Toast",
     "description": "Crumbled paneer with capsicum and tomato piled on toast.",
-    "meal_type": "Breakfast", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 10, "cook": 10, "servings": 1, "nutrition": [410, 21.0, 30, 22.0, 3.5],
-    "ingredients": [["Paneer", "100 g"], ["Onion", "1 small"], ["Tomato", "1"], ["Capsicum", "1/2"], ["Bread", "2 slices"], ["Green Chilli", "1"], ["Turmeric", "pinch"]],
-    "steps": ["Saute onion, chilli and capsicum.", "Add tomato and turmeric and cook until soft.", "Crumble in the paneer and toss for 2 minutes.", "Spoon over toasted bread."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegetarian",
+    "prep": 10,
+    "cook": 10,
+    "servings": 1,
+    "nutrition": [
+      410,
+      21.0,
+      30,
+      22.0,
+      3.5
+    ],
+    "ingredients": [
+      [
+        "Paneer",
+        "100 g"
+      ],
+      [
+        "Onion",
+        "1 small"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Capsicum",
+        "1/2"
+      ],
+      [
+        "Bread",
+        "2 slices"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Turmeric",
+        "pinch"
+      ]
+    ],
+    "steps": [
+      "Saute onion, chilli and capsicum.",
+      "Add tomato and turmeric and cook until soft.",
+      "Crumble in the paneer and toss for 2 minutes.",
+      "Spoon over toasted bread."
+    ]
   },
   {
     "name": "Peanut Butter Banana Toast",
     "description": "Quick energy breakfast of toast, peanut butter and sliced banana.",
-    "meal_type": "Breakfast", "diet_type": "Vegan", "image_url": null,
-    "prep": 5, "cook": 2, "servings": 1, "nutrition": [340, 11.0, 46, 13.0, 5.0],
-    "ingredients": [["Bread", "2 slices"], ["Peanut Butter", "1 1/2 tbsp"], ["Banana", "1"], ["Cinnamon", "pinch", true]],
-    "steps": ["Toast the bread.", "Spread peanut butter evenly.", "Top with banana slices and a pinch of cinnamon."]
+    "meal_type": "Breakfast",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 2,
+    "servings": 1,
+    "nutrition": [
+      340,
+      11.0,
+      46,
+      13.0,
+      5.0
+    ],
+    "ingredients": [
+      [
+        "Bread",
+        "2 slices"
+      ],
+      [
+        "Peanut Butter",
+        "1 1/2 tbsp"
+      ],
+      [
+        "Banana",
+        "1"
+      ],
+      [
+        "Cinnamon",
+        "pinch",
+        true
+      ]
+    ],
+    "steps": [
+      "Toast the bread.",
+      "Spread peanut butter evenly.",
+      "Top with banana slices and a pinch of cinnamon."
+    ]
   },
-
   {
     "name": "Nutrient Green Apple & Banana Smoothie",
     "description": "Antioxidant smoothie with crisp apple, sweet banana and chia seeds.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=800&auto=format&fit=crop&q=80",
-    "prep": 5, "cook": 0, "servings": 1, "nutrition": [210, 4.0, 44, 3.5, 6.0],
-    "ingredients": [["Banana", "1"], ["Apple", "1"], ["Almond Milk", "1 cup"], ["Chia Seeds", "1 tsp", true]],
-    "steps": ["Slice the banana and core the apple.", "Blend with almond milk and chia seeds until creamy.", "Serve chilled."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 0,
+    "servings": 1,
+    "nutrition": [
+      210,
+      4.0,
+      44,
+      3.5,
+      6.0
+    ],
+    "ingredients": [
+      [
+        "Banana",
+        "1"
+      ],
+      [
+        "Apple",
+        "1"
+      ],
+      [
+        "Almond Milk",
+        "1 cup"
+      ],
+      [
+        "Chia Seeds",
+        "1 tsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Slice the banana and core the apple.",
+      "Blend with almond milk and chia seeds until creamy.",
+      "Serve chilled."
+    ]
   },
   {
     "name": "Mixed Berry & Chia Greek Yogurt Bowl",
     "description": "Thick Greek yogurt layered with berries, chia seeds and pistachios.",
-    "meal_type": "Morning Snack", "diet_type": "Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop&q=80",
-    "prep": 5, "cook": 0, "servings": 1, "nutrition": [180, 14.0, 22, 3.5, 4.5],
-    "ingredients": [["Greek Yogurt", "1 cup"], ["Strawberry", "1/2 cup"], ["Blueberry", "1/4 cup"], ["Chia Seeds", "1 tsp", true], ["Pistachios", "1 tbsp", true]],
-    "steps": ["Spoon yogurt into a chilled bowl.", "Arrange berries on top.", "Sprinkle chia seeds and crushed pistachios."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegetarian",
+    "prep": 5,
+    "cook": 0,
+    "servings": 1,
+    "nutrition": [
+      180,
+      14.0,
+      22,
+      3.5,
+      4.5
+    ],
+    "ingredients": [
+      [
+        "Greek Yogurt",
+        "1 cup"
+      ],
+      [
+        "Strawberry",
+        "1/2 cup"
+      ],
+      [
+        "Blueberry",
+        "1/4 cup"
+      ],
+      [
+        "Chia Seeds",
+        "1 tsp",
+        true
+      ],
+      [
+        "Pistachios",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Spoon yogurt into a chilled bowl.",
+      "Arrange berries on top.",
+      "Sprinkle chia seeds and crushed pistachios."
+    ]
   },
   {
     "name": "Steamed Sprouted Moong Salad",
     "description": "Lightly steamed sprouts tossed with cucumber, pomegranate and lemon.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop&q=80",
-    "prep": 10, "cook": 5, "servings": 1, "nutrition": [160, 10.0, 26, 1.5, 6.5],
-    "ingredients": [["Green Gram", "1 cup sprouted"], ["Cucumber", "1/2"], ["Pomegranate", "1/4 cup"], ["Lemon", "1/2"], ["Chaat Masala", "1/2 tsp", true], ["Mint", "few leaves", true]],
-    "steps": ["Steam the sprouts for 4 minutes.", "Toss with diced cucumber, pomegranate and mint.", "Season with chaat masala and lemon juice."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 5,
+    "servings": 1,
+    "nutrition": [
+      160,
+      10.0,
+      26,
+      1.5,
+      6.5
+    ],
+    "ingredients": [
+      [
+        "Green Gram",
+        "1 cup sprouted"
+      ],
+      [
+        "Cucumber",
+        "1/2"
+      ],
+      [
+        "Pomegranate",
+        "1/4 cup"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Chaat Masala",
+        "1/2 tsp",
+        true
+      ],
+      [
+        "Mint",
+        "few leaves",
+        true
+      ]
+    ],
+    "steps": [
+      "Steam the sprouts for 4 minutes.",
+      "Toss with diced cucumber, pomegranate and mint.",
+      "Season with chaat masala and lemon juice."
+    ]
   },
   {
     "name": "Roasted Almonds & Walnut Energy Mix",
     "description": "Dry-roasted almonds, walnuts and pumpkin seeds with a pinch of salt.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=800&auto=format&fit=crop&q=80",
-    "prep": 5, "cook": 5, "servings": 1, "nutrition": [190, 6.0, 8, 16.0, 3.5],
-    "ingredients": [["Almonds", "10"], ["Walnuts", "4 halves"], ["Pumpkin Seeds", "1 tbsp"], ["Salt", "pinch"]],
-    "steps": ["Dry roast nuts and seeds for 5 minutes.", "Dust with salt while warm.", "Cool before serving."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 5,
+    "servings": 1,
+    "nutrition": [
+      190,
+      6.0,
+      8,
+      16.0,
+      3.5
+    ],
+    "ingredients": [
+      [
+        "Almonds",
+        "10"
+      ],
+      [
+        "Walnuts",
+        "4 halves"
+      ],
+      [
+        "Pumpkin Seeds",
+        "1 tbsp"
+      ],
+      [
+        "Salt",
+        "pinch"
+      ]
+    ],
+    "steps": [
+      "Dry roast nuts and seeds for 5 minutes.",
+      "Dust with salt while warm.",
+      "Cool before serving."
+    ]
   },
   {
     "name": "Fresh Papaya & Lime Bowl with Mint",
     "description": "Sweet papaya cubes finished with fresh lime juice and black salt.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=800&auto=format&fit=crop&q=80",
-    "prep": 5, "cook": 0, "servings": 1, "nutrition": [120, 1.8, 28, 0.4, 4.0],
-    "ingredients": [["Papaya", "2 cups cubed"], ["Lime", "1"], ["Black Salt", "pinch", true], ["Mint", "few leaves", true]],
-    "steps": ["Peel and cube the papaya.", "Drizzle with lime juice.", "Sprinkle black salt and garnish with mint."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 0,
+    "servings": 1,
+    "nutrition": [
+      120,
+      1.8,
+      28,
+      0.4,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Papaya",
+        "2 cups cubed"
+      ],
+      [
+        "Lime",
+        "1"
+      ],
+      [
+        "Black Salt",
+        "pinch",
+        true
+      ],
+      [
+        "Mint",
+        "few leaves",
+        true
+      ]
+    ],
+    "steps": [
+      "Peel and cube the papaya.",
+      "Drizzle with lime juice.",
+      "Sprinkle black salt and garnish with mint."
+    ]
   },
   {
     "name": "Cucumber Mint Masala Buttermilk (Chaas)",
     "description": "Cooling probiotic drink whipped with roasted cumin, cucumber and mint.",
-    "meal_type": "Morning Snack", "diet_type": "Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=800&auto=format&fit=crop&q=80",
-    "prep": 5, "cook": 0, "servings": 1, "nutrition": [85, 4.5, 8, 2.5, 1.0],
-    "ingredients": [["Curd", "1/2 cup"], ["Water", "1 cup"], ["Cucumber", "1/4"], ["Cumin Seeds", "1/2 tsp roasted"], ["Black Salt", "pinch", true], ["Mint", "few leaves"]],
-    "steps": ["Whisk curd and chilled water until frothy.", "Blend in grated cucumber, roasted cumin, black salt and mint.", "Serve chilled."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegetarian",
+    "prep": 5,
+    "cook": 0,
+    "servings": 1,
+    "nutrition": [
+      85,
+      4.5,
+      8,
+      2.5,
+      1.0
+    ],
+    "ingredients": [
+      [
+        "Curd",
+        "1/2 cup"
+      ],
+      [
+        "Water",
+        "1 cup"
+      ],
+      [
+        "Cucumber",
+        "1/4"
+      ],
+      [
+        "Cumin Seeds",
+        "1/2 tsp roasted"
+      ],
+      [
+        "Black Salt",
+        "pinch",
+        true
+      ],
+      [
+        "Mint",
+        "few leaves"
+      ]
+    ],
+    "steps": [
+      "Whisk curd and chilled water until frothy.",
+      "Blend in grated cucumber, roasted cumin, black salt and mint.",
+      "Serve chilled."
+    ]
   },
   {
     "name": "Papaya Banana Smoothie",
     "description": "Creamy tropical smoothie that is gentle on digestion.",
-    "meal_type": "Morning Snack", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 5, "cook": 0, "servings": 1, "nutrition": [230, 7.0, 44, 4.0, 4.5],
-    "ingredients": [["Papaya", "1 cup"], ["Banana", "1"], ["Milk", "1 cup"], ["Honey", "1 tsp", true]],
-    "steps": ["Add papaya, banana and milk to a blender.", "Blend until smooth.", "Sweeten with honey if needed and serve chilled."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegetarian",
+    "prep": 5,
+    "cook": 0,
+    "servings": 1,
+    "nutrition": [
+      230,
+      7.0,
+      44,
+      4.0,
+      4.5
+    ],
+    "ingredients": [
+      [
+        "Papaya",
+        "1 cup"
+      ],
+      [
+        "Banana",
+        "1"
+      ],
+      [
+        "Milk",
+        "1 cup"
+      ],
+      [
+        "Honey",
+        "1 tsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Add papaya, banana and milk to a blender.",
+      "Blend until smooth.",
+      "Sweeten with honey if needed and serve chilled."
+    ]
   },
   {
     "name": "Papaya Lassi",
     "description": "Thick, cooling yogurt drink blended with ripe papaya.",
-    "meal_type": "Morning Snack", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 5, "cook": 0, "servings": 1, "nutrition": [190, 7.0, 32, 4.0, 2.5],
-    "ingredients": [["Papaya", "1 cup"], ["Curd", "3/4 cup"], ["Sugar", "1 tsp"], ["Cardamom", "pinch", true]],
-    "steps": ["Blend papaya with curd and sugar.", "Add a little chilled water for a pourable consistency.", "Finish with a pinch of cardamom."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegetarian",
+    "prep": 5,
+    "cook": 0,
+    "servings": 1,
+    "nutrition": [
+      190,
+      7.0,
+      32,
+      4.0,
+      2.5
+    ],
+    "ingredients": [
+      [
+        "Papaya",
+        "1 cup"
+      ],
+      [
+        "Curd",
+        "3/4 cup"
+      ],
+      [
+        "Sugar",
+        "1 tsp"
+      ],
+      [
+        "Cardamom",
+        "pinch",
+        true
+      ]
+    ],
+    "steps": [
+      "Blend papaya with curd and sugar.",
+      "Add a little chilled water for a pourable consistency.",
+      "Finish with a pinch of cardamom."
+    ]
   },
   {
     "name": "Tropical Fruit Salad",
     "description": "Papaya, pineapple and banana tossed in lime and mint.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 0, "servings": 2, "nutrition": [140, 1.8, 35, 0.5, 4.0],
-    "ingredients": [["Papaya", "1 cup"], ["Pineapple", "1 cup"], ["Banana", "1"], ["Lime", "1"], ["Pomegranate", "1/4 cup", true], ["Mint", "few leaves", true]],
-    "steps": ["Cube all the fruit.", "Toss with lime juice.", "Top with pomegranate and torn mint."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 0,
+    "servings": 2,
+    "nutrition": [
+      140,
+      1.8,
+      35,
+      0.5,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Papaya",
+        "1 cup"
+      ],
+      [
+        "Pineapple",
+        "1 cup"
+      ],
+      [
+        "Banana",
+        "1"
+      ],
+      [
+        "Lime",
+        "1"
+      ],
+      [
+        "Pomegranate",
+        "1/4 cup",
+        true
+      ],
+      [
+        "Mint",
+        "few leaves",
+        true
+      ]
+    ],
+    "steps": [
+      "Cube all the fruit.",
+      "Toss with lime juice.",
+      "Top with pomegranate and torn mint."
+    ]
   },
   {
     "name": "Papaya Tomato Salsa",
     "description": "Sweet-and-tangy salsa of ripe papaya, tomato and onion with lime.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 0, "servings": 2, "nutrition": [80, 1.5, 18, 0.4, 3.0],
-    "ingredients": [["Papaya", "1 cup diced"], ["Tomato", "1"], ["Onion", "1 small"], ["Lime", "1"], ["Green Chilli", "1", true], ["Coriander Leaves", "2 tbsp", true]],
-    "steps": ["Dice papaya, tomato and onion finely.", "Mix with chopped chilli and coriander.", "Season with lime juice and salt; rest for 5 minutes.", "Serve with crackers or as a side."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 0,
+    "servings": 2,
+    "nutrition": [
+      80,
+      1.5,
+      18,
+      0.4,
+      3.0
+    ],
+    "ingredients": [
+      [
+        "Papaya",
+        "1 cup diced"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Onion",
+        "1 small"
+      ],
+      [
+        "Lime",
+        "1"
+      ],
+      [
+        "Green Chilli",
+        "1",
+        true
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Dice papaya, tomato and onion finely.",
+      "Mix with chopped chilli and coriander.",
+      "Season with lime juice and salt; rest for 5 minutes.",
+      "Serve with crackers or as a side."
+    ]
   },
   {
     "name": "Masala Fruit Chaat",
     "description": "Apple, banana and papaya tossed with chaat masala and lemon.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 0, "servings": 2, "nutrition": [130, 1.5, 32, 0.5, 4.5],
-    "ingredients": [["Apple", "1"], ["Banana", "1"], ["Papaya", "1 cup"], ["Chaat Masala", "1 tsp"], ["Lemon", "1/2"], ["Pomegranate", "1/4 cup", true]],
-    "steps": ["Chop the fruit into bite-sized pieces.", "Sprinkle chaat masala and squeeze lemon over.", "Toss and serve immediately."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 0,
+    "servings": 2,
+    "nutrition": [
+      130,
+      1.5,
+      32,
+      0.5,
+      4.5
+    ],
+    "ingredients": [
+      [
+        "Apple",
+        "1"
+      ],
+      [
+        "Banana",
+        "1"
+      ],
+      [
+        "Papaya",
+        "1 cup"
+      ],
+      [
+        "Chaat Masala",
+        "1 tsp"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Pomegranate",
+        "1/4 cup",
+        true
+      ]
+    ],
+    "steps": [
+      "Chop the fruit into bite-sized pieces.",
+      "Sprinkle chaat masala and squeeze lemon over.",
+      "Toss and serve immediately."
+    ]
   },
   {
     "name": "Mango Lassi",
     "description": "Classic mango and yogurt drink with a hint of cardamom.",
-    "meal_type": "Morning Snack", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 5, "cook": 0, "servings": 1, "nutrition": [220, 7.0, 38, 4.5, 2.0],
-    "ingredients": [["Mango", "1"], ["Curd", "3/4 cup"], ["Sugar", "1 tsp"], ["Cardamom", "pinch", true]],
-    "steps": ["Blend mango pulp with curd and sugar.", "Thin with chilled water if needed.", "Serve with a pinch of cardamom."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegetarian",
+    "prep": 5,
+    "cook": 0,
+    "servings": 1,
+    "nutrition": [
+      220,
+      7.0,
+      38,
+      4.5,
+      2.0
+    ],
+    "ingredients": [
+      [
+        "Mango",
+        "1"
+      ],
+      [
+        "Curd",
+        "3/4 cup"
+      ],
+      [
+        "Sugar",
+        "1 tsp"
+      ],
+      [
+        "Cardamom",
+        "pinch",
+        true
+      ]
+    ],
+    "steps": [
+      "Blend mango pulp with curd and sugar.",
+      "Thin with chilled water if needed.",
+      "Serve with a pinch of cardamom."
+    ]
   },
   {
     "name": "Watermelon Mint Cooler",
     "description": "Hydrating watermelon drink with lime and mint.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 5, "cook": 0, "servings": 2, "nutrition": [70, 1.2, 17, 0.3, 0.8],
-    "ingredients": [["Watermelon", "3 cups"], ["Mint", "8 leaves"], ["Lime", "1"], ["Black Salt", "pinch", true]],
-    "steps": ["Blend watermelon with mint.", "Strain if you like it smooth.", "Add lime juice and black salt and serve over ice."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 0,
+    "servings": 2,
+    "nutrition": [
+      70,
+      1.2,
+      17,
+      0.3,
+      0.8
+    ],
+    "ingredients": [
+      [
+        "Watermelon",
+        "3 cups"
+      ],
+      [
+        "Mint",
+        "8 leaves"
+      ],
+      [
+        "Lime",
+        "1"
+      ],
+      [
+        "Black Salt",
+        "pinch",
+        true
+      ]
+    ],
+    "steps": [
+      "Blend watermelon with mint.",
+      "Strain if you like it smooth.",
+      "Add lime juice and black salt and serve over ice."
+    ]
   },
   {
     "name": "Spicy Guava Chaat",
     "description": "Guava wedges dusted with chilli and chaat masala.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 5, "cook": 0, "servings": 1, "nutrition": [95, 3.0, 20, 1.2, 7.0],
-    "ingredients": [["Guava", "2"], ["Chaat Masala", "1/2 tsp"], ["Red Chilli Powder", "pinch"], ["Lemon", "1/4", true]],
-    "steps": ["Cut guava into wedges.", "Sprinkle chaat masala and chilli powder.", "Finish with a squeeze of lemon."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 0,
+    "servings": 1,
+    "nutrition": [
+      95,
+      3.0,
+      20,
+      1.2,
+      7.0
+    ],
+    "ingredients": [
+      [
+        "Guava",
+        "2"
+      ],
+      [
+        "Chaat Masala",
+        "1/2 tsp"
+      ],
+      [
+        "Red Chilli Powder",
+        "pinch"
+      ],
+      [
+        "Lemon",
+        "1/4",
+        true
+      ]
+    ],
+    "steps": [
+      "Cut guava into wedges.",
+      "Sprinkle chaat masala and chilli powder.",
+      "Finish with a squeeze of lemon."
+    ]
   },
   {
     "name": "Date & Nut Energy Balls",
     "description": "No-bake bites of dates, almonds and cashews.",
-    "meal_type": "Morning Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 0, "servings": 4, "nutrition": [180, 4.0, 24, 8.0, 3.0],
-    "ingredients": [["Dates", "1 cup pitted"], ["Almonds", "1/4 cup"], ["Cashews", "1/4 cup"], ["Coconut", "2 tbsp desiccated", true]],
-    "steps": ["Pulse nuts coarsely in a blender.", "Add dates and blend into a sticky mixture.", "Roll into balls and coat with coconut.", "Chill for 20 minutes."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 0,
+    "servings": 4,
+    "nutrition": [
+      180,
+      4.0,
+      24,
+      8.0,
+      3.0
+    ],
+    "ingredients": [
+      [
+        "Dates",
+        "1 cup pitted"
+      ],
+      [
+        "Almonds",
+        "1/4 cup"
+      ],
+      [
+        "Cashews",
+        "1/4 cup"
+      ],
+      [
+        "Coconut",
+        "2 tbsp desiccated",
+        true
+      ]
+    ],
+    "steps": [
+      "Pulse nuts coarsely in a blender.",
+      "Add dates and blend into a sticky mixture.",
+      "Roll into balls and coat with coconut.",
+      "Chill for 20 minutes."
+    ]
   },
   {
     "name": "Banana Peanut Butter Smoothie",
     "description": "Filling smoothie with banana, peanut butter and milk.",
-    "meal_type": "Morning Snack", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 5, "cook": 0, "servings": 1, "nutrition": [320, 12.0, 40, 13.0, 4.0],
-    "ingredients": [["Banana", "1"], ["Peanut Butter", "1 tbsp"], ["Milk", "1 cup"], ["Rolled Oats", "2 tbsp", true]],
-    "steps": ["Add everything to a blender.", "Blend until smooth.", "Serve immediately."]
+    "meal_type": "Morning Snack",
+    "diet_type": "Vegetarian",
+    "prep": 5,
+    "cook": 0,
+    "servings": 1,
+    "nutrition": [
+      320,
+      12.0,
+      40,
+      13.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Banana",
+        "1"
+      ],
+      [
+        "Peanut Butter",
+        "1 tbsp"
+      ],
+      [
+        "Milk",
+        "1 cup"
+      ],
+      [
+        "Rolled Oats",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Add everything to a blender.",
+      "Blend until smooth.",
+      "Serve immediately."
+    ]
   },
-
   {
     "name": "Whole Wheat Chapati with Vegetable Curry",
     "description": "Soft whole-wheat flatbread with seasonal mixed vegetable curry.",
-    "meal_type": "Lunch", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=800&auto=format&fit=crop&q=80",
-    "prep": 20, "cook": 25, "servings": 2, "nutrition": [420, 12.0, 72, 8.5, 8.0],
-    "ingredients": [["Wheat Flour", "1 1/2 cups"], ["Potato", "1"], ["Carrot", "1"], ["French Beans", "8"], ["Green Peas", "1/4 cup"], ["Onion", "1"], ["Tomato", "2"], ["Garam Masala", "1 tsp"], ["Cooking Oil", "1 tbsp"]],
-    "steps": ["Knead dough and roll out thin chapatis; cook on a tawa until puffed.", "Saute onion and tomato into a masala with garam masala.", "Add chopped vegetables and a splash of water; simmer until tender.", "Serve hot with chapatis."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 20,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      420,
+      12.0,
+      72,
+      8.5,
+      8.0
+    ],
+    "ingredients": [
+      [
+        "Wheat Flour",
+        "1 1/2 cups"
+      ],
+      [
+        "Potato",
+        "1"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "French Beans",
+        "8"
+      ],
+      [
+        "Green Peas",
+        "1/4 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ],
+      [
+        "Cooking Oil",
+        "1 tbsp"
+      ]
+    ],
+    "steps": [
+      "Knead dough and roll out thin chapatis; cook on a tawa until puffed.",
+      "Saute onion and tomato into a masala with garam masala.",
+      "Add chopped vegetables and a splash of water; simmer until tender.",
+      "Serve hot with chapatis."
+    ]
   },
   {
     "name": "Hyderabadi Chicken Biryani Bowl",
     "description": "Fragrant basmati layered with spiced marinated chicken and caramelised onions.",
-    "meal_type": "Lunch", "diet_type": "Non-Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=80",
-    "prep": 30, "cook": 40, "servings": 2, "nutrition": [580, 34.0, 65, 18.0, 3.5],
-    "ingredients": [["Rice", "1 1/2 cups basmati"], ["Chicken", "400 g"], ["Curd", "1/2 cup"], ["Biryani Masala", "2 tsp"], ["Mint", "1/4 cup"], ["Onion", "2"], ["Ghee", "2 tbsp"], ["Ginger", "1 inch"], ["Garlic", "6 cloves"]],
-    "steps": ["Marinate chicken in curd, ginger, garlic and biryani masala.", "Parboil rice with whole spices.", "Fry onions in ghee until golden.", "Layer chicken, rice, onions and mint in a heavy pot.", "Cook on low heat for 25 minutes."]
+    "meal_type": "Lunch",
+    "diet_type": "Non-Vegetarian",
+    "prep": 30,
+    "cook": 40,
+    "servings": 2,
+    "nutrition": [
+      580,
+      34.0,
+      65,
+      18.0,
+      3.5
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 1/2 cups basmati"
+      ],
+      [
+        "Chicken",
+        "400 g"
+      ],
+      [
+        "Curd",
+        "1/2 cup"
+      ],
+      [
+        "Biryani Masala",
+        "2 tsp"
+      ],
+      [
+        "Mint",
+        "1/4 cup"
+      ],
+      [
+        "Onion",
+        "2"
+      ],
+      [
+        "Ghee",
+        "2 tbsp"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "6 cloves"
+      ]
+    ],
+    "steps": [
+      "Marinate chicken in curd, ginger, garlic and biryani masala.",
+      "Parboil rice with whole spices.",
+      "Fry onions in ghee until golden.",
+      "Layer chicken, rice, onions and mint in a heavy pot.",
+      "Cook on low heat for 25 minutes."
+    ]
   },
   {
     "name": "South Indian Thali: Rice, Sambar & Avial",
     "description": "Complete meal of steamed rice, lentil sambar and coconut avial.",
-    "meal_type": "Lunch", "diet_type": "Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&auto=format&fit=crop&q=80",
-    "prep": 25, "cook": 30, "servings": 1, "nutrition": [490, 13.5, 82, 11.0, 9.0],
-    "ingredients": [["Rice", "1 cup"], ["Toor Dal", "1/4 cup"], ["Drumstick", "1"], ["Carrot", "1"], ["Raw Banana", "1/2"], ["Coconut", "1/2 cup grated"], ["Curd", "1/4 cup"], ["Tamarind", "small ball"], ["Sambar Powder", "1 tbsp"], ["Curry Leaves", "1 sprig"]],
-    "steps": ["Cook rice until fluffy.", "Prepare sambar with toor dal, drumstick, tamarind and sambar powder.", "Cook carrot and raw banana with coconut paste and curd for avial.", "Serve together with curry leaves tempering."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegetarian",
+    "prep": 25,
+    "cook": 30,
+    "servings": 1,
+    "nutrition": [
+      490,
+      13.5,
+      82,
+      11.0,
+      9.0
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 cup"
+      ],
+      [
+        "Toor Dal",
+        "1/4 cup"
+      ],
+      [
+        "Drumstick",
+        "1"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "Raw Banana",
+        "1/2"
+      ],
+      [
+        "Coconut",
+        "1/2 cup grated"
+      ],
+      [
+        "Curd",
+        "1/4 cup"
+      ],
+      [
+        "Tamarind",
+        "small ball"
+      ],
+      [
+        "Sambar Powder",
+        "1 tbsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ]
+    ],
+    "steps": [
+      "Cook rice until fluffy.",
+      "Prepare sambar with toor dal, drumstick, tamarind and sambar powder.",
+      "Cook carrot and raw banana with coconut paste and curd for avial.",
+      "Serve together with curry leaves tempering."
+    ]
   },
   {
     "name": "Yellow Dal Tadka with Jeera Rice",
     "description": "Creamy yellow lentils tempered with garlic and cumin, with cumin rice.",
-    "meal_type": "Lunch", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 25, "servings": 2, "nutrition": [440, 14.0, 76, 8.0, 7.5],
-    "ingredients": [["Toor Dal", "3/4 cup"], ["Rice", "1 cup"], ["Cumin Seeds", "2 tsp"], ["Garlic", "5 cloves"], ["Tomato", "1"], ["Onion", "1"], ["Cooking Oil", "1 tbsp"], ["Turmeric", "1/4 tsp"]],
-    "steps": ["Pressure cook dal with turmeric and salt.", "Temper cumin and sliced garlic in oil; add onion and tomato.", "Pour the tadka over the dal and simmer.", "Saute cumin with rice and cook for jeera rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      440,
+      14.0,
+      76,
+      8.0,
+      7.5
+    ],
+    "ingredients": [
+      [
+        "Toor Dal",
+        "3/4 cup"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ],
+      [
+        "Cumin Seeds",
+        "2 tsp"
+      ],
+      [
+        "Garlic",
+        "5 cloves"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Cooking Oil",
+        "1 tbsp"
+      ],
+      [
+        "Turmeric",
+        "1/4 tsp"
+      ]
+    ],
+    "steps": [
+      "Pressure cook dal with turmeric and salt.",
+      "Temper cumin and sliced garlic in oil; add onion and tomato.",
+      "Pour the tadka over the dal and simmer.",
+      "Saute cumin with rice and cook for jeera rice."
+    ]
   },
   {
     "name": "Herb Grilled Chicken Breast with Quinoa",
     "description": "Herb-marinated chicken over fluffy quinoa with steamed broccoli.",
-    "meal_type": "Lunch", "diet_type": "Non-Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 20, "servings": 1, "nutrition": [480, 42.0, 38, 12.0, 6.0],
-    "ingredients": [["Chicken", "200 g breast"], ["Quinoa", "1/2 cup"], ["Broccoli", "1 cup"], ["Olive Oil", "1 tbsp"], ["Garlic", "2 cloves"], ["Lemon", "1/2"], ["Rosemary", "1 sprig", true]],
-    "steps": ["Marinate chicken with garlic, rosemary and lemon juice.", "Grill for 6-7 minutes per side.", "Cook quinoa and steam the broccoli.", "Serve sliced chicken over quinoa."]
+    "meal_type": "Lunch",
+    "diet_type": "Non-Vegetarian",
+    "prep": 15,
+    "cook": 20,
+    "servings": 1,
+    "nutrition": [
+      480,
+      42.0,
+      38,
+      12.0,
+      6.0
+    ],
+    "ingredients": [
+      [
+        "Chicken",
+        "200 g breast"
+      ],
+      [
+        "Quinoa",
+        "1/2 cup"
+      ],
+      [
+        "Broccoli",
+        "1 cup"
+      ],
+      [
+        "Olive Oil",
+        "1 tbsp"
+      ],
+      [
+        "Garlic",
+        "2 cloves"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Rosemary",
+        "1 sprig",
+        true
+      ]
+    ],
+    "steps": [
+      "Marinate chicken with garlic, rosemary and lemon juice.",
+      "Grill for 6-7 minutes per side.",
+      "Cook quinoa and steam the broccoli.",
+      "Serve sliced chicken over quinoa."
+    ]
   },
   {
     "name": "Creamy Palak Paneer with Whole Wheat Phulkas",
     "description": "Paneer cubes in silky spiced spinach gravy with phulkas.",
-    "meal_type": "Lunch", "diet_type": "Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=800&auto=format&fit=crop&q=80",
-    "prep": 20, "cook": 20, "servings": 2, "nutrition": [450, 19.0, 52, 16.0, 7.0],
-    "ingredients": [["Spinach", "1 bunch"], ["Paneer", "200 g"], ["Onion", "1"], ["Tomato", "1"], ["Garlic", "4 cloves"], ["Ginger", "1 inch"], ["Wheat Flour", "1 cup"], ["Garam Masala", "1 tsp"], ["Fresh Cream", "2 tbsp", true]],
-    "steps": ["Blanch spinach and puree.", "Saute garlic, ginger, onion and tomato; stir in puree and paneer.", "Simmer 5 minutes and finish with cream.", "Cook phulkas on an open flame and serve."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegetarian",
+    "prep": 20,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      450,
+      19.0,
+      52,
+      16.0,
+      7.0
+    ],
+    "ingredients": [
+      [
+        "Spinach",
+        "1 bunch"
+      ],
+      [
+        "Paneer",
+        "200 g"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Wheat Flour",
+        "1 cup"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ],
+      [
+        "Fresh Cream",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Blanch spinach and puree.",
+      "Saute garlic, ginger, onion and tomato; stir in puree and paneer.",
+      "Simmer 5 minutes and finish with cream.",
+      "Cook phulkas on an open flame and serve."
+    ]
   },
   {
     "name": "Spiced Punjabi Chana Masala with Brown Rice",
     "description": "Chickpeas simmered in an onion-tomato gravy served over steamed rice.",
-    "meal_type": "Lunch", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 30, "servings": 2, "nutrition": [430, 15.0, 74, 7.5, 10.0],
-    "ingredients": [["Chickpeas", "1 cup soaked"], ["Rice", "1 cup brown"], ["Onion", "2"], ["Tomato", "2"], ["Ginger", "1 inch"], ["Garlic", "4 cloves"], ["Chana Masala Powder", "2 tsp"]],
-    "steps": ["Pressure cook the soaked chickpeas.", "Saute onion, ginger and garlic until golden.", "Add tomato puree and chana masala; simmer chickpeas for 15 minutes.", "Serve over steamed rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 30,
+    "servings": 2,
+    "nutrition": [
+      430,
+      15.0,
+      74,
+      7.5,
+      10.0
+    ],
+    "ingredients": [
+      [
+        "Chickpeas",
+        "1 cup soaked"
+      ],
+      [
+        "Rice",
+        "1 cup brown"
+      ],
+      [
+        "Onion",
+        "2"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Chana Masala Powder",
+        "2 tsp"
+      ]
+    ],
+    "steps": [
+      "Pressure cook the soaked chickpeas.",
+      "Saute onion, ginger and garlic until golden.",
+      "Add tomato puree and chana masala; simmer chickpeas for 15 minutes.",
+      "Serve over steamed rice."
+    ]
   },
   {
     "name": "Homestyle Egg Curry with Steamed Rice",
     "description": "Boiled eggs simmered in a mildly spiced onion-tomato gravy.",
-    "meal_type": "Lunch", "diet_type": "Eggetarian",
-    "image_url": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 20, "servings": 1, "nutrition": [460, 20.0, 62, 14.0, 4.0],
-    "ingredients": [["Egg", "3"], ["Rice", "3/4 cup"], ["Onion", "1"], ["Tomato", "2"], ["Ginger", "1 inch"], ["Garlic", "3 cloves"], ["Garam Masala", "1/2 tsp"], ["Coriander Leaves", "1 tbsp", true]],
-    "steps": ["Boil and peel the eggs; sear them with turmeric and chilli.", "Cook onion, ginger, garlic and tomato into a thick gravy.", "Add the eggs and simmer 5 minutes.", "Serve over steamed rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Eggetarian",
+    "prep": 15,
+    "cook": 20,
+    "servings": 1,
+    "nutrition": [
+      460,
+      20.0,
+      62,
+      14.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Egg",
+        "3"
+      ],
+      [
+        "Rice",
+        "3/4 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "3 cloves"
+      ],
+      [
+        "Garam Masala",
+        "1/2 tsp"
+      ],
+      [
+        "Coriander Leaves",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Boil and peel the eggs; sear them with turmeric and chilli.",
+      "Cook onion, ginger, garlic and tomato into a thick gravy.",
+      "Add the eggs and simmer 5 minutes.",
+      "Serve over steamed rice."
+    ]
   },
   {
     "name": "Tomato Rice",
     "description": "Tangy one-pot South Indian rice cooked with ripe tomatoes.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 20, "servings": 2, "nutrition": [380, 7.5, 70, 8.0, 4.0],
-    "ingredients": [["Rice", "1 cup"], ["Tomato", "4"], ["Onion", "1"], ["Green Chilli", "2"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig", true], ["Garam Masala", "1/2 tsp"], ["Coriander Leaves", "2 tbsp", true]],
-    "steps": ["Cook the rice and spread it out to cool.", "Temper mustard seeds and curry leaves; saute onion and chilli.", "Add chopped tomatoes, salt and garam masala; cook until mushy.", "Fold in the rice and garnish with coriander."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      380,
+      7.5,
+      70,
+      8.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 cup"
+      ],
+      [
+        "Tomato",
+        "4"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ],
+      [
+        "Garam Masala",
+        "1/2 tsp"
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Cook the rice and spread it out to cool.",
+      "Temper mustard seeds and curry leaves; saute onion and chilli.",
+      "Add chopped tomatoes, salt and garam masala; cook until mushy.",
+      "Fold in the rice and garnish with coriander."
+    ]
   },
   {
     "name": "Tomato Rasam",
     "description": "Peppery, tangy tomato broth that is light and comforting.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 5, "cook": 15, "servings": 2, "nutrition": [90, 3.0, 15, 2.5, 2.5],
-    "ingredients": [["Tomato", "3"], ["Tamarind", "small piece"], ["Rasam Powder", "1 tsp"], ["Garlic", "4 cloves"], ["Curry Leaves", "1 sprig", true], ["Toor Dal", "2 tbsp cooked", true], ["Coriander Leaves", "1 tbsp", true]],
-    "steps": ["Simmer crushed tomatoes and garlic with tamarind water.", "Add rasam powder, salt and cooked dal water.", "Bring to a froth without boiling hard.", "Temper with mustard and curry leaves; garnish with coriander."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      90,
+      3.0,
+      15,
+      2.5,
+      2.5
+    ],
+    "ingredients": [
+      [
+        "Tomato",
+        "3"
+      ],
+      [
+        "Tamarind",
+        "small piece"
+      ],
+      [
+        "Rasam Powder",
+        "1 tsp"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ],
+      [
+        "Toor Dal",
+        "2 tbsp cooked",
+        true
+      ],
+      [
+        "Coriander Leaves",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Simmer crushed tomatoes and garlic with tamarind water.",
+      "Add rasam powder, salt and cooked dal water.",
+      "Bring to a froth without boiling hard.",
+      "Temper with mustard and curry leaves; garnish with coriander."
+    ]
   },
   {
     "name": "Tomato Dal",
     "description": "Everyday toor dal brightened with lots of tomato and cumin.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 25, "servings": 2, "nutrition": [260, 13.0, 40, 5.5, 9.0],
-    "ingredients": [["Toor Dal", "3/4 cup"], ["Tomato", "3"], ["Onion", "1"], ["Garlic", "3 cloves"], ["Green Chilli", "1"], ["Cumin Seeds", "1 tsp"], ["Coriander Leaves", "1 tbsp", true]],
-    "steps": ["Pressure cook dal with turmeric.", "Temper cumin and garlic; saute onion and chilli.", "Add tomatoes and cook until soft.", "Mix in dal, simmer 5 minutes and garnish."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      260,
+      13.0,
+      40,
+      5.5,
+      9.0
+    ],
+    "ingredients": [
+      [
+        "Toor Dal",
+        "3/4 cup"
+      ],
+      [
+        "Tomato",
+        "3"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Garlic",
+        "3 cloves"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Cumin Seeds",
+        "1 tsp"
+      ],
+      [
+        "Coriander Leaves",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Pressure cook dal with turmeric.",
+      "Temper cumin and garlic; saute onion and chilli.",
+      "Add tomatoes and cook until soft.",
+      "Mix in dal, simmer 5 minutes and garnish."
+    ]
   },
   {
     "name": "Lemon Rice",
     "description": "Zesty turmeric rice with crunchy dals and curry leaves.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 5, "cook": 10, "servings": 2, "nutrition": [350, 7.0, 64, 7.0, 2.5],
-    "ingredients": [["Rice", "1 cup cooked"], ["Lemon", "1"], ["Chana Dal", "1 tbsp"], ["Urad Dal", "1 tsp"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig"], ["Green Chilli", "2"], ["Turmeric", "1/4 tsp"], ["Ginger", "1/2 inch", true]],
-    "steps": ["Temper mustard seeds, chana dal and urad dal in oil.", "Add chilli, ginger, curry leaves and turmeric.", "Fold in cooled rice and salt.", "Turn off heat and mix in lemon juice."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      350,
+      7.0,
+      64,
+      7.0,
+      2.5
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 cup cooked"
+      ],
+      [
+        "Lemon",
+        "1"
+      ],
+      [
+        "Chana Dal",
+        "1 tbsp"
+      ],
+      [
+        "Urad Dal",
+        "1 tsp"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Turmeric",
+        "1/4 tsp"
+      ],
+      [
+        "Ginger",
+        "1/2 inch",
+        true
+      ]
+    ],
+    "steps": [
+      "Temper mustard seeds, chana dal and urad dal in oil.",
+      "Add chilli, ginger, curry leaves and turmeric.",
+      "Fold in cooled rice and salt.",
+      "Turn off heat and mix in lemon juice."
+    ]
   },
   {
     "name": "Curd Rice",
     "description": "Cooling South Indian comfort food of rice mixed with curd and tempering.",
-    "meal_type": "Lunch", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 5, "cook": 5, "servings": 2, "nutrition": [310, 9.0, 52, 7.0, 1.5],
-    "ingredients": [["Rice", "1 cup cooked"], ["Curd", "1 cup"], ["Ginger", "1/2 inch"], ["Green Chilli", "1"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig"], ["Milk", "1/4 cup", true], ["Pomegranate", "2 tbsp", true]],
-    "steps": ["Mash the rice lightly and mix with curd, milk and salt.", "Temper mustard seeds, ginger, chilli and curry leaves.", "Pour over the rice and mix.", "Top with pomegranate and serve cool."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegetarian",
+    "prep": 5,
+    "cook": 5,
+    "servings": 2,
+    "nutrition": [
+      310,
+      9.0,
+      52,
+      7.0,
+      1.5
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 cup cooked"
+      ],
+      [
+        "Curd",
+        "1 cup"
+      ],
+      [
+        "Ginger",
+        "1/2 inch"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Milk",
+        "1/4 cup",
+        true
+      ],
+      [
+        "Pomegranate",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Mash the rice lightly and mix with curd, milk and salt.",
+      "Temper mustard seeds, ginger, chilli and curry leaves.",
+      "Pour over the rice and mix.",
+      "Top with pomegranate and serve cool."
+    ]
   },
   {
     "name": "Vegetable Pulao",
     "description": "Fragrant rice cooked with mixed vegetables and whole spices.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 20, "servings": 2, "nutrition": [400, 9.0, 72, 8.0, 5.5],
-    "ingredients": [["Rice", "1 cup basmati"], ["Carrot", "1"], ["French Beans", "8"], ["Green Peas", "1/4 cup"], ["Onion", "1"], ["Ginger", "1 inch"], ["Garlic", "3 cloves"], ["Garam Masala", "1 tsp"], ["Bay Leaf", "1", true]],
-    "steps": ["Rinse and soak rice for 20 minutes.", "Saute bay leaf, onion, ginger and garlic.", "Add vegetables and garam masala, then rice and 2 cups water.", "Cover and cook until the rice is fluffy."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      400,
+      9.0,
+      72,
+      8.0,
+      5.5
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 cup basmati"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "French Beans",
+        "8"
+      ],
+      [
+        "Green Peas",
+        "1/4 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "3 cloves"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ],
+      [
+        "Bay Leaf",
+        "1",
+        true
+      ]
+    ],
+    "steps": [
+      "Rinse and soak rice for 20 minutes.",
+      "Saute bay leaf, onion, ginger and garlic.",
+      "Add vegetables and garam masala, then rice and 2 cups water.",
+      "Cover and cook until the rice is fluffy."
+    ]
   },
   {
     "name": "Aloo Gobi with Chapati",
     "description": "Dry potato and cauliflower curry with soft chapatis.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 25, "servings": 2, "nutrition": [410, 11.0, 70, 9.0, 9.5],
-    "ingredients": [["Potato", "2"], ["Cauliflower", "1/2 head"], ["Onion", "1"], ["Tomato", "1"], ["Ginger", "1 inch"], ["Wheat Flour", "1 cup"], ["Coriander Leaves", "2 tbsp", true]],
-    "steps": ["Saute onion and ginger, add tomato and spices.", "Add potato and cauliflower florets with salt.", "Cover and cook on low heat until tender.", "Serve with fresh chapatis."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      410,
+      11.0,
+      70,
+      9.0,
+      9.5
+    ],
+    "ingredients": [
+      [
+        "Potato",
+        "2"
+      ],
+      [
+        "Cauliflower",
+        "1/2 head"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Wheat Flour",
+        "1 cup"
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Saute onion and ginger, add tomato and spices.",
+      "Add potato and cauliflower florets with salt.",
+      "Cover and cook on low heat until tender.",
+      "Serve with fresh chapatis."
+    ]
   },
   {
     "name": "Bhindi Masala with Roti",
     "description": "Crisp okra tossed with onion, tomato and dry mango powder.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 20, "servings": 2, "nutrition": [360, 10.0, 56, 10.0, 10.0],
-    "ingredients": [["Okra", "250 g"], ["Onion", "1"], ["Tomato", "1"], ["Wheat Flour", "1 cup"], ["Amchur", "1/2 tsp", true]],
-    "steps": ["Wash and dry okra completely, then slice.", "Stir fry okra until no longer slimy.", "Add onion, tomato, spices and amchur; cook 5 minutes.", "Serve with rotis."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      360,
+      10.0,
+      56,
+      10.0,
+      10.0
+    ],
+    "ingredients": [
+      [
+        "Okra",
+        "250 g"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Wheat Flour",
+        "1 cup"
+      ],
+      [
+        "Amchur",
+        "1/2 tsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Wash and dry okra completely, then slice.",
+      "Stir fry okra until no longer slimy.",
+      "Add onion, tomato, spices and amchur; cook 5 minutes.",
+      "Serve with rotis."
+    ]
   },
   {
     "name": "Kerala Sambar with Rice",
     "description": "Tamarind-lentil stew loaded with drumstick, brinjal and shallots.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 30, "servings": 2, "nutrition": [420, 14.0, 78, 5.0, 10.0],
-    "ingredients": [["Toor Dal", "1/2 cup"], ["Drumstick", "1"], ["Brinjal", "1"], ["Shallots", "8"], ["Tomato", "1"], ["Tamarind", "small ball"], ["Sambar Powder", "2 tbsp"], ["Curry Leaves", "1 sprig"], ["Rice", "1 cup"]],
-    "steps": ["Cook toor dal until soft.", "Simmer vegetables in tamarind water with sambar powder.", "Add dal and simmer 10 minutes.", "Temper with mustard and curry leaves; serve with rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 30,
+    "servings": 2,
+    "nutrition": [
+      420,
+      14.0,
+      78,
+      5.0,
+      10.0
+    ],
+    "ingredients": [
+      [
+        "Toor Dal",
+        "1/2 cup"
+      ],
+      [
+        "Drumstick",
+        "1"
+      ],
+      [
+        "Brinjal",
+        "1"
+      ],
+      [
+        "Shallots",
+        "8"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Tamarind",
+        "small ball"
+      ],
+      [
+        "Sambar Powder",
+        "2 tbsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ]
+    ],
+    "steps": [
+      "Cook toor dal until soft.",
+      "Simmer vegetables in tamarind water with sambar powder.",
+      "Add dal and simmer 10 minutes.",
+      "Temper with mustard and curry leaves; serve with rice."
+    ]
   },
   {
     "name": "Cabbage Thoran with Rice",
     "description": "Kerala stir fry of shredded cabbage with fresh coconut.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 10, "servings": 2, "nutrition": [360, 7.0, 62, 9.0, 6.0],
-    "ingredients": [["Cabbage", "1/2 small"], ["Coconut", "1/2 cup grated"], ["Shallots", "4"], ["Green Chilli", "2"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig"], ["Rice", "1 cup"]],
-    "steps": ["Crush coconut with shallots and green chilli.", "Splutter mustard seeds and curry leaves in oil.", "Add cabbage, salt and turmeric; cook covered 5 minutes.", "Mix in the coconut and serve with rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      360,
+      7.0,
+      62,
+      9.0,
+      6.0
+    ],
+    "ingredients": [
+      [
+        "Cabbage",
+        "1/2 small"
+      ],
+      [
+        "Coconut",
+        "1/2 cup grated"
+      ],
+      [
+        "Shallots",
+        "4"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ]
+    ],
+    "steps": [
+      "Crush coconut with shallots and green chilli.",
+      "Splutter mustard seeds and curry leaves in oil.",
+      "Add cabbage, salt and turmeric; cook covered 5 minutes.",
+      "Mix in the coconut and serve with rice."
+    ]
   },
   {
     "name": "Beetroot Thoran",
     "description": "Bright beetroot stir fry with coconut and green chilli.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 12, "servings": 2, "nutrition": [150, 3.0, 16, 8.5, 5.0],
-    "ingredients": [["Beetroot", "2"], ["Coconut", "1/2 cup grated"], ["Green Chilli", "2"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig"], ["Shallots", "3", true]],
-    "steps": ["Grate or finely chop the beetroot.", "Temper mustard seeds and curry leaves.", "Cook beetroot with salt until tender.", "Add coconut crushed with chilli and toss well."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 12,
+    "servings": 2,
+    "nutrition": [
+      150,
+      3.0,
+      16,
+      8.5,
+      5.0
+    ],
+    "ingredients": [
+      [
+        "Beetroot",
+        "2"
+      ],
+      [
+        "Coconut",
+        "1/2 cup grated"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Shallots",
+        "3",
+        true
+      ]
+    ],
+    "steps": [
+      "Grate or finely chop the beetroot.",
+      "Temper mustard seeds and curry leaves.",
+      "Cook beetroot with salt until tender.",
+      "Add coconut crushed with chilli and toss well."
+    ]
   },
   {
     "name": "Raw Papaya Thoran with Rice",
     "description": "Green papaya stir fried with coconut, garlic and curry leaves.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 15, "servings": 2, "nutrition": [340, 6.0, 60, 8.5, 6.5],
-    "ingredients": [["Raw Papaya", "2 cups grated"], ["Coconut", "1/2 cup grated"], ["Green Chilli", "2"], ["Garlic", "2 cloves"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig"], ["Rice", "1 cup"]],
-    "steps": ["Grate the raw papaya.", "Crush coconut with garlic and chilli.", "Temper mustard and curry leaves, add papaya and salt and cook covered.", "Mix in coconut and serve with rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      340,
+      6.0,
+      60,
+      8.5,
+      6.5
+    ],
+    "ingredients": [
+      [
+        "Raw Papaya",
+        "2 cups grated"
+      ],
+      [
+        "Coconut",
+        "1/2 cup grated"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Garlic",
+        "2 cloves"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ]
+    ],
+    "steps": [
+      "Grate the raw papaya.",
+      "Crush coconut with garlic and chilli.",
+      "Temper mustard and curry leaves, add papaya and salt and cook covered.",
+      "Mix in coconut and serve with rice."
+    ]
   },
   {
     "name": "Kappa Puzhukku (Mashed Tapioca)",
     "description": "Kerala-style tapioca mashed with a coconut-shallot paste.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 25, "servings": 2, "nutrition": [380, 3.5, 70, 10.0, 5.0],
-    "ingredients": [["Tapioca", "500 g"], ["Coconut", "1/2 cup grated"], ["Shallots", "5"], ["Green Chilli", "2"], ["Garlic", "2 cloves"], ["Curry Leaves", "1 sprig"]],
-    "steps": ["Peel, cube and boil tapioca with salt and turmeric; drain.", "Crush coconut with shallots, garlic and chilli.", "Mix the paste into the tapioca and mash lightly.", "Temper with mustard and curry leaves."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      380,
+      3.5,
+      70,
+      10.0,
+      5.0
+    ],
+    "ingredients": [
+      [
+        "Tapioca",
+        "500 g"
+      ],
+      [
+        "Coconut",
+        "1/2 cup grated"
+      ],
+      [
+        "Shallots",
+        "5"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Garlic",
+        "2 cloves"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ]
+    ],
+    "steps": [
+      "Peel, cube and boil tapioca with salt and turmeric; drain.",
+      "Crush coconut with shallots, garlic and chilli.",
+      "Mix the paste into the tapioca and mash lightly.",
+      "Temper with mustard and curry leaves."
+    ]
   },
   {
     "name": "Pumpkin Erissery",
     "description": "Onam favourite of pumpkin and chickpeas in coconut-cumin paste.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 25, "servings": 2, "nutrition": [280, 9.0, 34, 12.0, 9.0],
-    "ingredients": [["Pumpkin", "300 g"], ["Black Chickpeas", "1/2 cup cooked"], ["Coconut", "3/4 cup grated"], ["Cumin Seeds", "1/2 tsp"], ["Green Chilli", "1"], ["Curry Leaves", "1 sprig"]],
-    "steps": ["Cook pumpkin cubes with turmeric and salt.", "Grind half the coconut with cumin and chilli; add to pumpkin with chickpeas.", "Roast remaining coconut until brown.", "Temper with mustard and curry leaves and fold in the roasted coconut."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      280,
+      9.0,
+      34,
+      12.0,
+      9.0
+    ],
+    "ingredients": [
+      [
+        "Pumpkin",
+        "300 g"
+      ],
+      [
+        "Black Chickpeas",
+        "1/2 cup cooked"
+      ],
+      [
+        "Coconut",
+        "3/4 cup grated"
+      ],
+      [
+        "Cumin Seeds",
+        "1/2 tsp"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ]
+    ],
+    "steps": [
+      "Cook pumpkin cubes with turmeric and salt.",
+      "Grind half the coconut with cumin and chilli; add to pumpkin with chickpeas.",
+      "Roast remaining coconut until brown.",
+      "Temper with mustard and curry leaves and fold in the roasted coconut."
+    ]
   },
   {
     "name": "Chicken Curry with Rice",
     "description": "Homestyle chicken simmered in onion-tomato masala.",
-    "meal_type": "Lunch", "diet_type": "Non-Vegetarian", "image_url": null,
-    "prep": 15, "cook": 35, "servings": 2, "nutrition": [560, 36.0, 58, 18.0, 3.5],
-    "ingredients": [["Chicken", "500 g"], ["Onion", "2"], ["Tomato", "2"], ["Ginger", "1 inch"], ["Garlic", "6 cloves"], ["Garam Masala", "1 tsp"], ["Rice", "1 cup"], ["Coriander Leaves", "2 tbsp", true]],
-    "steps": ["Saute onions until golden; add ginger and garlic.", "Add tomatoes and spices and cook until oil separates.", "Add chicken and simmer covered for 25 minutes.", "Garnish and serve with rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Non-Vegetarian",
+    "prep": 15,
+    "cook": 35,
+    "servings": 2,
+    "nutrition": [
+      560,
+      36.0,
+      58,
+      18.0,
+      3.5
+    ],
+    "ingredients": [
+      [
+        "Chicken",
+        "500 g"
+      ],
+      [
+        "Onion",
+        "2"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "6 cloves"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Saute onions until golden; add ginger and garlic.",
+      "Add tomatoes and spices and cook until oil separates.",
+      "Add chicken and simmer covered for 25 minutes.",
+      "Garnish and serve with rice."
+    ]
   },
   {
     "name": "Mushroom Masala with Chapati",
     "description": "Mushrooms in a spiced onion-tomato gravy.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 20, "servings": 2, "nutrition": [360, 13.0, 56, 9.5, 8.0],
-    "ingredients": [["Mushroom", "250 g"], ["Onion", "1"], ["Tomato", "2"], ["Ginger", "1 inch"], ["Garlic", "3 cloves"], ["Wheat Flour", "1 cup"], ["Capsicum", "1/2", true]],
-    "steps": ["Saute onion, ginger and garlic.", "Add tomato and spices and cook to a thick masala.", "Add sliced mushrooms and capsicum; cook 8 minutes.", "Serve with chapatis."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      360,
+      13.0,
+      56,
+      9.5,
+      8.0
+    ],
+    "ingredients": [
+      [
+        "Mushroom",
+        "250 g"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "3 cloves"
+      ],
+      [
+        "Wheat Flour",
+        "1 cup"
+      ],
+      [
+        "Capsicum",
+        "1/2",
+        true
+      ]
+    ],
+    "steps": [
+      "Saute onion, ginger and garlic.",
+      "Add tomato and spices and cook to a thick masala.",
+      "Add sliced mushrooms and capsicum; cook 8 minutes.",
+      "Serve with chapatis."
+    ]
   },
   {
     "name": "Soya Chunks Curry with Rice",
     "description": "Protein-rich soya chunks in a spicy gravy.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 20, "servings": 2, "nutrition": [470, 28.0, 70, 8.0, 9.0],
-    "ingredients": [["Soya Chunks", "1 cup"], ["Onion", "1"], ["Tomato", "2"], ["Ginger", "1 inch"], ["Garlic", "3 cloves"], ["Garam Masala", "1 tsp"], ["Rice", "1 cup"]],
-    "steps": ["Soak soya chunks in hot water and squeeze dry.", "Cook onion, ginger, garlic and tomato into a masala.", "Add soya chunks and water; simmer 10 minutes.", "Serve with rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      470,
+      28.0,
+      70,
+      8.0,
+      9.0
+    ],
+    "ingredients": [
+      [
+        "Soya Chunks",
+        "1 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "3 cloves"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ]
+    ],
+    "steps": [
+      "Soak soya chunks in hot water and squeeze dry.",
+      "Cook onion, ginger, garlic and tomato into a masala.",
+      "Add soya chunks and water; simmer 10 minutes.",
+      "Serve with rice."
+    ]
   },
   {
     "name": "Masoor Dal with Jeera Rice",
     "description": "Quick red lentil dal paired with cumin rice.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 20, "servings": 2, "nutrition": [430, 16.0, 74, 7.0, 8.0],
-    "ingredients": [["Masoor Dal", "3/4 cup"], ["Onion", "1"], ["Tomato", "1"], ["Garlic", "3 cloves"], ["Cumin Seeds", "2 tsp"], ["Rice", "1 cup"]],
-    "steps": ["Boil masoor dal until soft.", "Temper cumin and garlic; add onion and tomato.", "Combine with dal and simmer.", "Serve with jeera rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      430,
+      16.0,
+      74,
+      7.0,
+      8.0
+    ],
+    "ingredients": [
+      [
+        "Masoor Dal",
+        "3/4 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Garlic",
+        "3 cloves"
+      ],
+      [
+        "Cumin Seeds",
+        "2 tsp"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ]
+    ],
+    "steps": [
+      "Boil masoor dal until soft.",
+      "Temper cumin and garlic; add onion and tomato.",
+      "Combine with dal and simmer.",
+      "Serve with jeera rice."
+    ]
   },
   {
     "name": "Kadhi Chawal",
     "description": "Tangy yogurt and gram flour curry served with rice.",
-    "meal_type": "Lunch", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 10, "cook": 25, "servings": 2, "nutrition": [420, 13.0, 66, 11.0, 4.0],
-    "ingredients": [["Curd", "1 cup"], ["Besan", "3 tbsp"], ["Rice", "1 cup"], ["Ginger", "1 inch"], ["Green Chilli", "1"], ["Curry Leaves", "1 sprig", true], ["Fenugreek Seeds", "1/4 tsp", true]],
-    "steps": ["Whisk curd, besan, turmeric and water until smooth.", "Simmer on low heat, stirring, for 15 minutes.", "Temper fenugreek, ginger, chilli and curry leaves; pour in.", "Serve with steamed rice."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegetarian",
+    "prep": 10,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      420,
+      13.0,
+      66,
+      11.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Curd",
+        "1 cup"
+      ],
+      [
+        "Besan",
+        "3 tbsp"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ],
+      [
+        "Fenugreek Seeds",
+        "1/4 tsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Whisk curd, besan, turmeric and water until smooth.",
+      "Simmer on low heat, stirring, for 15 minutes.",
+      "Temper fenugreek, ginger, chilli and curry leaves; pour in.",
+      "Serve with steamed rice."
+    ]
   },
   {
     "name": "Egg Fried Rice",
     "description": "Wok-tossed rice with scrambled egg and crunchy vegetables.",
-    "meal_type": "Lunch", "diet_type": "Eggetarian", "image_url": null,
-    "prep": 10, "cook": 10, "servings": 2, "nutrition": [430, 15.0, 62, 13.0, 3.0],
-    "ingredients": [["Rice", "1 cup cooked"], ["Egg", "2"], ["Carrot", "1"], ["Capsicum", "1/2"], ["Spring Onion", "2"], ["Soy Sauce", "1 tbsp"], ["Garlic", "2 cloves"]],
-    "steps": ["Scramble the eggs and set aside.", "Stir fry garlic, carrot and capsicum on high heat.", "Add rice, soy sauce and eggs; toss well.", "Finish with spring onion."]
+    "meal_type": "Lunch",
+    "diet_type": "Eggetarian",
+    "prep": 10,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      430,
+      15.0,
+      62,
+      13.0,
+      3.0
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 cup cooked"
+      ],
+      [
+        "Egg",
+        "2"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "Capsicum",
+        "1/2"
+      ],
+      [
+        "Spring Onion",
+        "2"
+      ],
+      [
+        "Soy Sauce",
+        "1 tbsp"
+      ],
+      [
+        "Garlic",
+        "2 cloves"
+      ]
+    ],
+    "steps": [
+      "Scramble the eggs and set aside.",
+      "Stir fry garlic, carrot and capsicum on high heat.",
+      "Add rice, soy sauce and eggs; toss well.",
+      "Finish with spring onion."
+    ]
   },
   {
     "name": "Vegetable Fried Rice",
     "description": "Indo-Chinese fried rice with beans, carrot and capsicum.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 10, "servings": 2, "nutrition": [380, 8.0, 66, 9.0, 4.0],
-    "ingredients": [["Rice", "1 cup cooked"], ["Carrot", "1"], ["French Beans", "6"], ["Capsicum", "1/2"], ["Spring Onion", "2"], ["Soy Sauce", "1 tbsp"], ["Garlic", "2 cloves"]],
-    "steps": ["Chop vegetables finely.", "Stir fry garlic and vegetables on high heat.", "Add rice, soy sauce and pepper and toss.", "Garnish with spring onion."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      380,
+      8.0,
+      66,
+      9.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Rice",
+        "1 cup cooked"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "French Beans",
+        "6"
+      ],
+      [
+        "Capsicum",
+        "1/2"
+      ],
+      [
+        "Spring Onion",
+        "2"
+      ],
+      [
+        "Soy Sauce",
+        "1 tbsp"
+      ],
+      [
+        "Garlic",
+        "2 cloves"
+      ]
+    ],
+    "steps": [
+      "Chop vegetables finely.",
+      "Stir fry garlic and vegetables on high heat.",
+      "Add rice, soy sauce and pepper and toss.",
+      "Garnish with spring onion."
+    ]
   },
   {
     "name": "Pavakka Mezhukkupuratti (Bitter Gourd Fry)",
     "description": "Crisp Kerala-style bitter gourd stir fry with onion.",
-    "meal_type": "Lunch", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 15, "servings": 2, "nutrition": [140, 3.0, 12, 9.0, 4.0],
-    "ingredients": [["Bitter Gourd", "2"], ["Onion", "1"], ["Red Chilli Powder", "1 tsp"], ["Coconut Oil", "1 tbsp"], ["Curry Leaves", "1 sprig", true]],
-    "steps": ["Slice bitter gourd thin and rub with salt; squeeze out the juice.", "Fry in coconut oil until edges crisp.", "Add onion and chilli powder and cook until caramelised.", "Finish with curry leaves."]
+    "meal_type": "Lunch",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      140,
+      3.0,
+      12,
+      9.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Bitter Gourd",
+        "2"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Red Chilli Powder",
+        "1 tsp"
+      ],
+      [
+        "Coconut Oil",
+        "1 tbsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ]
+    ],
+    "steps": [
+      "Slice bitter gourd thin and rub with salt; squeeze out the juice.",
+      "Fry in coconut oil until edges crisp.",
+      "Add onion and chilli powder and cook until caramelised.",
+      "Finish with curry leaves."
+    ]
   },
-
   {
     "name": "Boiled Egg Salad with Black Pepper",
     "description": "High-protein snack of boiled eggs, cucumber and lemon.",
-    "meal_type": "Evening Snack", "diet_type": "Eggetarian",
-    "image_url": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&auto=format&fit=crop&q=80",
-    "prep": 5, "cook": 10, "servings": 1, "nutrition": [160, 13.0, 4, 10.0, 1.0],
-    "ingredients": [["Egg", "2"], ["Cucumber", "1/2"], ["Black Pepper", "1/4 tsp"], ["Lemon", "1/2"], ["Coriander Leaves", "1 tbsp", true]],
-    "steps": ["Hard-boil eggs for 9 minutes and peel.", "Slice and toss with cucumber, pepper and lemon juice.", "Serve immediately."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Eggetarian",
+    "prep": 5,
+    "cook": 10,
+    "servings": 1,
+    "nutrition": [
+      160,
+      13.0,
+      4,
+      10.0,
+      1.0
+    ],
+    "ingredients": [
+      [
+        "Egg",
+        "2"
+      ],
+      [
+        "Cucumber",
+        "1/2"
+      ],
+      [
+        "Black Pepper",
+        "1/4 tsp"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Coriander Leaves",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Hard-boil eggs for 9 minutes and peel.",
+      "Slice and toss with cucumber, pepper and lemon juice.",
+      "Serve immediately."
+    ]
   },
   {
     "name": "Roasted Spiced Makhana (Fox Nuts)",
     "description": "Crunchy lotus seeds roasted with turmeric and chaat masala.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop&q=80",
-    "prep": 2, "cook": 8, "servings": 1, "nutrition": [140, 3.5, 22, 4.5, 2.5],
-    "ingredients": [["Makhana", "2 cups"], ["Olive Oil", "1 tsp"], ["Turmeric", "pinch"], ["Chaat Masala", "1/2 tsp"], ["Salt", "pinch"]],
-    "steps": ["Heat oil on low flame.", "Roast makhana for 6-8 minutes until crisp.", "Sprinkle turmeric, salt and chaat masala and toss."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 2,
+    "cook": 8,
+    "servings": 1,
+    "nutrition": [
+      140,
+      3.5,
+      22,
+      4.5,
+      2.5
+    ],
+    "ingredients": [
+      [
+        "Makhana",
+        "2 cups"
+      ],
+      [
+        "Olive Oil",
+        "1 tsp"
+      ],
+      [
+        "Turmeric",
+        "pinch"
+      ],
+      [
+        "Chaat Masala",
+        "1/2 tsp"
+      ],
+      [
+        "Salt",
+        "pinch"
+      ]
+    ],
+    "steps": [
+      "Heat oil on low flame.",
+      "Roast makhana for 6-8 minutes until crisp.",
+      "Sprinkle turmeric, salt and chaat masala and toss."
+    ]
   },
   {
     "name": "Steamed Khaman Dhokla with Mint Chutney",
     "description": "Fluffy steamed gram flour cakes with a mustard-chilli tempering.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=800&auto=format&fit=crop&q=80",
-    "prep": 10, "cook": 15, "servings": 2, "nutrition": [180, 6.0, 30, 4.0, 3.0],
-    "ingredients": [["Besan", "1 cup"], ["Lemon", "1"], ["Mustard Seeds", "1 tsp"], ["Green Chilli", "2"], ["Curry Leaves", "1 sprig"], ["Mint", "1/2 cup"], ["Baking Soda", "1 tsp"], ["Sugar", "1 tsp"]],
-    "steps": ["Whisk besan with turmeric, lemon juice, sugar and water.", "Add soda, pour into a greased plate and steam for 15 minutes.", "Temper mustard seeds and chillies in oil with a splash of water.", "Pour over the dhokla and serve with mint chutney."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      180,
+      6.0,
+      30,
+      4.0,
+      3.0
+    ],
+    "ingredients": [
+      [
+        "Besan",
+        "1 cup"
+      ],
+      [
+        "Lemon",
+        "1"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Mint",
+        "1/2 cup"
+      ],
+      [
+        "Baking Soda",
+        "1 tsp"
+      ],
+      [
+        "Sugar",
+        "1 tsp"
+      ]
+    ],
+    "steps": [
+      "Whisk besan with turmeric, lemon juice, sugar and water.",
+      "Add soda, pour into a greased plate and steam for 15 minutes.",
+      "Temper mustard seeds and chillies in oil with a splash of water.",
+      "Pour over the dhokla and serve with mint chutney."
+    ]
   },
   {
     "name": "Mediterranean Avocado Toast with Poached Egg",
     "description": "Toast topped with smashed avocado, a poached egg and chilli flakes.",
-    "meal_type": "Evening Snack", "diet_type": "Eggetarian",
-    "image_url": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&auto=format&fit=crop&q=80",
-    "prep": 8, "cook": 5, "servings": 1, "nutrition": [340, 14.0, 28, 19.0, 7.0],
-    "ingredients": [["Bread", "1 slice sourdough"], ["Avocado", "1/2"], ["Egg", "1"], ["Lemon", "1/4"], ["Red Chilli Flakes", "pinch", true]],
-    "steps": ["Toast the bread.", "Mash avocado with lemon, salt and pepper and spread.", "Poach the egg for 3 minutes.", "Top the toast with the egg and chilli flakes."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Eggetarian",
+    "prep": 8,
+    "cook": 5,
+    "servings": 1,
+    "nutrition": [
+      340,
+      14.0,
+      28,
+      19.0,
+      7.0
+    ],
+    "ingredients": [
+      [
+        "Bread",
+        "1 slice sourdough"
+      ],
+      [
+        "Avocado",
+        "1/2"
+      ],
+      [
+        "Egg",
+        "1"
+      ],
+      [
+        "Lemon",
+        "1/4"
+      ],
+      [
+        "Red Chilli Flakes",
+        "pinch",
+        true
+      ]
+    ],
+    "steps": [
+      "Toast the bread.",
+      "Mash avocado with lemon, salt and pepper and spread.",
+      "Poach the egg for 3 minutes.",
+      "Top the toast with the egg and chilli flakes."
+    ]
   },
   {
     "name": "Warm Masala Sweet Corn Chaat",
     "description": "Steamed sweet corn tossed with chaat masala, chilli and lime.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop&q=80",
-    "prep": 5, "cook": 5, "servings": 1, "nutrition": [150, 4.0, 30, 2.5, 3.5],
-    "ingredients": [["Sweet Corn", "1 cup"], ["Olive Oil", "1 tsp"], ["Chaat Masala", "1/2 tsp"], ["Lemon", "1/2"], ["Red Chilli Powder", "pinch"]],
-    "steps": ["Steam corn kernels for 4 minutes.", "Toss with oil, chaat masala and chilli powder.", "Finish with lemon juice and serve warm."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 5,
+    "servings": 1,
+    "nutrition": [
+      150,
+      4.0,
+      30,
+      2.5,
+      3.5
+    ],
+    "ingredients": [
+      [
+        "Sweet Corn",
+        "1 cup"
+      ],
+      [
+        "Olive Oil",
+        "1 tsp"
+      ],
+      [
+        "Chaat Masala",
+        "1/2 tsp"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Red Chilli Powder",
+        "pinch"
+      ]
+    ],
+    "steps": [
+      "Steam corn kernels for 4 minutes.",
+      "Toss with oil, chaat masala and chilli powder.",
+      "Finish with lemon juice and serve warm."
+    ]
   },
   {
     "name": "Crisp Baked Vegetable Cutlet with Chutney",
     "description": "Baked patties of potato, beetroot, carrot and peas.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 20, "servings": 2, "nutrition": [190, 4.5, 32, 5.0, 4.0],
-    "ingredients": [["Potato", "2"], ["Beetroot", "1 small"], ["Carrot", "1"], ["Green Peas", "1/4 cup"], ["Breadcrumbs", "1/2 cup"], ["Garam Masala", "1 tsp"], ["Coriander Leaves", "2 tbsp", true]],
-    "steps": ["Boil and mash the vegetables with spices.", "Shape into patties and coat with breadcrumbs.", "Bake at 200 C for 18 minutes until crisp.", "Serve hot with chutney."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      190,
+      4.5,
+      32,
+      5.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Potato",
+        "2"
+      ],
+      [
+        "Beetroot",
+        "1 small"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "Green Peas",
+        "1/4 cup"
+      ],
+      [
+        "Breadcrumbs",
+        "1/2 cup"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Boil and mash the vegetables with spices.",
+      "Shape into patties and coat with breadcrumbs.",
+      "Bake at 200 C for 18 minutes until crisp.",
+      "Serve hot with chutney."
+    ]
   },
   {
     "name": "Kachumber Salad",
     "description": "Crunchy Indian salad of cucumber, tomato and onion.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 0, "servings": 2, "nutrition": [60, 2.0, 12, 0.4, 2.5],
-    "ingredients": [["Cucumber", "1"], ["Tomato", "2"], ["Onion", "1"], ["Lemon", "1/2"], ["Coriander Leaves", "2 tbsp", true], ["Chaat Masala", "1/2 tsp", true]],
-    "steps": ["Dice cucumber, tomato and onion.", "Toss with lemon juice, salt and chaat masala.", "Garnish with coriander."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 0,
+    "servings": 2,
+    "nutrition": [
+      60,
+      2.0,
+      12,
+      0.4,
+      2.5
+    ],
+    "ingredients": [
+      [
+        "Cucumber",
+        "1"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ],
+      [
+        "Chaat Masala",
+        "1/2 tsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Dice cucumber, tomato and onion.",
+      "Toss with lemon juice, salt and chaat masala.",
+      "Garnish with coriander."
+    ]
   },
   {
     "name": "Roasted Tomato Garlic Soup",
     "description": "Silky tomato soup with roasted garlic and black pepper.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 25, "servings": 2, "nutrition": [120, 3.0, 16, 5.5, 3.5],
-    "ingredients": [["Tomato", "6"], ["Onion", "1"], ["Garlic", "5 cloves"], ["Olive Oil", "1 tbsp"], ["Black Pepper", "1/2 tsp"], ["Basil", "few leaves", true]],
-    "steps": ["Roast tomatoes, onion and garlic with olive oil for 20 minutes.", "Blend with a cup of hot water until smooth.", "Simmer with salt and pepper.", "Garnish with basil."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      120,
+      3.0,
+      16,
+      5.5,
+      3.5
+    ],
+    "ingredients": [
+      [
+        "Tomato",
+        "6"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Garlic",
+        "5 cloves"
+      ],
+      [
+        "Olive Oil",
+        "1 tbsp"
+      ],
+      [
+        "Black Pepper",
+        "1/2 tsp"
+      ],
+      [
+        "Basil",
+        "few leaves",
+        true
+      ]
+    ],
+    "steps": [
+      "Roast tomatoes, onion and garlic with olive oil for 20 minutes.",
+      "Blend with a cup of hot water until smooth.",
+      "Simmer with salt and pepper.",
+      "Garnish with basil."
+    ]
   },
   {
     "name": "Masala Peanut Chaat",
     "description": "Boiled peanuts tossed with onion, tomato and lemon.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 10, "servings": 2, "nutrition": [230, 10.0, 12, 16.0, 5.0],
-    "ingredients": [["Peanuts", "1 cup"], ["Onion", "1"], ["Tomato", "1"], ["Lemon", "1/2"], ["Chaat Masala", "1 tsp"], ["Coriander Leaves", "1 tbsp", true]],
-    "steps": ["Boil peanuts with salt for 10 minutes and drain.", "Mix with chopped onion and tomato.", "Season with chaat masala and lemon juice."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      230,
+      10.0,
+      12,
+      16.0,
+      5.0
+    ],
+    "ingredients": [
+      [
+        "Peanuts",
+        "1 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Chaat Masala",
+        "1 tsp"
+      ],
+      [
+        "Coriander Leaves",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Boil peanuts with salt for 10 minutes and drain.",
+      "Mix with chopped onion and tomato.",
+      "Season with chaat masala and lemon juice."
+    ]
   },
   {
     "name": "Onion Pakoda",
     "description": "Crispy onion fritters bound with gram flour.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 15, "servings": 2, "nutrition": [260, 7.0, 28, 13.0, 4.0],
-    "ingredients": [["Onion", "2"], ["Besan", "1/2 cup"], ["Green Chilli", "1"], ["Rice Flour", "1 tbsp", true], ["Curry Leaves", "1 sprig", true], ["Cooking Oil", "for frying"]],
-    "steps": ["Thinly slice onions and rub with salt.", "Add besan, rice flour, chilli and curry leaves; sprinkle water to bind.", "Drop small clusters into hot oil.", "Fry until golden and crisp."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      260,
+      7.0,
+      28,
+      13.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Onion",
+        "2"
+      ],
+      [
+        "Besan",
+        "1/2 cup"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Rice Flour",
+        "1 tbsp",
+        true
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ],
+      [
+        "Cooking Oil",
+        "for frying"
+      ]
+    ],
+    "steps": [
+      "Thinly slice onions and rub with salt.",
+      "Add besan, rice flour, chilli and curry leaves; sprinkle water to bind.",
+      "Drop small clusters into hot oil.",
+      "Fry until golden and crisp."
+    ]
   },
   {
     "name": "Vegetable Sandwich",
     "description": "Bombay-style sandwich with cucumber, tomato and onion.",
-    "meal_type": "Evening Snack", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 10, "cook": 5, "servings": 1, "nutrition": [290, 7.0, 38, 12.0, 4.0],
-    "ingredients": [["Bread", "2 slices"], ["Cucumber", "1/2"], ["Tomato", "1"], ["Onion", "1 small"], ["Butter", "1 tbsp"], ["Chaat Masala", "1/2 tsp", true]],
-    "steps": ["Butter the bread slices.", "Layer cucumber, tomato and onion slices.", "Sprinkle chaat masala and close.", "Toast or grill until crisp."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegetarian",
+    "prep": 10,
+    "cook": 5,
+    "servings": 1,
+    "nutrition": [
+      290,
+      7.0,
+      38,
+      12.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Bread",
+        "2 slices"
+      ],
+      [
+        "Cucumber",
+        "1/2"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Onion",
+        "1 small"
+      ],
+      [
+        "Butter",
+        "1 tbsp"
+      ],
+      [
+        "Chaat Masala",
+        "1/2 tsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Butter the bread slices.",
+      "Layer cucumber, tomato and onion slices.",
+      "Sprinkle chaat masala and close.",
+      "Toast or grill until crisp."
+    ]
   },
   {
     "name": "Sprouts Chaat",
     "description": "Tangy sprouted moong with onion, tomato and lemon.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 5, "servings": 1, "nutrition": [170, 11.0, 28, 1.5, 7.0],
-    "ingredients": [["Green Gram", "1 cup sprouted"], ["Onion", "1 small"], ["Tomato", "1"], ["Lemon", "1/2"], ["Chaat Masala", "1/2 tsp"], ["Coriander Leaves", "1 tbsp", true]],
-    "steps": ["Steam sprouts for 3 minutes.", "Mix with chopped onion and tomato.", "Season with chaat masala and lemon juice."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 5,
+    "servings": 1,
+    "nutrition": [
+      170,
+      11.0,
+      28,
+      1.5,
+      7.0
+    ],
+    "ingredients": [
+      [
+        "Green Gram",
+        "1 cup sprouted"
+      ],
+      [
+        "Onion",
+        "1 small"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Chaat Masala",
+        "1/2 tsp"
+      ],
+      [
+        "Coriander Leaves",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Steam sprouts for 3 minutes.",
+      "Mix with chopped onion and tomato.",
+      "Season with chaat masala and lemon juice."
+    ]
   },
   {
     "name": "Masala Potato Wedges",
     "description": "Oven-roasted potato wedges with chilli and herbs.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 25, "servings": 2, "nutrition": [190, 3.5, 30, 6.5, 3.5],
-    "ingredients": [["Potato", "3"], ["Red Chilli Powder", "1 tsp"], ["Olive Oil", "1 tbsp"], ["Mixed Herbs", "1 tsp", true]],
-    "steps": ["Cut potatoes into wedges and pat dry.", "Toss with oil, chilli powder, salt and herbs.", "Roast at 220 C for 25 minutes, turning once."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      190,
+      3.5,
+      30,
+      6.5,
+      3.5
+    ],
+    "ingredients": [
+      [
+        "Potato",
+        "3"
+      ],
+      [
+        "Red Chilli Powder",
+        "1 tsp"
+      ],
+      [
+        "Olive Oil",
+        "1 tbsp"
+      ],
+      [
+        "Mixed Herbs",
+        "1 tsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Cut potatoes into wedges and pat dry.",
+      "Toss with oil, chilli powder, salt and herbs.",
+      "Roast at 220 C for 25 minutes, turning once."
+    ]
   },
   {
     "name": "Sweet Potato Chaat",
     "description": "Roasted sweet potato with chaat masala and lemon.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 5, "cook": 20, "servings": 2, "nutrition": [150, 2.5, 34, 0.5, 5.0],
-    "ingredients": [["Sweet Potato", "2"], ["Lemon", "1/2"], ["Chaat Masala", "1 tsp"]],
-    "steps": ["Boil or roast sweet potatoes until tender.", "Peel and cube.", "Toss with chaat masala and lemon juice."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 5,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      150,
+      2.5,
+      34,
+      0.5,
+      5.0
+    ],
+    "ingredients": [
+      [
+        "Sweet Potato",
+        "2"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Chaat Masala",
+        "1 tsp"
+      ]
+    ],
+    "steps": [
+      "Boil or roast sweet potatoes until tender.",
+      "Peel and cube.",
+      "Toss with chaat masala and lemon juice."
+    ]
   },
   {
     "name": "Masala Egg Toast",
     "description": "Bread dipped in spiced egg batter and pan toasted.",
-    "meal_type": "Evening Snack", "diet_type": "Eggetarian", "image_url": null,
-    "prep": 5, "cook": 8, "servings": 1, "nutrition": [300, 15.0, 28, 14.0, 2.0],
-    "ingredients": [["Bread", "2 slices"], ["Egg", "2"], ["Onion", "1 small"], ["Green Chilli", "1"], ["Milk", "2 tbsp", true]],
-    "steps": ["Whisk eggs with milk, chopped onion, chilli and salt.", "Dip bread slices in the mixture.", "Toast on a greased pan until golden on both sides."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Eggetarian",
+    "prep": 5,
+    "cook": 8,
+    "servings": 1,
+    "nutrition": [
+      300,
+      15.0,
+      28,
+      14.0,
+      2.0
+    ],
+    "ingredients": [
+      [
+        "Bread",
+        "2 slices"
+      ],
+      [
+        "Egg",
+        "2"
+      ],
+      [
+        "Onion",
+        "1 small"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Milk",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Whisk eggs with milk, chopped onion, chilli and salt.",
+      "Dip bread slices in the mixture.",
+      "Toast on a greased pan until golden on both sides."
+    ]
   },
   {
     "name": "Paneer Tikka",
     "description": "Marinated paneer and vegetables grilled until smoky.",
-    "meal_type": "Evening Snack", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 20, "cook": 15, "servings": 2, "nutrition": [310, 18.0, 10, 22.0, 2.0],
-    "ingredients": [["Paneer", "200 g"], ["Capsicum", "1"], ["Onion", "1"], ["Curd", "1/2 cup"], ["Tandoori Masala", "2 tsp"], ["Lemon", "1/2"]],
-    "steps": ["Marinate paneer, capsicum and onion in curd, tandoori masala and lemon for 20 minutes.", "Thread onto skewers.", "Grill or pan-roast until charred at the edges."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegetarian",
+    "prep": 20,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      310,
+      18.0,
+      10,
+      22.0,
+      2.0
+    ],
+    "ingredients": [
+      [
+        "Paneer",
+        "200 g"
+      ],
+      [
+        "Capsicum",
+        "1"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Curd",
+        "1/2 cup"
+      ],
+      [
+        "Tandoori Masala",
+        "2 tsp"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ]
+    ],
+    "steps": [
+      "Marinate paneer, capsicum and onion in curd, tandoori masala and lemon for 20 minutes.",
+      "Thread onto skewers.",
+      "Grill or pan-roast until charred at the edges."
+    ]
   },
   {
     "name": "Mango Coconut Chia Pudding",
     "description": "Overnight chia pudding in coconut milk topped with mango.",
-    "meal_type": "Evening Snack", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 0, "servings": 2, "nutrition": [240, 4.5, 22, 15.0, 8.0],
-    "ingredients": [["Chia Seeds", "4 tbsp"], ["Coconut Milk", "1 cup"], ["Mango", "1"], ["Jaggery", "1 tbsp", true]],
-    "steps": ["Stir chia seeds into coconut milk with jaggery.", "Refrigerate for at least 4 hours.", "Top with diced mango."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 0,
+    "servings": 2,
+    "nutrition": [
+      240,
+      4.5,
+      22,
+      15.0,
+      8.0
+    ],
+    "ingredients": [
+      [
+        "Chia Seeds",
+        "4 tbsp"
+      ],
+      [
+        "Coconut Milk",
+        "1 cup"
+      ],
+      [
+        "Mango",
+        "1"
+      ],
+      [
+        "Jaggery",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Stir chia seeds into coconut milk with jaggery.",
+      "Refrigerate for at least 4 hours.",
+      "Top with diced mango."
+    ]
   },
   {
     "name": "Semiya Payasam",
     "description": "Kerala vermicelli milk pudding scented with cardamom.",
-    "meal_type": "Evening Snack", "diet_type": "Vegetarian", "image_url": null,
-    "prep": 5, "cook": 20, "servings": 3, "nutrition": [260, 7.0, 38, 9.0, 1.0],
-    "ingredients": [["Vermicelli", "1/2 cup"], ["Milk", "3 cups"], ["Sugar", "1/3 cup"], ["Cardamom", "3 pods"], ["Ghee", "1 tbsp"], ["Raisins", "1 tbsp", true]],
-    "steps": ["Roast vermicelli in ghee until golden.", "Add milk and simmer until the vermicelli is soft.", "Stir in sugar and crushed cardamom.", "Garnish with ghee-fried raisins."]
+    "meal_type": "Evening Snack",
+    "diet_type": "Vegetarian",
+    "prep": 5,
+    "cook": 20,
+    "servings": 3,
+    "nutrition": [
+      260,
+      7.0,
+      38,
+      9.0,
+      1.0
+    ],
+    "ingredients": [
+      [
+        "Vermicelli",
+        "1/2 cup"
+      ],
+      [
+        "Milk",
+        "3 cups"
+      ],
+      [
+        "Sugar",
+        "1/3 cup"
+      ],
+      [
+        "Cardamom",
+        "3 pods"
+      ],
+      [
+        "Ghee",
+        "1 tbsp"
+      ],
+      [
+        "Raisins",
+        "1 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Roast vermicelli in ghee until golden.",
+      "Add milk and simmer until the vermicelli is soft.",
+      "Stir in sugar and crushed cardamom.",
+      "Garnish with ghee-fried raisins."
+    ]
   },
-
   {
     "name": "Kerala Fish Curry with Steamed Rice",
     "description": "Tangy fish curry with kokum and coconut milk over rice.",
-    "meal_type": "Dinner", "diet_type": "Non-Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 20, "servings": 1, "nutrition": [480, 30.0, 52, 14.0, 2.5],
-    "ingredients": [["Fish", "250 g"], ["Kokum", "3 pieces"], ["Coconut Milk", "1 cup"], ["Shallots", "6"], ["Ginger", "1 inch"], ["Garlic", "4 cloves"], ["Green Chilli", "2"], ["Curry Leaves", "1 sprig"], ["Coconut Oil", "1 tbsp"], ["Rice", "3/4 cup"]],
-    "steps": ["Saute shallots, ginger, garlic and chilli in coconut oil.", "Add chilli powder, turmeric, kokum and water.", "Simmer fish in the gravy for 8 minutes and finish with coconut milk.", "Serve over rice."]
+    "meal_type": "Dinner",
+    "diet_type": "Non-Vegetarian",
+    "prep": 15,
+    "cook": 20,
+    "servings": 1,
+    "nutrition": [
+      480,
+      30.0,
+      52,
+      14.0,
+      2.5
+    ],
+    "ingredients": [
+      [
+        "Fish",
+        "250 g"
+      ],
+      [
+        "Kokum",
+        "3 pieces"
+      ],
+      [
+        "Coconut Milk",
+        "1 cup"
+      ],
+      [
+        "Shallots",
+        "6"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Coconut Oil",
+        "1 tbsp"
+      ],
+      [
+        "Rice",
+        "3/4 cup"
+      ]
+    ],
+    "steps": [
+      "Saute shallots, ginger, garlic and chilli in coconut oil.",
+      "Add chilli powder, turmeric, kokum and water.",
+      "Simmer fish in the gravy for 8 minutes and finish with coconut milk.",
+      "Serve over rice."
+    ]
   },
   {
     "name": "Comforting Moong Dal Khichdi with Roasted Papad",
     "description": "Easily digestible rice and lentil khichdi with cumin ghee.",
-    "meal_type": "Dinner", "diet_type": "Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1516684732162-798a0062be99?w=800&auto=format&fit=crop&q=80",
-    "prep": 10, "cook": 20, "servings": 2, "nutrition": [380, 14.0, 64, 7.0, 6.5],
-    "ingredients": [["Moong Dal", "1/2 cup"], ["Rice", "1/2 cup"], ["Cumin Seeds", "1 tsp"], ["Ghee", "1 tbsp"], ["Turmeric", "1/4 tsp"], ["Ginger", "1 inch"], ["Papad", "2", true]],
-    "steps": ["Wash moong dal and rice together.", "Pressure cook with turmeric, ginger and 4 cups water.", "Temper cumin in ghee and stir into the khichdi.", "Serve with roasted papad."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegetarian",
+    "prep": 10,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      380,
+      14.0,
+      64,
+      7.0,
+      6.5
+    ],
+    "ingredients": [
+      [
+        "Moong Dal",
+        "1/2 cup"
+      ],
+      [
+        "Rice",
+        "1/2 cup"
+      ],
+      [
+        "Cumin Seeds",
+        "1 tsp"
+      ],
+      [
+        "Ghee",
+        "1 tbsp"
+      ],
+      [
+        "Turmeric",
+        "1/4 tsp"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Papad",
+        "2",
+        true
+      ]
+    ],
+    "steps": [
+      "Wash moong dal and rice together.",
+      "Pressure cook with turmeric, ginger and 4 cups water.",
+      "Temper cumin in ghee and stir into the khichdi.",
+      "Serve with roasted papad."
+    ]
   },
   {
     "name": "Grilled Salmon Bowl with Quinoa & Steamed Greens",
     "description": "Pan-seared salmon over quinoa with asparagus and broccoli.",
-    "meal_type": "Dinner", "diet_type": "Non-Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 15, "servings": 1, "nutrition": [460, 38.0, 34, 18.0, 6.2],
-    "ingredients": [["Salmon", "180 g"], ["Quinoa", "1/2 cup"], ["Asparagus", "6 spears"], ["Broccoli", "1 cup"], ["Olive Oil", "1 tbsp"], ["Lemon", "1/2"]],
-    "steps": ["Season salmon with salt and pepper.", "Sear skin side down for 4 minutes, flip and cook 3 minutes.", "Steam asparagus and broccoli; cook quinoa.", "Plate together with a lemon drizzle."]
+    "meal_type": "Dinner",
+    "diet_type": "Non-Vegetarian",
+    "prep": 15,
+    "cook": 15,
+    "servings": 1,
+    "nutrition": [
+      460,
+      38.0,
+      34,
+      18.0,
+      6.2
+    ],
+    "ingredients": [
+      [
+        "Salmon",
+        "180 g"
+      ],
+      [
+        "Quinoa",
+        "1/2 cup"
+      ],
+      [
+        "Asparagus",
+        "6 spears"
+      ],
+      [
+        "Broccoli",
+        "1 cup"
+      ],
+      [
+        "Olive Oil",
+        "1 tbsp"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ]
+    ],
+    "steps": [
+      "Season salmon with salt and pepper.",
+      "Sear skin side down for 4 minutes, flip and cook 3 minutes.",
+      "Steam asparagus and broccoli; cook quinoa.",
+      "Plate together with a lemon drizzle."
+    ]
   },
   {
     "name": "Crispy Tofu & Vegetable Stir-Fry with Brown Rice",
     "description": "Golden tofu wok-tossed with broccoli, capsicum and soy sauce.",
-    "meal_type": "Dinner", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 15, "servings": 1, "nutrition": [410, 22.0, 54, 11.0, 7.0],
-    "ingredients": [["Tofu", "150 g"], ["Capsicum", "1"], ["Broccoli", "1 cup"], ["Soy Sauce", "1 tbsp"], ["Sesame Oil", "1 tsp"], ["Rice", "3/4 cup brown"], ["Garlic", "2 cloves"]],
-    "steps": ["Cube tofu and sear in sesame oil until golden.", "Stir fry garlic, broccoli and capsicum for 4 minutes.", "Add soy sauce and tofu and toss.", "Serve with steamed rice."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 15,
+    "servings": 1,
+    "nutrition": [
+      410,
+      22.0,
+      54,
+      11.0,
+      7.0
+    ],
+    "ingredients": [
+      [
+        "Tofu",
+        "150 g"
+      ],
+      [
+        "Capsicum",
+        "1"
+      ],
+      [
+        "Broccoli",
+        "1 cup"
+      ],
+      [
+        "Soy Sauce",
+        "1 tbsp"
+      ],
+      [
+        "Sesame Oil",
+        "1 tsp"
+      ],
+      [
+        "Rice",
+        "3/4 cup brown"
+      ],
+      [
+        "Garlic",
+        "2 cloves"
+      ]
+    ],
+    "steps": [
+      "Cube tofu and sear in sesame oil until golden.",
+      "Stir fry garlic, broccoli and capsicum for 4 minutes.",
+      "Add soy sauce and tofu and toss.",
+      "Serve with steamed rice."
+    ]
   },
   {
     "name": "Methi Thepla with Fresh Cucumber Raita",
     "description": "Spiced fenugreek flatbread with cool cucumber raita.",
-    "meal_type": "Dinner", "diet_type": "Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 15, "servings": 2, "nutrition": [350, 11.0, 52, 10.0, 5.5],
-    "ingredients": [["Wheat Flour", "1 cup"], ["Fenugreek Leaves", "1 cup"], ["Besan", "2 tbsp"], ["Curd", "1 cup"], ["Cucumber", "1/2"], ["Sesame Seeds", "1 tsp", true]],
-    "steps": ["Knead flour, besan, methi and sesame with a little curd.", "Roll thin and cook on a hot tawa with light oil.", "Whisk remaining curd with grated cucumber and cumin.", "Serve theplas with raita."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegetarian",
+    "prep": 15,
+    "cook": 15,
+    "servings": 2,
+    "nutrition": [
+      350,
+      11.0,
+      52,
+      10.0,
+      5.5
+    ],
+    "ingredients": [
+      [
+        "Wheat Flour",
+        "1 cup"
+      ],
+      [
+        "Fenugreek Leaves",
+        "1 cup"
+      ],
+      [
+        "Besan",
+        "2 tbsp"
+      ],
+      [
+        "Curd",
+        "1 cup"
+      ],
+      [
+        "Cucumber",
+        "1/2"
+      ],
+      [
+        "Sesame Seeds",
+        "1 tsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Knead flour, besan, methi and sesame with a little curd.",
+      "Roll thin and cook on a hot tawa with light oil.",
+      "Whisk remaining curd with grated cucumber and cumin.",
+      "Serve theplas with raita."
+    ]
   },
   {
     "name": "Tandoori Chicken Tikka with Roti & Salad",
     "description": "Chicken marinated in spiced yogurt, grilled and served with roti.",
-    "meal_type": "Dinner", "diet_type": "Non-Vegetarian",
-    "image_url": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=800&auto=format&fit=crop&q=80",
-    "prep": 20, "cook": 20, "servings": 1, "nutrition": [460, 36.0, 44, 12.0, 4.5],
-    "ingredients": [["Chicken", "200 g breast"], ["Curd", "1/3 cup"], ["Tandoori Masala", "2 tsp"], ["Ginger", "1 inch"], ["Garlic", "3 cloves"], ["Wheat Flour", "3/4 cup"], ["Onion", "1"], ["Lemon", "1/2"]],
-    "steps": ["Marinate chicken in curd, ginger, garlic and tandoori masala for an hour.", "Grill at 220 C for 18 minutes.", "Cook fresh rotis on a skillet.", "Serve with onion-lemon salad."]
+    "meal_type": "Dinner",
+    "diet_type": "Non-Vegetarian",
+    "prep": 20,
+    "cook": 20,
+    "servings": 1,
+    "nutrition": [
+      460,
+      36.0,
+      44,
+      12.0,
+      4.5
+    ],
+    "ingredients": [
+      [
+        "Chicken",
+        "200 g breast"
+      ],
+      [
+        "Curd",
+        "1/3 cup"
+      ],
+      [
+        "Tandoori Masala",
+        "2 tsp"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "3 cloves"
+      ],
+      [
+        "Wheat Flour",
+        "3/4 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ]
+    ],
+    "steps": [
+      "Marinate chicken in curd, ginger, garlic and tandoori masala for an hour.",
+      "Grill at 220 C for 18 minutes.",
+      "Cook fresh rotis on a skillet.",
+      "Serve with onion-lemon salad."
+    ]
   },
   {
     "name": "Nutritious Vegetable Oats Upma",
     "description": "Toasted oats cooked with mustard, curry leaves, carrot and peas.",
-    "meal_type": "Dinner", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1584776296944-ab6fb57b0bdd?w=800&auto=format&fit=crop&q=80",
-    "prep": 10, "cook": 12, "servings": 1, "nutrition": [310, 9.5, 50, 7.5, 7.5],
-    "ingredients": [["Rolled Oats", "1 cup"], ["Onion", "1 small"], ["Green Peas", "1/4 cup"], ["Carrot", "1"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig"], ["Ginger", "1/2 inch"], ["Lemon", "1/2", true]],
-    "steps": ["Dry roast the oats for 3 minutes.", "Temper mustard and curry leaves; saute onion, ginger and vegetables.", "Add water and salt, stir in oats and cook 4 minutes.", "Finish with lemon juice."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 12,
+    "servings": 1,
+    "nutrition": [
+      310,
+      9.5,
+      50,
+      7.5,
+      7.5
+    ],
+    "ingredients": [
+      [
+        "Rolled Oats",
+        "1 cup"
+      ],
+      [
+        "Onion",
+        "1 small"
+      ],
+      [
+        "Green Peas",
+        "1/4 cup"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Ginger",
+        "1/2 inch"
+      ],
+      [
+        "Lemon",
+        "1/2",
+        true
+      ]
+    ],
+    "steps": [
+      "Dry roast the oats for 3 minutes.",
+      "Temper mustard and curry leaves; saute onion, ginger and vegetables.",
+      "Add water and salt, stir in oats and cook 4 minutes.",
+      "Finish with lemon juice."
+    ]
   },
   {
     "name": "Classic Punjabi Rajma Masala with Steamed Rice",
     "description": "Kidney beans slow-simmered in a tomato-onion-garlic gravy.",
-    "meal_type": "Dinner", "diet_type": "Vegan",
-    "image_url": "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=800&auto=format&fit=crop&q=80",
-    "prep": 15, "cook": 35, "servings": 2, "nutrition": [450, 16.0, 75, 8.0, 9.5],
-    "ingredients": [["Kidney Beans", "1 cup soaked"], ["Rice", "1 cup"], ["Onion", "2"], ["Tomato", "3"], ["Ginger", "1 inch"], ["Garlic", "4 cloves"], ["Garam Masala", "1 tsp"]],
-    "steps": ["Pressure cook soaked kidney beans until soft.", "Saute onion, ginger, garlic and tomato into a masala.", "Add rajma and simmer 20 minutes to thicken.", "Serve over steamed rice."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 35,
+    "servings": 2,
+    "nutrition": [
+      450,
+      16.0,
+      75,
+      8.0,
+      9.5
+    ],
+    "ingredients": [
+      [
+        "Kidney Beans",
+        "1 cup soaked"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ],
+      [
+        "Onion",
+        "2"
+      ],
+      [
+        "Tomato",
+        "3"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ]
+    ],
+    "steps": [
+      "Pressure cook soaked kidney beans until soft.",
+      "Saute onion, ginger, garlic and tomato into a masala.",
+      "Add rajma and simmer 20 minutes to thicken.",
+      "Serve over steamed rice."
+    ]
   },
   {
     "name": "Shakshuka (Eggs in Spiced Tomato Sauce)",
     "description": "Eggs gently poached in a garlicky tomato and pepper sauce.",
-    "meal_type": "Dinner", "diet_type": "Eggetarian", "image_url": null,
-    "prep": 10, "cook": 20, "servings": 2, "nutrition": [260, 14.0, 16, 16.0, 4.0],
-    "ingredients": [["Egg", "4"], ["Tomato", "5"], ["Onion", "1"], ["Garlic", "3 cloves"], ["Capsicum", "1", true], ["Cumin Seeds", "1 tsp"], ["Coriander Leaves", "2 tbsp", true]],
-    "steps": ["Saute onion, garlic and capsicum with cumin.", "Add chopped tomatoes and simmer into a thick sauce.", "Make wells and crack in the eggs.", "Cover and cook until the whites set; garnish and serve."]
+    "meal_type": "Dinner",
+    "diet_type": "Eggetarian",
+    "prep": 10,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      260,
+      14.0,
+      16,
+      16.0,
+      4.0
+    ],
+    "ingredients": [
+      [
+        "Egg",
+        "4"
+      ],
+      [
+        "Tomato",
+        "5"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Garlic",
+        "3 cloves"
+      ],
+      [
+        "Capsicum",
+        "1",
+        true
+      ],
+      [
+        "Cumin Seeds",
+        "1 tsp"
+      ],
+      [
+        "Coriander Leaves",
+        "2 tbsp",
+        true
+      ]
+    ],
+    "steps": [
+      "Saute onion, garlic and capsicum with cumin.",
+      "Add chopped tomatoes and simmer into a thick sauce.",
+      "Make wells and crack in the eggs.",
+      "Cover and cook until the whites set; garnish and serve."
+    ]
   },
   {
     "name": "Vegetable Kurma with Chapati",
     "description": "Mixed vegetables in a mild coconut-spice gravy.",
-    "meal_type": "Dinner", "diet_type": "Vegan", "image_url": null,
-    "prep": 20, "cook": 25, "servings": 2, "nutrition": [440, 11.0, 64, 15.0, 10.0],
-    "ingredients": [["Potato", "1"], ["Carrot", "1"], ["French Beans", "8"], ["Green Peas", "1/4 cup"], ["Coconut", "1/2 cup grated"], ["Onion", "1"], ["Tomato", "1"], ["Garam Masala", "1 tsp"], ["Wheat Flour", "1 cup"]],
-    "steps": ["Grind coconut with a little garam masala into a paste.", "Saute onion and tomato; add vegetables and water.", "Stir in the coconut paste and simmer until thick.", "Serve with chapatis."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 20,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      440,
+      11.0,
+      64,
+      15.0,
+      10.0
+    ],
+    "ingredients": [
+      [
+        "Potato",
+        "1"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "French Beans",
+        "8"
+      ],
+      [
+        "Green Peas",
+        "1/4 cup"
+      ],
+      [
+        "Coconut",
+        "1/2 cup grated"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ],
+      [
+        "Wheat Flour",
+        "1 cup"
+      ]
+    ],
+    "steps": [
+      "Grind coconut with a little garam masala into a paste.",
+      "Saute onion and tomato; add vegetables and water.",
+      "Stir in the coconut paste and simmer until thick.",
+      "Serve with chapatis."
+    ]
   },
   {
     "name": "Kerala Egg Roast",
     "description": "Boiled eggs coated in a deeply caramelised onion masala.",
-    "meal_type": "Dinner", "diet_type": "Eggetarian", "image_url": null,
-    "prep": 10, "cook": 25, "servings": 2, "nutrition": [280, 14.0, 14, 18.0, 3.0],
-    "ingredients": [["Egg", "4"], ["Onion", "3"], ["Tomato", "1"], ["Ginger", "1 inch"], ["Garlic", "4 cloves"], ["Curry Leaves", "1 sprig"], ["Coconut Oil", "2 tbsp"], ["Garam Masala", "1 tsp"]],
-    "steps": ["Boil and peel the eggs; make shallow slits.", "Slow cook onions in coconut oil until deep brown.", "Add ginger, garlic, tomato and spices.", "Toss eggs in the masala and finish with curry leaves."]
+    "meal_type": "Dinner",
+    "diet_type": "Eggetarian",
+    "prep": 10,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      280,
+      14.0,
+      14,
+      18.0,
+      3.0
+    ],
+    "ingredients": [
+      [
+        "Egg",
+        "4"
+      ],
+      [
+        "Onion",
+        "3"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Coconut Oil",
+        "2 tbsp"
+      ],
+      [
+        "Garam Masala",
+        "1 tsp"
+      ]
+    ],
+    "steps": [
+      "Boil and peel the eggs; make shallow slits.",
+      "Slow cook onions in coconut oil until deep brown.",
+      "Add ginger, garlic, tomato and spices.",
+      "Toss eggs in the masala and finish with curry leaves."
+    ]
   },
   {
     "name": "Baingan Bharta with Roti",
     "description": "Smoky mashed brinjal cooked with onion, tomato and garlic.",
-    "meal_type": "Dinner", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 25, "servings": 2, "nutrition": [340, 10.0, 56, 8.5, 11.0],
-    "ingredients": [["Brinjal", "1 large"], ["Onion", "1"], ["Tomato", "2"], ["Garlic", "4 cloves"], ["Green Chilli", "1"], ["Wheat Flour", "1 cup"]],
-    "steps": ["Roast the brinjal over an open flame until charred; peel and mash.", "Saute onion, garlic and chilli, then add tomatoes.", "Mix in the brinjal and cook 5 minutes.", "Serve with rotis."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      340,
+      10.0,
+      56,
+      8.5,
+      11.0
+    ],
+    "ingredients": [
+      [
+        "Brinjal",
+        "1 large"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ],
+      [
+        "Wheat Flour",
+        "1 cup"
+      ]
+    ],
+    "steps": [
+      "Roast the brinjal over an open flame until charred; peel and mash.",
+      "Saute onion, garlic and chilli, then add tomatoes.",
+      "Mix in the brinjal and cook 5 minutes.",
+      "Serve with rotis."
+    ]
   },
   {
     "name": "Palak Dal",
     "description": "Toor dal simmered with fresh spinach and garlic tempering.",
-    "meal_type": "Dinner", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 25, "servings": 2, "nutrition": [250, 15.0, 36, 5.0, 10.0],
-    "ingredients": [["Toor Dal", "3/4 cup"], ["Spinach", "1 bunch"], ["Tomato", "1"], ["Garlic", "4 cloves"], ["Cumin Seeds", "1 tsp"]],
-    "steps": ["Pressure cook dal with turmeric.", "Saute garlic and cumin, add tomato and chopped spinach.", "Add the dal and simmer 5 minutes.", "Serve with rice or roti."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      250,
+      15.0,
+      36,
+      5.0,
+      10.0
+    ],
+    "ingredients": [
+      [
+        "Toor Dal",
+        "3/4 cup"
+      ],
+      [
+        "Spinach",
+        "1 bunch"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Cumin Seeds",
+        "1 tsp"
+      ]
+    ],
+    "steps": [
+      "Pressure cook dal with turmeric.",
+      "Saute garlic and cumin, add tomato and chopped spinach.",
+      "Add the dal and simmer 5 minutes.",
+      "Serve with rice or roti."
+    ]
   },
   {
     "name": "Kerala Chicken Stew",
     "description": "Mild chicken and vegetable stew in coconut milk, perfect with appam.",
-    "meal_type": "Dinner", "diet_type": "Non-Vegetarian", "image_url": null,
-    "prep": 15, "cook": 30, "servings": 2, "nutrition": [430, 30.0, 18, 26.0, 3.5],
-    "ingredients": [["Chicken", "400 g"], ["Potato", "1"], ["Carrot", "1"], ["Coconut Milk", "1 1/2 cups"], ["Onion", "1"], ["Ginger", "1 inch"], ["Green Chilli", "2"], ["Curry Leaves", "1 sprig"]],
-    "steps": ["Saute onion, ginger and chilli without browning.", "Add chicken, potato, carrot and thin coconut milk; simmer 20 minutes.", "Finish with thick coconut milk and curry leaves.", "Serve with appam or bread."]
+    "meal_type": "Dinner",
+    "diet_type": "Non-Vegetarian",
+    "prep": 15,
+    "cook": 30,
+    "servings": 2,
+    "nutrition": [
+      430,
+      30.0,
+      18,
+      26.0,
+      3.5
+    ],
+    "ingredients": [
+      [
+        "Chicken",
+        "400 g"
+      ],
+      [
+        "Potato",
+        "1"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "Coconut Milk",
+        "1 1/2 cups"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ]
+    ],
+    "steps": [
+      "Saute onion, ginger and chilli without browning.",
+      "Add chicken, potato, carrot and thin coconut milk; simmer 20 minutes.",
+      "Finish with thick coconut milk and curry leaves.",
+      "Serve with appam or bread."
+    ]
   },
   {
     "name": "Mutton Curry with Rice",
     "description": "Slow-cooked goat curry in a rich onion-tomato masala.",
-    "meal_type": "Dinner", "diet_type": "Non-Vegetarian", "image_url": null,
-    "prep": 20, "cook": 50, "servings": 2, "nutrition": [620, 38.0, 58, 24.0, 3.0],
-    "ingredients": [["Mutton", "500 g"], ["Onion", "2"], ["Tomato", "2"], ["Ginger", "1 inch"], ["Garlic", "6 cloves"], ["Garam Masala", "2 tsp"], ["Rice", "1 cup"]],
-    "steps": ["Brown onions; add ginger, garlic and spices.", "Add mutton and sear well.", "Add tomatoes and water and pressure cook until tender.", "Serve with rice."]
+    "meal_type": "Dinner",
+    "diet_type": "Non-Vegetarian",
+    "prep": 20,
+    "cook": 50,
+    "servings": 2,
+    "nutrition": [
+      620,
+      38.0,
+      58,
+      24.0,
+      3.0
+    ],
+    "ingredients": [
+      [
+        "Mutton",
+        "500 g"
+      ],
+      [
+        "Onion",
+        "2"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "6 cloves"
+      ],
+      [
+        "Garam Masala",
+        "2 tsp"
+      ],
+      [
+        "Rice",
+        "1 cup"
+      ]
+    ],
+    "steps": [
+      "Brown onions; add ginger, garlic and spices.",
+      "Add mutton and sear well.",
+      "Add tomatoes and water and pressure cook until tender.",
+      "Serve with rice."
+    ]
   },
   {
     "name": "Kerala Fish Fry (Meen Varuthathu)",
     "description": "Fish marinated in chilli, ginger and garlic and shallow fried.",
-    "meal_type": "Dinner", "diet_type": "Non-Vegetarian", "image_url": null,
-    "prep": 20, "cook": 10, "servings": 2, "nutrition": [280, 32.0, 4, 15.0, 1.0],
-    "ingredients": [["Fish", "400 g"], ["Red Chilli Powder", "2 tsp"], ["Ginger", "1 inch"], ["Garlic", "4 cloves"], ["Lemon", "1/2"], ["Curry Leaves", "1 sprig", true], ["Coconut Oil", "2 tbsp"]],
-    "steps": ["Grind chilli powder, ginger, garlic, turmeric, salt and lemon into a paste.", "Coat the fish and marinate for 20 minutes.", "Shallow fry in coconut oil with curry leaves until crisp."]
+    "meal_type": "Dinner",
+    "diet_type": "Non-Vegetarian",
+    "prep": 20,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      280,
+      32.0,
+      4,
+      15.0,
+      1.0
+    ],
+    "ingredients": [
+      [
+        "Fish",
+        "400 g"
+      ],
+      [
+        "Red Chilli Powder",
+        "2 tsp"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Lemon",
+        "1/2"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ],
+      [
+        "Coconut Oil",
+        "2 tbsp"
+      ]
+    ],
+    "steps": [
+      "Grind chilli powder, ginger, garlic, turmeric, salt and lemon into a paste.",
+      "Coat the fish and marinate for 20 minutes.",
+      "Shallow fry in coconut oil with curry leaves until crisp."
+    ]
   },
   {
     "name": "Prawn Roast",
     "description": "Spicy Kerala prawns roasted with onions and curry leaves.",
-    "meal_type": "Dinner", "diet_type": "Non-Vegetarian", "image_url": null,
-    "prep": 15, "cook": 20, "servings": 2, "nutrition": [300, 30.0, 12, 15.0, 2.5],
-    "ingredients": [["Prawns", "400 g"], ["Onion", "2"], ["Tomato", "1"], ["Ginger", "1 inch"], ["Garlic", "4 cloves"], ["Curry Leaves", "1 sprig"], ["Coconut Oil", "2 tbsp"], ["Red Chilli Powder", "1 1/2 tsp"]],
-    "steps": ["Marinate prawns with chilli powder, turmeric and salt.", "Saute onions until golden; add ginger, garlic and tomato.", "Add prawns and roast until the masala coats them.", "Finish with curry leaves."]
+    "meal_type": "Dinner",
+    "diet_type": "Non-Vegetarian",
+    "prep": 15,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      300,
+      30.0,
+      12,
+      15.0,
+      2.5
+    ],
+    "ingredients": [
+      [
+        "Prawns",
+        "400 g"
+      ],
+      [
+        "Onion",
+        "2"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig"
+      ],
+      [
+        "Coconut Oil",
+        "2 tbsp"
+      ],
+      [
+        "Red Chilli Powder",
+        "1 1/2 tsp"
+      ]
+    ],
+    "steps": [
+      "Marinate prawns with chilli powder, turmeric and salt.",
+      "Saute onions until golden; add ginger, garlic and tomato.",
+      "Add prawns and roast until the masala coats them.",
+      "Finish with curry leaves."
+    ]
   },
   {
     "name": "Lauki Chana Dal",
     "description": "Light bottle gourd and chana dal curry.",
-    "meal_type": "Dinner", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 25, "servings": 2, "nutrition": [240, 12.0, 38, 4.5, 10.0],
-    "ingredients": [["Bottle Gourd", "300 g"], ["Chana Dal", "1/2 cup"], ["Tomato", "1"], ["Ginger", "1 inch"], ["Green Chilli", "1"]],
-    "steps": ["Soak chana dal for an hour.", "Pressure cook with diced bottle gourd and turmeric.", "Temper cumin, ginger and chilli; add tomato.", "Combine with the dal and simmer."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 25,
+    "servings": 2,
+    "nutrition": [
+      240,
+      12.0,
+      38,
+      4.5,
+      10.0
+    ],
+    "ingredients": [
+      [
+        "Bottle Gourd",
+        "300 g"
+      ],
+      [
+        "Chana Dal",
+        "1/2 cup"
+      ],
+      [
+        "Tomato",
+        "1"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Green Chilli",
+        "1"
+      ]
+    ],
+    "steps": [
+      "Soak chana dal for an hour.",
+      "Pressure cook with diced bottle gourd and turmeric.",
+      "Temper cumin, ginger and chilli; add tomato.",
+      "Combine with the dal and simmer."
+    ]
   },
   {
     "name": "Pasta in Fresh Tomato Sauce",
     "description": "Pasta tossed in a quick garlic-tomato sauce with herbs.",
-    "meal_type": "Dinner", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 20, "servings": 2, "nutrition": [420, 13.0, 76, 8.0, 5.5],
-    "ingredients": [["Pasta", "200 g"], ["Tomato", "5"], ["Onion", "1"], ["Garlic", "4 cloves"], ["Olive Oil", "1 tbsp"], ["Mixed Herbs", "1 tsp"], ["Basil", "few leaves", true]],
-    "steps": ["Boil pasta in salted water until al dente.", "Saute garlic and onion in olive oil.", "Add chopped tomatoes and herbs and simmer into a sauce.", "Toss the pasta in the sauce and garnish with basil."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      420,
+      13.0,
+      76,
+      8.0,
+      5.5
+    ],
+    "ingredients": [
+      [
+        "Pasta",
+        "200 g"
+      ],
+      [
+        "Tomato",
+        "5"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Garlic",
+        "4 cloves"
+      ],
+      [
+        "Olive Oil",
+        "1 tbsp"
+      ],
+      [
+        "Mixed Herbs",
+        "1 tsp"
+      ],
+      [
+        "Basil",
+        "few leaves",
+        true
+      ]
+    ],
+    "steps": [
+      "Boil pasta in salted water until al dente.",
+      "Saute garlic and onion in olive oil.",
+      "Add chopped tomatoes and herbs and simmer into a sauce.",
+      "Toss the pasta in the sauce and garnish with basil."
+    ]
   },
   {
     "name": "Hakka Veg Noodles",
     "description": "Street-style noodles with cabbage, carrot and capsicum.",
-    "meal_type": "Dinner", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 10, "servings": 2, "nutrition": [400, 10.0, 66, 10.0, 5.0],
-    "ingredients": [["Noodles", "200 g"], ["Cabbage", "1 cup shredded"], ["Carrot", "1"], ["Capsicum", "1"], ["Spring Onion", "2"], ["Soy Sauce", "1 tbsp"], ["Garlic", "3 cloves"]],
-    "steps": ["Boil noodles, drain and toss with a little oil.", "Stir fry garlic and vegetables on high heat.", "Add noodles, soy sauce and pepper and toss.", "Garnish with spring onion."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 10,
+    "servings": 2,
+    "nutrition": [
+      400,
+      10.0,
+      66,
+      10.0,
+      5.0
+    ],
+    "ingredients": [
+      [
+        "Noodles",
+        "200 g"
+      ],
+      [
+        "Cabbage",
+        "1 cup shredded"
+      ],
+      [
+        "Carrot",
+        "1"
+      ],
+      [
+        "Capsicum",
+        "1"
+      ],
+      [
+        "Spring Onion",
+        "2"
+      ],
+      [
+        "Soy Sauce",
+        "1 tbsp"
+      ],
+      [
+        "Garlic",
+        "3 cloves"
+      ]
+    ],
+    "steps": [
+      "Boil noodles, drain and toss with a little oil.",
+      "Stir fry garlic and vegetables on high heat.",
+      "Add noodles, soy sauce and pepper and toss.",
+      "Garnish with spring onion."
+    ]
   },
   {
     "name": "Cauliflower Peas Masala with Chapati",
     "description": "Cauliflower and green peas in a light tomato gravy.",
-    "meal_type": "Dinner", "diet_type": "Vegan", "image_url": null,
-    "prep": 15, "cook": 20, "servings": 2, "nutrition": [380, 13.0, 62, 9.0, 11.0],
-    "ingredients": [["Cauliflower", "1/2 head"], ["Green Peas", "1/2 cup"], ["Onion", "1"], ["Tomato", "2"], ["Ginger", "1 inch"], ["Wheat Flour", "1 cup"]],
-    "steps": ["Saute onion and ginger; add tomatoes and spices.", "Add cauliflower, peas and a splash of water.", "Cover and cook until tender.", "Serve with chapatis."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 15,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      380,
+      13.0,
+      62,
+      9.0,
+      11.0
+    ],
+    "ingredients": [
+      [
+        "Cauliflower",
+        "1/2 head"
+      ],
+      [
+        "Green Peas",
+        "1/2 cup"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Tomato",
+        "2"
+      ],
+      [
+        "Ginger",
+        "1 inch"
+      ],
+      [
+        "Wheat Flour",
+        "1 cup"
+      ]
+    ],
+    "steps": [
+      "Saute onion and ginger; add tomatoes and spices.",
+      "Add cauliflower, peas and a splash of water.",
+      "Cover and cook until tender.",
+      "Serve with chapatis."
+    ]
   },
   {
     "name": "Potato Masala Curry",
     "description": "Simple potato and onion curry that goes with dosa, puri or chapati.",
-    "meal_type": "Dinner", "diet_type": "Vegan", "image_url": null,
-    "prep": 10, "cook": 20, "servings": 2, "nutrition": [210, 4.5, 36, 6.0, 4.5],
-    "ingredients": [["Potato", "3"], ["Onion", "1"], ["Green Chilli", "2"], ["Ginger", "1/2 inch"], ["Mustard Seeds", "1 tsp"], ["Curry Leaves", "1 sprig", true], ["Tomato", "1", true]],
-    "steps": ["Boil, peel and roughly mash the potatoes.", "Temper mustard seeds and curry leaves; saute onion, ginger and chilli.", "Add turmeric, potatoes and a little water and simmer.", "Adjust salt and serve."]
+    "meal_type": "Dinner",
+    "diet_type": "Vegan",
+    "prep": 10,
+    "cook": 20,
+    "servings": 2,
+    "nutrition": [
+      210,
+      4.5,
+      36,
+      6.0,
+      4.5
+    ],
+    "ingredients": [
+      [
+        "Potato",
+        "3"
+      ],
+      [
+        "Onion",
+        "1"
+      ],
+      [
+        "Green Chilli",
+        "2"
+      ],
+      [
+        "Ginger",
+        "1/2 inch"
+      ],
+      [
+        "Mustard Seeds",
+        "1 tsp"
+      ],
+      [
+        "Curry Leaves",
+        "1 sprig",
+        true
+      ],
+      [
+        "Tomato",
+        "1",
+        true
+      ]
+    ],
+    "steps": [
+      "Boil, peel and roughly mash the potatoes.",
+      "Temper mustard seeds and curry leaves; saute onion, ginger and chilli.",
+      "Add turmeric, potatoes and a little water and simmer.",
+      "Adjust salt and serve."
+    ]
   },
   {
     "name": "Spinach Mushroom Omelette",
     "description": "Protein-rich omelette folded with sauteed spinach and mushrooms.",
-    "meal_type": "Dinner", "diet_type": "Eggetarian", "image_url": null,
-    "prep": 5, "cook": 10, "servings": 1, "nutrition": [250, 18.0, 6, 17.0, 2.5],
-    "ingredients": [["Egg", "3"], ["Spinach", "1 cup"], ["Mushroom", "1/2 cup"], ["Garlic", "1 clove"], ["Black Pepper", "pinch"]],
-    "steps": ["Saute garlic, mushrooms and spinach until wilted.", "Pour in beaten eggs seasoned with salt and pepper.", "Cook until set, fold and serve."]
+    "meal_type": "Dinner",
+    "diet_type": "Eggetarian",
+    "prep": 5,
+    "cook": 10,
+    "servings": 1,
+    "nutrition": [
+      250,
+      18.0,
+      6,
+      17.0,
+      2.5
+    ],
+    "ingredients": [
+      [
+        "Egg",
+        "3"
+      ],
+      [
+        "Spinach",
+        "1 cup"
+      ],
+      [
+        "Mushroom",
+        "1/2 cup"
+      ],
+      [
+        "Garlic",
+        "1 clove"
+      ],
+      [
+        "Black Pepper",
+        "pinch"
+      ]
+    ],
+    "steps": [
+      "Saute garlic, mushrooms and spinach until wilted.",
+      "Pour in beaten eggs seasoned with salt and pepper.",
+      "Cook until set, fold and serve."
+    ]
   }
 ]

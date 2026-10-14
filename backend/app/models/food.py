@@ -25,3 +25,4 @@ class Food(Base):
     meal_history = relationship("MealHistory", back_populates="food")
     recipe_links = relationship("RecipeIngredient", back_populates="food", cascade="all, delete-orphan")
     pantry_items = relationship("PantryItem", back_populates="food", cascade="all, delete-orphan")
+    shopping_items = relationship("ShoppingItem", back_populates="food", cascade="all, delete-orphan")

@@ -18,6 +18,7 @@ from app.routers import (
     foods_router,
     ingredients_router,
     pantry_router,
+    shopping_router,
     recognition_router,
     nutrition_router,
     recipes_router,
@@ -182,6 +183,7 @@ app.include_router(users_router, prefix="/api")
 app.include_router(foods_router, prefix="/api")
 app.include_router(ingredients_router, prefix="/api")
 app.include_router(pantry_router, prefix="/api")
+app.include_router(shopping_router, prefix="/api")
 app.include_router(recognition_router, prefix="/api")
 app.include_router(nutrition_router, prefix="/api")
 app.include_router(recipes_router, prefix="/api")

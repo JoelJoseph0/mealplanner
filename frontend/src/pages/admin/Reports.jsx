@@ -1,305 +1,161 @@
-import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
-  BarChart3,
-  Camera,
-  Sparkles,
-  Award,
-  Activity,
-  Package,
-  ThumbsUp,
-} from 'lucide-react';
-import adminService from '../../services/adminService';
-import ProgressBar from '../../components/common/ProgressBar';
-import LoadingSpinner from '../../components/common/LoadingSpinner';
-import ErrorMessage from '../../components/common/ErrorMessage';
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { adminService } from '../../services';
+import { getErrorMessage } from '../../services/api';
+import { Badge, Card, ErrorState, PageHeader, SectionTitle, Skeleton, Stat } from '../../components/ui';
+import { Camera, CalendarDays, Package, Target } from 'lucide-react';
 
-const BAR_SERIES = [
-  { key: 'scans', label: 'Ingredient scans', color: 'bg-emerald-500' },
-  { key: 'pantry_additions', label: 'Pantry additions', color: 'bg-purple-500' },
-  { key: 'meals_logged', label: 'Meals logged', color: 'bg-amber-500' },
-  { key: 'new_users', label: 'New users', color: 'bg-blue-500' },
-];
+const TOOLTIP = { background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 12, color: 'var(--fg)' };
+const AXIS = { fill: 'var(--subtle)', fontSize: 12 };
 
-const RankedList = ({ items, unit, emptyText }) =>
-  items.length === 0 ? (
-    <p className="text-xs text-slate-400 text-center py-6">{emptyText}</p>
-  ) : (
-    <div className="space-y-3 pt-2">
-      {items.map((item, idx) => (
-        <div key={item.name} className="p-3.5 rounded-2xl bg-slate-50 flex items-center justify-between text-xs">
-          <div className="flex items-center gap-3">
-            <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-800 font-bold flex items-center justify-center text-[11px]">
-              #{idx + 1}
-            </span>
-            <span className="font-bold text-slate-800">{item.name}</span>
-          </div>
-          <span className="font-semibold text-emerald-700">
-            {item.count.toLocaleString()} {unit}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
+const Empty = ({ children }) => <p className="py-10 text-center text-sm text-muted">{children}</p>;
 
 export const Reports = () => {
-  const [reports, setReports] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isLoading, isError, error, refetch } = useQuery({ queryKey: ['admin', 'reports'], queryFn: adminService.reports });
 
-  const fetchReports = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await adminService.getReports();
-      setReports(data);
-    } catch {
-      setError('Failed to fetch analytical reports.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchReports();
-  }, []);
-
-  if (loading) {
-    return <LoadingSpinner fullPage message="Compiling machine learning vision reports..." />;
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <Skeleton className="h-10 w-64" />
+        <Skeleton className="h-28" />
+        <Skeleton className="h-80" />
+      </div>
+    );
   }
+  if (isError) return <ErrorState message={getErrorMessage(error)} onRetry={refetch} />;
 
-  if (error) {
-    return <ErrorMessage message={error} onRetry={fetchReports} />;
-  }
-
-  const vision = reports?.computer_vision_performance || {};
+  const vision = data.computer_vision_performance || {};
   const model = vision.model || {};
-  const planning = reports?.meal_planning || {};
-  const pantry = reports?.pantry || {};
-  const satisfaction = reports?.user_satisfaction || {};
-  const recognizedFoods = vision.most_recognized_ingredients || [];
-  const confidenceStats = vision.confidence_distribution || [];
-  const monthly = reports?.monthly_activity || [];
-  const peak = Math.max(1, ...monthly.flatMap((m) => BAR_SERIES.map((s) => m[s.key] || 0)));
-  const plannedRecipes = planning.most_planned_recipes || [];
-  const cookedRecipes = planning.most_cooked_recipes || [];
+  const planning = data.meal_planning || {};
+  const pantry = data.pantry || {};
+  const satisfaction = data.user_satisfaction || {};
+  const monthly = data.monthly_activity || [];
+  const confidence = vision.confidence_distribution || [];
+  const recognized = vision.most_recognized_ingredients || [];
+  const cooked = planning.most_cooked_recipes?.length ? planning.most_cooked_recipes : planning.most_planned_recipes || [];
   const feedback = satisfaction.feedback_breakdown || {};
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">
-          System Analytics & Telemetry
-        </span>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-0.5">
-          Computer Vision & Activity Reports
-        </h1>
-        <p className="text-sm text-slate-500 mt-0.5">
-          Aggregated data across ingredient scans, pantries, meal plans and feedback.
-        </p>
+    <div>
+      <PageHeader title="Reports" emoji="📊" description="Model quality, usage trends and what people cook." />
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Stat label="Total scans" value={vision.total_inferences ?? 0} sub={`${vision.high_confidence_rate_percentage ?? 0}% above 50% confidence`} icon={Camera} />
+        <Stat label="Days planned" value={planning.planned_days ?? 0} sub={`${planning.plan_entries ?? 0} meals`} icon={CalendarDays} tone="info" />
+        <Stat label="Pantry items" value={pantry.total_items ?? 0} sub="Across all kitchens" icon={Package} tone="accent" />
+        <Stat
+          label="Model test accuracy"
+          value={model.test_accuracy != null ? `${(model.test_accuracy * 100).toFixed(1)}%` : 'Not trained'}
+          sub={model.trained ? `Top 3: ${(model.test_top3_accuracy * 100).toFixed(1)}%` : 'Run the training pipeline'}
+          icon={Target}
+          tone="warn"
+        />
       </div>
 
-      {/* Top Level Metric Highlights */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="p-5 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="p-3.5 rounded-2xl bg-emerald-50 text-emerald-600 font-bold">
-            <Camera className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Total Scans</span>
-            <div className="text-2xl font-black text-slate-900">{(vision.total_inferences ?? 0).toLocaleString()}</div>
-            <span className="text-xs text-emerald-600 font-semibold">
-              {vision.high_confidence_rate_percentage ?? 0}% confident (50%+)
-            </span>
-          </div>
-        </div>
-
-        <div className="p-5 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="p-3.5 rounded-2xl bg-blue-50 text-blue-600 font-bold">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Days Planned</span>
-            <div className="text-2xl font-black text-slate-900">{(planning.planned_days ?? 0).toLocaleString()}</div>
-            <span className="text-xs text-blue-600 font-semibold">{planning.plan_entries ?? 0} meal slots filled</span>
-          </div>
-        </div>
-
-        <div className="p-5 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="p-3.5 rounded-2xl bg-purple-50 text-purple-600 font-bold">
-            <Package className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Pantry Items</span>
-            <div className="text-2xl font-black text-slate-900">{(pantry.total_items ?? 0).toLocaleString()}</div>
-            <span className="text-xs text-purple-600 font-semibold">Ingredients users have in stock</span>
-          </div>
-        </div>
-
-        <div className="p-5 rounded-3xl bg-white border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="p-3.5 rounded-2xl bg-amber-50 text-amber-600 font-bold">
-            <Award className="w-6 h-6" />
-          </div>
-          <div>
-            <span className="text-xs text-slate-400 font-bold uppercase tracking-wider">Model Test Accuracy</span>
-            <div className="text-2xl font-black text-slate-900">
-              {model.test_accuracy != null ? `${(model.test_accuracy * 100).toFixed(1)}%` : 'Not trained'}
+      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <section>
+          <SectionTitle title="Activity, last 6 months" className="mb-4" />
+          <Card>
+            <div className="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={monthly} margin={{ left: -16, right: 8, top: 8 }}>
+                  <CartesianGrid stroke="var(--line)" vertical={false} />
+                  <XAxis dataKey="month" tick={AXIS} />
+                  <YAxis allowDecimals={false} tick={AXIS} />
+                  <Tooltip contentStyle={TOOLTIP} />
+                  <Legend />
+                  <Line type="monotone" dataKey="scans" name="Scans" stroke="var(--brand)" strokeWidth={2.5} dot={false} />
+                  <Line type="monotone" dataKey="pantry_additions" name="Pantry additions" stroke="var(--accent)" strokeWidth={2.5} dot={false} />
+                  <Line type="monotone" dataKey="meals_logged" name="Meals logged" stroke="var(--info)" strokeWidth={2.5} dot={false} />
+                  <Line type="monotone" dataKey="new_users" name="New users" stroke="var(--warn)" strokeWidth={2.5} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-            <span className="text-xs text-amber-600 font-semibold">
-              {model.trained
-                ? `${model.architecture || 'Classifier'} on ${model.num_classes} ingredients`
-                : 'Run the training pipeline'}
-            </span>
-          </div>
-        </div>
-      </div>
+          </Card>
+        </section>
 
-      {/* Two-Column Visual Breakdown */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Most Recognized Foods */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">Most Recognized Ingredients</h3>
-              <p className="text-xs text-slate-500">Most frequent predictions from ingredient scans</p>
-            </div>
-            <Camera className="w-4 h-4 text-emerald-600" />
-          </div>
+        <section>
+          <SectionTitle title="Scan confidence" className="mb-4" />
+          <Card>
+            {vision.total_inferences ? (
+              <div className="h-72">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={confidence} margin={{ left: -16, right: 8, top: 8 }}>
+                    <CartesianGrid stroke="var(--line)" vertical={false} />
+                    <XAxis dataKey="range" tick={AXIS} />
+                    <YAxis allowDecimals={false} tick={AXIS} />
+                    <Tooltip contentStyle={TOOLTIP} cursor={{ fill: 'var(--surface-2)' }} />
+                    <Bar dataKey="count" name="Scans" fill="var(--brand)" radius={[6, 6, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <Empty>No scans recorded yet.</Empty>
+            )}
+          </Card>
+        </section>
 
-          {recognizedFoods.length === 0 ? (
-            <p className="text-xs text-slate-400 text-center py-6">No scans recorded yet.</p>
-          ) : (
-            <div className="space-y-3.5 pt-2">
-              {recognizedFoods.map((f, idx) => (
-                <div key={f.name}>
-                  <div className="flex justify-between text-xs font-semibold mb-1">
-                    <span className="text-slate-800">{f.name}</span>
-                    <span className="text-slate-500">
-                      {f.count.toLocaleString()} scans ({f.percentage}%)
-                    </span>
-                  </div>
-                  <ProgressBar
-                    value={f.percentage}
-                    max={100}
-                    color={idx === 0 ? 'emerald' : idx === 1 ? 'blue' : idx === 2 ? 'amber' : 'purple'}
-                    size="sm"
-                  />
-                </div>
+        <section>
+          <SectionTitle title="Most scanned ingredients" className="mb-4" />
+          <Card>
+            {recognized.length ? (
+              <div className="h-72">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={recognized} layout="vertical" margin={{ left: 8, right: 8 }}>
+                    <CartesianGrid stroke="var(--line)" horizontal={false} />
+                    <XAxis type="number" allowDecimals={false} tick={AXIS} />
+                    <YAxis type="category" dataKey="name" width={90} tick={AXIS} />
+                    <Tooltip contentStyle={TOOLTIP} cursor={{ fill: 'var(--surface-2)' }} />
+                    <Bar dataKey="count" name="Scans" fill="var(--accent)" radius={[0, 6, 6, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <Empty>No scans recorded yet.</Empty>
+            )}
+          </Card>
+        </section>
+
+        <section>
+          <SectionTitle
+            title={planning.most_cooked_recipes?.length ? 'Most cooked recipes' : 'Most planned recipes'}
+            className="mb-4"
+          />
+          <Card>
+            {cooked.length ? (
+              <ol className="space-y-3">
+                {cooked.map((item, index) => (
+                  <li key={item.name} className="flex items-center gap-3">
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-soft text-sm font-bold text-brand">{index + 1}</span>
+                    <span className="flex-1 font-semibold text-fg">{item.name}</span>
+                    <span className="text-sm text-muted">{item.count}x</span>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <Empty>No plans or cooked meals yet.</Empty>
+            )}
+            <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-line pt-4">
+              <Badge tone="brand">Average rating {satisfaction.average_rating ?? 0} / 5</Badge>
+              {Object.entries(feedback).map(([label, count]) => (
+                <Badge key={label}>
+                  {label}: {count}
+                </Badge>
               ))}
             </div>
-          )}
-        </div>
-
-        {/* Prediction Confidence Distribution */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">Vision Confidence Distribution</h3>
-              <p className="text-xs text-slate-500">Model certainty tiers across all uploaded images</p>
-            </div>
-            <Activity className="w-4 h-4 text-purple-600" />
-          </div>
-
-          <div className="space-y-3.5 pt-2">
-            {confidenceStats.map((conf, idx) => (
-              <div key={conf.range}>
-                <div className="flex justify-between text-xs font-semibold mb-1">
-                  <span className="text-slate-800">{conf.range}</span>
-                  <span className="text-slate-500">
-                    {conf.count.toLocaleString()} scans ({conf.percentage}%)
-                  </span>
-                </div>
-                <ProgressBar
-                  value={conf.percentage}
-                  max={100}
-                  color={idx === 0 ? 'emerald' : idx === 1 ? 'blue' : idx === 2 ? 'amber' : 'red'}
-                  size="sm"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Second Row: Top Recommended Recipes & Monthly User Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Most Recommended Recipes */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">
-                {cookedRecipes.length ? 'Most Cooked Recipes' : 'Most Planned Recipes'}
-              </h3>
-              <p className="text-xs text-slate-500">
-                {cookedRecipes.length ? 'Recipes users logged as cooked' : 'Recipes chosen most often by the meal planner'}
-              </p>
-            </div>
-            <Award className="w-4 h-4 text-amber-500" />
-          </div>
-          <RankedList
-            items={cookedRecipes.length ? cookedRecipes : plannedRecipes}
-            unit={cookedRecipes.length ? 'times cooked' : 'times planned'}
-            emptyText="No meal plans generated yet."
-          />
-          <div className="flex flex-wrap gap-2 pt-2 text-xs">
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-semibold">
-              <ThumbsUp className="w-3.5 h-3.5" /> Avg rating {satisfaction.average_rating ?? 0} / 5
-            </span>
-            {Object.entries(feedback).map(([label, count]) => (
-              <span key={label} className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-600 font-semibold capitalize">
-                {label}: {count}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Monthly Activity Trend Bar Chart */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-            <div>
-              <h3 className="text-base font-bold text-slate-900">Activity (Last 6 Months)</h3>
-              <p className="text-xs text-slate-500">Monthly scans, pantry additions, meal logs and sign-ups</p>
-            </div>
-            <BarChart3 className="w-4 h-4 text-blue-600" />
-          </div>
-
-          <div className="pt-4 flex items-end justify-between gap-3 h-48 border-b border-slate-100 pb-2">
-            {monthly.map((month) => (
-              <div key={`${month.year}-${month.month}`} className="flex-1 flex flex-col items-center gap-2 h-full justify-end">
-                <div className="w-full flex-1 flex items-end justify-center gap-0.5">
-                  {BAR_SERIES.map((series) => (
-                    <div
-                      key={series.key}
-                      className={`w-1/5 ${series.color} rounded-t-sm transition-all duration-500`}
-                      style={{ height: `${Math.round(((month[series.key] || 0) / peak) * 100)}%` }}
-                      title={`${month.month} ${month.year}: ${month[series.key] || 0} ${series.label.toLowerCase()}`}
-                    />
-                  ))}
-                </div>
-                <span className="text-xs font-bold text-slate-700">{month.month}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2 text-xs text-slate-500">
-            {BAR_SERIES.map((series) => (
-              <span key={series.key} className="flex items-center gap-1.5">
-                <span className={`w-3 h-3 rounded-xs ${series.color} inline-block`} /> {series.label}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-          <div>
-            <h3 className="text-base font-bold text-slate-900">Most Stocked Pantry Ingredients</h3>
-            <p className="text-xs text-slate-500">What users most often have in their kitchens</p>
-          </div>
-          <Package className="w-4 h-4 text-purple-600" />
-        </div>
-        <RankedList items={pantry.top_ingredients || []} unit="pantries" emptyText="No pantry items yet." />
+          </Card>
+        </section>
       </div>
     </div>
   );

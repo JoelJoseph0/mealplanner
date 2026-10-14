@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/smart_meal_planner"
     SECRET_KEY: str = "CHANGE_THIS_SECRET_KEY_SUPER_SECRET_JWT_KEY_MCA_2026_MEAL_PLANNER"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
 
     FRONTEND_URL: str = "http://localhost:5173"
     MAX_UPLOAD_SIZE: int = 10485760  # 10 MB in bytes

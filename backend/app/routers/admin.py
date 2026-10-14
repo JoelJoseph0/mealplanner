@@ -1,5 +1,5 @@
 from typing import Optional
-from fastapi import APIRouter, Depends, Query, status, HTTPException
+from fastapi import APIRouter, Depends, Query, status, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from app.database import get_db
@@ -21,6 +21,8 @@ from app.services.nutrition_service import create_nutrition, update_nutrition, d
 from app.services.recipe_service import create_recipe, update_recipe, delete_recipe
 from app.services.analytics_service import build_reports, recent_activity, model_summary
 from app.utils.helpers import api_response
+from app.utils.validators import validate_image_file
+from app.utils.file_handler import save_upload_file
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
@@ -242,6 +244,17 @@ def admin_delete_recipe(
 ):
     delete_recipe(db, recipe_id)
     return api_response(message=f"Recipe {recipe_id} deleted successfully")
+
+
+@router.post("/upload-image", status_code=status.HTTP_201_CREATED)
+async def upload_recipe_image(
+    file: UploadFile = File(..., description="Recipe photo (JPG, PNG or WebP, up to 10 MB)"),
+    admin: User = Depends(require_admin)
+):
+    """Validate and store a recipe photo, returning the URL to save on the recipe."""
+    image_bytes = await validate_image_file(file)
+    _, image_url = save_upload_file(image_bytes, file.filename or "recipe.jpg")
+    return api_response(data={"image_url": image_url}, message="Image uploaded successfully")
 
 
 @router.get("/reports")

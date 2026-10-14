@@ -4,6 +4,7 @@ from typing import Any, Dict, Iterable, List, Optional, Set
 
 from app.models.recipe import Recipe
 from app.utils.ingredient_parser import IngredientIndex
+from app.utils.quantity import compare_quantities, format_quantity
 
 EXPIRY_WINDOW_DAYS = 3
 
@@ -15,6 +16,7 @@ class PantryContext:
     substitute_map: Dict[int, Set[int]] = field(default_factory=dict)
     expiring_ids: Set[int] = field(default_factory=set)
     staple_ids: Set[int] = field(default_factory=set)
+    quantities: Dict[int, str] = field(default_factory=dict)
     assume_staples: bool = True
 
     def is_available(self, food_id: int) -> bool:
@@ -27,6 +29,8 @@ class IngredientRef:
     name: str
     quantity: Optional[str] = None
     in_pantry: bool = False
+    short: bool = False
+    note: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -34,6 +38,8 @@ class IngredientRef:
             "name": self.name,
             "quantity": self.quantity,
             "in_pantry": self.in_pantry,
+            "short": self.short,
+            "note": self.note,
         }
 
 
@@ -117,6 +123,7 @@ def match_recipe(recipe: Recipe, context: PantryContext) -> PantryMatch:
     used_ids: Set[int] = set()
     required_count = 0
     substitution_hits = 0
+    short_hits = 0
 
     for link in recipe.ingredient_links or []:
         food = link.food
@@ -136,7 +143,14 @@ def match_recipe(recipe: Recipe, context: PantryContext) -> PantryMatch:
 
         required_count += 1
         if in_pantry:
-            have.append(ref)
+            comparison = compare_quantities(context.quantities.get(food.id), link.quantity)
+            if comparison and comparison[0] + 1e-9 < comparison[1]:
+                ref.short = True
+                ref.note = f"have {format_quantity(comparison[0], comparison[2])}, need {format_quantity(comparison[1], comparison[2])}"
+                missing.append(ref)
+                short_hits += 1
+            else:
+                have.append(ref)
             continue
 
         alternative = next(
@@ -167,7 +181,7 @@ def match_recipe(recipe: Recipe, context: PantryContext) -> PantryMatch:
         optional=optional,
         expiring_used=[name for name in expiring_used if name],
         pantry_used=len(used_ids),
-        pantry_hits=len(have) + substitution_hits,
+        pantry_hits=len(have) + substitution_hits + short_hits,
     )
 
 

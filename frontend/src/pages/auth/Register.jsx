@@ -1,86 +1,45 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User, Mail, Lock, AlertCircle, CheckCircle2, UserPlus } from 'lucide-react';
-import authService from '../../services/authService';
-import { validateEmail, validatePassword, validatePasswordMatch } from '../../utils/validators';
-import { GENDERS } from '../../utils/constants';
-import Button from '../../components/common/Button';
-import Input from '../../components/common/Input';
-import Select from '../../components/common/Select';
+import { AlertCircle, Lock, Mail, User, UserPlus } from 'lucide-react';
+import { useAuth } from '../../hooks/useAuth';
+import { authService } from '../../services';
 import { getErrorMessage } from '../../services/api';
+import { validateEmail, validatePassword, validatePasswordMatch } from '../../utils/validators';
+import { Button, Input } from '../../components/ui';
 
 export const Register = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    age: '',
-    gender: 'Male',
-  });
-
+  const [form, setForm] = useState({ fullName: '', email: '', password: '', confirmPassword: '' });
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState(null);
-
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: null }));
-    }
+  const update = (field) => (event) => {
+    setForm((current) => ({ ...current, [field]: event.target.value }));
+    setErrors((current) => ({ ...current, [field]: null }));
     setApiError(null);
   };
 
-  const validate = () => {
-    const newErrors = {};
-
-    if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full Name is required';
-    }
-
-    const emailErr = validateEmail(formData.email);
-    if (emailErr) newErrors.email = emailErr;
-
-    const passErr = validatePassword(formData.password);
-    if (passErr) newErrors.password = passErr;
-
-    const matchErr = validatePasswordMatch(formData.password, formData.confirmPassword);
-    if (matchErr) newErrors.confirmPassword = matchErr;
-
-    if (!formData.age || Number(formData.age) < 10 || Number(formData.age) > 120) {
-      newErrors.age = 'Please enter a valid age (10 - 120)';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
+  const submit = async (event) => {
+    event.preventDefault();
+    const next = {
+      fullName: form.fullName.trim().length < 2 ? 'Please enter your name' : null,
+      email: validateEmail(form.email),
+      password: validatePassword(form.password),
+      confirmPassword: validatePasswordMatch(form.password, form.confirmPassword),
+    };
+    setErrors(next);
+    if (Object.values(next).some(Boolean)) return;
 
     setLoading(true);
     setApiError(null);
-
     try {
-      await authService.register({
-        full_name: formData.fullName,
-        email: formData.email,
-        password: formData.password,
-        age: Number(formData.age),
-        gender: formData.gender,
-      });
-
-      setSuccessMessage('Registration successful! Redirecting to login...');
-      setTimeout(() => {
-        navigate('/login');
-      }, 1500);
-    } catch (err) {
-      setApiError(getErrorMessage(err));
+      await authService.register({ full_name: form.fullName.trim(), email: form.email.trim(), password: form.password });
+      await login({ email: form.email.trim(), password: form.password });
+      navigate('/welcome');
+    } catch (error) {
+      setApiError(getErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -88,120 +47,30 @@ export const Register = () => {
 
   return (
     <div>
-      <div className="mb-6">
-        <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Create your account</h2>
-        <p className="text-sm text-slate-500 mt-1">
-          Join the Computer Vision Meal Planner for customized daily health nutrition.
-        </p>
-      </div>
+      <h2 className="text-4xl font-semibold text-fg">Create your account 🌱</h2>
+      <p className="mt-1 text-muted">It takes a minute, then we will set up your kitchen.</p>
 
       {apiError && (
-        <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2.5">
-          <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
-          <span>{apiError}</span>
+        <div className="mt-5 flex items-start gap-2 rounded-xl bg-danger-soft p-3 text-sm font-medium text-danger" role="alert">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+          {apiError}
         </div>
       )}
 
-      {successMessage && (
-        <div className="mb-5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2.5">
-          <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
-          <span>{successMessage}</span>
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <Input
-          label="Full Name"
-          name="fullName"
-          autoComplete="name"
-          value={formData.fullName}
-          onChange={handleChange}
-          error={errors.fullName}
-          placeholder="e.g. Abhijith"
-          icon={User}
-          required
-        />
-
-        <Input
-          label="Email Address"
-          name="email"
-          type="email"
-          autoComplete="email"
-          value={formData.email}
-          onChange={handleChange}
-          error={errors.email}
-          placeholder="name@example.com"
-          icon={Mail}
-          required
-        />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input
-            label="Password"
-            name="password"
-            type="password"
-            autoComplete="new-password"
-            value={formData.password}
-            onChange={handleChange}
-            error={errors.password}
-            placeholder="Min. 6 chars"
-            icon={Lock}
-            required
-          />
-
-          <Input
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            autoComplete="new-password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            error={errors.confirmPassword}
-            placeholder="Repeat password"
-            icon={Lock}
-            required
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input
-            label="Age"
-            name="age"
-            type="number"
-            value={formData.age}
-            onChange={handleChange}
-            error={errors.age}
-            placeholder="e.g. 23"
-            required
-          />
-
-          <Select
-            label="Gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-            options={GENDERS}
-            placeholder=""
-            required
-          />
-        </div>
-
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          loading={loading}
-          icon={UserPlus}
-          className="w-full mt-3"
-        >
-          Create Account
+      <form onSubmit={submit} className="mt-6 space-y-4" noValidate>
+        <Input label="Full name" icon={User} autoComplete="name" placeholder="Your name" value={form.fullName} onChange={update('fullName')} error={errors.fullName} />
+        <Input label="Email" type="email" icon={Mail} autoComplete="email" placeholder="you@example.com" value={form.email} onChange={update('email')} error={errors.email} />
+        <Input label="Password" type="password" icon={Lock} autoComplete="new-password" placeholder="At least 6 characters" value={form.password} onChange={update('password')} error={errors.password} />
+        <Input label="Confirm password" type="password" icon={Lock} autoComplete="new-password" placeholder="Repeat password" value={form.confirmPassword} onChange={update('confirmPassword')} error={errors.confirmPassword} />
+        <Button type="submit" size="lg" icon={UserPlus} loading={loading} full>
+          Create account
         </Button>
       </form>
 
-      <p className="mt-6 text-center text-xs text-slate-600">
+      <p className="mt-6 text-center text-sm text-muted">
         Already have an account?{' '}
-        <Link to="/login" className="font-bold text-emerald-600 hover:text-emerald-700">
-          Sign In
+        <Link to="/login" className="font-semibold text-brand hover:underline">
+          Sign in
         </Link>
       </p>
     </div>

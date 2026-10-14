@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List, Optional
 from pydantic import BaseModel, ConfigDict, Field, field_validator
-from app.schemas.nutrition import NutritionResponse
+from app.schemas.nutrition import NutritionBase, NutritionResponse
 
 
 class FoodBase(BaseModel):
@@ -30,7 +30,7 @@ class FoodBase(BaseModel):
 
 
 class FoodCreate(FoodBase):
-    pass
+    nutrition: Optional[NutritionBase] = None
 
 
 class FoodUpdate(BaseModel):
@@ -42,6 +42,7 @@ class FoodUpdate(BaseModel):
     substitutes: Optional[List[str]] = None
     is_staple: Optional[bool] = None
     is_active: Optional[bool] = None
+    nutrition: Optional[NutritionBase] = None
 
     @field_validator("aliases", "substitutes", mode="before")
     @classmethod

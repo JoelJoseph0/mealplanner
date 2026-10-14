@@ -2,6 +2,7 @@ from typing import List, Optional
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.models.food import Food
+from app.models.nutrition import Nutrition
 from app.schemas.food import FoodCreate, FoodUpdate
 
 
@@ -42,6 +43,22 @@ def get_food_by_name(db: Session, name: str) -> Optional[Food]:
     return db.query(Food).filter(Food.name.ilike(name.strip())).first()
 
 
+def _upsert_nutrition(db: Session, food: Food, data) -> None:
+    if data is None:
+        return
+    record = db.query(Nutrition).filter(Nutrition.food_id == food.id).first()
+    if record is None:
+        record = Nutrition(food_id=food.id)
+        db.add(record)
+    record.serving_size = data.serving_size
+    record.calories = data.calories
+    record.protein = data.protein
+    record.carbohydrates = data.carbohydrates
+    record.fat = data.fat
+    record.fiber = data.fiber
+    record.sugar = data.sugar
+
+
 def create_food(db: Session, food_in: FoodCreate) -> Food:
     """Create a new food item (admin privileged)."""
     existing = get_food_by_name(db, food_in.name)
@@ -62,6 +79,8 @@ def create_food(db: Session, food_in: FoodCreate) -> Food:
         is_active=food_in.is_active
     )
     db.add(new_food)
+    db.flush()
+    _upsert_nutrition(db, new_food, food_in.nutrition)
     db.commit()
     db.refresh(new_food)
     return new_food
@@ -94,6 +113,7 @@ def update_food(db: Session, food_id: int, food_in: FoodUpdate) -> Food:
         food.is_staple = food_in.is_staple
     if food_in.is_active is not None:
         food.is_active = food_in.is_active
+    _upsert_nutrition(db, food, food_in.nutrition)
 
     db.commit()
     db.refresh(food)

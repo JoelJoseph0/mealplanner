@@ -1,103 +1,104 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-
-// Layouts
+import { lazy, Suspense } from 'react';
+import { Navigate, Outlet, Route, Routes, useLocation, useParams } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import AuthLayout from '../layouts/AuthLayout';
-import UserLayout from '../layouts/UserLayout';
+import AppLayout from '../layouts/AppLayout';
 import AdminLayout from '../layouts/AdminLayout';
+import { Skeleton } from '../components/ui';
 
-// Auth Route Guards
-import ProtectedRoute from '../components/auth/ProtectedRoute';
-import AdminRoute from '../components/auth/AdminRoute';
+const Login = lazy(() => import('../pages/auth/Login'));
+const Register = lazy(() => import('../pages/auth/Register'));
+const Welcome = lazy(() => import('../pages/user/Welcome'));
+const Home = lazy(() => import('../pages/user/Home'));
+const Kitchen = lazy(() => import('../pages/kitchen/Kitchen'));
+const Cook = lazy(() => import('../pages/cook/Cook'));
+const RecipeDetail = lazy(() => import('../pages/cook/RecipeDetail'));
+const Plan = lazy(() => import('../pages/plan/Plan'));
+const Me = lazy(() => import('../pages/me/Me'));
+const Scan = lazy(() => import('../pages/scan/Scan'));
+const NutritionDetail = lazy(() => import('../pages/scan/NutritionDetail'));
+const AdminDashboard = lazy(() => import('../pages/admin/AdminDashboard'));
+const Users = lazy(() => import('../pages/admin/Users'));
+const Ingredients = lazy(() => import('../pages/admin/Ingredients'));
+const Recipes = lazy(() => import('../pages/admin/Recipes'));
+const Reports = lazy(() => import('../pages/admin/Reports'));
 
-// Auth Pages
-import Login from '../pages/auth/Login';
-import Register from '../pages/auth/Register';
+const PageFallback = () => (
+  <div className="space-y-4 p-6" role="status" aria-label="Loading page">
+    <Skeleton className="h-9 w-56" />
+    <Skeleton className="h-40 w-full" />
+    <Skeleton className="h-64 w-full" />
+  </div>
+);
 
-// User Pages
-import Dashboard from '../pages/user/Dashboard';
-import Profile from '../pages/user/Profile';
-import Preferences from '../pages/user/Preferences';
+const RequireAuth = () => {
+  const { isAuthenticated } = useAuth();
+  const location = useLocation();
+  if (!isAuthenticated) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  return <Outlet />;
+};
 
-import Pantry from '../pages/pantry/Pantry';
-import WhatCanICook from '../pages/pantry/WhatCanICook';
+const RequireAdmin = () => {
+  const { isAuthenticated, isAdmin } = useAuth();
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (!isAdmin) return <Navigate to="/dashboard" replace />;
+  return <Outlet />;
+};
 
-// Food & Computer Vision Pages
-import FoodUpload from '../pages/food/FoodUpload';
-import FoodRecognition from '../pages/food/FoodRecognition';
-import NutritionDetails from '../pages/food/NutritionDetails';
+const RecipeRedirect = () => {
+  const { recipeId } = useParams();
+  return <Navigate to={recipeId ? `/recipes/${recipeId}` : '/cook?tab=all'} replace />;
+};
 
-// Meals & Recipe Pages
-import Recommendations from '../pages/meals/Recommendations';
-import DailyPlan from '../pages/meals/DailyPlan';
-import WeeklyPlan from '../pages/meals/WeeklyPlan';
-import RecipeDetails from '../pages/meals/RecipeDetails';
-
-// Meal History Page
-import MealHistory from '../pages/history/MealHistory';
-
-// Admin Suite Pages
-import AdminDashboard from '../pages/admin/AdminDashboard';
-import Users from '../pages/admin/Users';
-import Ingredients from '../pages/admin/Ingredients';
-import Nutrition from '../pages/admin/Nutrition';
-import Recipes from '../pages/admin/Recipes';
-import Reports from '../pages/admin/Reports';
-
-export const AppRoutes = () => {
-  return (
+export const AppRoutes = () => (
+  <Suspense fallback={<PageFallback />}>
     <Routes>
-      {/* Public Authentication Routes */}
       <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
 
-      {/* Protected User Routes */}
-      <Route element={<ProtectedRoute />}>
-        <Route element={<UserLayout />}>
+      <Route element={<RequireAuth />}>
+        <Route path="/welcome" element={<Welcome />} />
+
+        <Route element={<AppLayout />}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/preferences" element={<Preferences />} />
+          <Route path="/dashboard" element={<Home />} />
+          <Route path="/pantry" element={<Kitchen />} />
+          <Route path="/cook" element={<Cook />} />
+          <Route path="/recipes" element={<RecipeRedirect />} />
+          <Route path="/recipes/:recipeId" element={<RecipeDetail />} />
+          <Route path="/plan" element={<Plan />} />
+          <Route path="/me" element={<Me />} />
+          <Route path="/scan" element={<Scan />} />
+          <Route path="/nutrition/:foodId" element={<NutritionDetail />} />
 
-          <Route path="/pantry" element={<Pantry />} />
-          <Route path="/cook" element={<WhatCanICook />} />
-
-          {/* Computer Vision & Nutrition */}
-          <Route path="/food-upload" element={<FoodUpload />} />
-          <Route path="/food-recognition" element={<FoodRecognition />} />
-          <Route path="/nutrition" element={<NutritionDetails />} />
-          <Route path="/nutrition/:foodId" element={<NutritionDetails />} />
-
-          {/* Meal Planning & Recipes */}
-          <Route path="/recommendations" element={<Recommendations />} />
-          <Route path="/daily-plan" element={<DailyPlan />} />
-          <Route path="/weekly-plan" element={<WeeklyPlan />} />
-          <Route path="/recipes" element={<RecipeDetails />} />
-          <Route path="/recipes/:recipeId" element={<RecipeDetails />} />
-
-          {/* History */}
-          <Route path="/meal-history" element={<MealHistory />} />
+          <Route path="/food-upload" element={<Navigate to="/scan" replace />} />
+          <Route path="/food-recognition" element={<Navigate to="/scan" replace />} />
+          <Route path="/recommendations" element={<Navigate to="/cook" replace />} />
+          <Route path="/daily-plan" element={<Navigate to="/plan" replace />} />
+          <Route path="/weekly-plan" element={<Navigate to="/plan" replace />} />
+          <Route path="/profile" element={<Navigate to="/me" replace />} />
+          <Route path="/preferences" element={<Navigate to="/me?tab=diet" replace />} />
+          <Route path="/meal-history" element={<Navigate to="/me?tab=history" replace />} />
         </Route>
       </Route>
 
-      {/* Protected Admin Routes */}
-      <Route element={<AdminRoute />}>
+      <Route element={<RequireAdmin />}>
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="users" element={<Users />} />
           <Route path="ingredients" element={<Ingredients />} />
-          <Route path="foods" element={<Navigate to="/admin/ingredients" replace />} />
-          <Route path="nutrition" element={<Nutrition />} />
           <Route path="recipes" element={<Recipes />} />
           <Route path="reports" element={<Reports />} />
+          <Route path="foods" element={<Navigate to="/admin/ingredients" replace />} />
+          <Route path="nutrition" element={<Navigate to="/admin/ingredients" replace />} />
         </Route>
       </Route>
 
-      {/* Catch-all: Redirect unknown routes */}
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
-  );
-};
+  </Suspense>
+);
 
 export default AppRoutes;

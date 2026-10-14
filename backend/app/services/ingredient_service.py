@@ -172,6 +172,7 @@ def build_pantry_context(
         substitute_map=build_substitute_map(foods, index),
         expiring_ids=find_expiring_ids(pantry_items or []),
         staple_ids={f.id for f in foods if f.is_staple},
+        quantities={i.food_id: i.quantity for i in (pantry_items or []) if i.quantity},
         assume_staples=assume_staples,
     )
 

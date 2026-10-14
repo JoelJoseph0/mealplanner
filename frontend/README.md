@@ -41,26 +41,28 @@ Demo accounts (created by `python seed.py` in the backend):
 
 | Route | Screen |
 |---|---|
-| `/dashboard` | Overview: today's plan, pantry size, quick actions |
-| `/pantry` | My Pantry: add ingredients with autocomplete, quantities and expiry dates |
-| `/cook` | What Can I Cook?: ready / almost-ready recipes, substitutions, shopping list |
-| `/food-upload` → `/food-recognition` | Scan an ingredient photo, confirm it and add it to the pantry |
-| `/recipes`, `/recipes/:id` | Recipe library; detail page ticks off what you already have and logs cooked meals |
-| `/recommendations` | Personalised, pantry-aware recommendations |
-| `/daily-plan`, `/weekly-plan` | Balanced meal plans, optionally built from the pantry |
-| `/meal-history` | Cooked meals with feedback that tunes recommendations |
-| `/profile`, `/preferences` | Body metrics, diet type, allergies, preferred and avoided foods, targets |
-| `/admin/*` | Admin dashboard, users, ingredient catalog, nutrition, recipes and reports |
+| `/dashboard` | Home: today's plan, what you can cook now, expiring items |
+| `/pantry` | Kitchen: stock with quantities and expiry, plus the saved shopping list (`?tab=shopping`) |
+| `/cook` | Cook: ready and almost-ready recipes, substitutions, add missing items to the shopping list, all recipes (`?tab=all`) |
+| `/recipes/:id` | Recipe detail with cook mode; cooking deducts the pantry and logs the meal |
+| `/plan` | Plan: create a day or week, swap, lock and complete meals, build the shopping list |
+| `/scan` | Scan an ingredient photo, confirm it and add it to the kitchen |
+| `/me` | Profile, diet and targets (`?tab=diet`), meal history (`?tab=history`) |
+| `/welcome` | First-run setup wizard |
+| `/admin`, `/admin/users`, `/admin/ingredients`, `/admin/recipes`, `/admin/reports` | Admin console |
+
+Old routes such as `/recommendations`, `/daily-plan` and `/profile` redirect to the sections above. The five main sections appear as a sidebar on desktop and bottom tabs on mobile, with light and dark themes.
 
 ## Project layout
 
 ```text
 src/
-├── components/   Reusable UI (common, pantry, meals, nutrition, admin, auth)
-├── context/      Auth and user state
-├── layouts/      User, admin and auth shells
+├── components/   Design system (ui), food visuals, shared widgets
+├── context/      Auth and theme state
+├── layouts/      App, admin and auth shells
+├── lib/          React Query hooks
 ├── pages/        Route screens grouped by feature
 ├── routes/       Route table and guards
 ├── services/     Axios API clients (one per backend area)
-└── utils/        Constants, formatting helpers, validators
+└── utils/        Constants and helpers
 ```

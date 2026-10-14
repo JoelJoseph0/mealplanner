@@ -324,6 +324,7 @@ Once the server is running, visit:
 | `PUT` | `/api/pantry/{id}` | Update quantity / expiry (`clear_expiry` to remove) | User |
 | `DELETE` | `/api/pantry/{id}` | Remove one ingredient | User |
 | `DELETE` | `/api/pantry` | Clear the pantry | User |
+| `POST` | `/api/pantry/consume` | After cooking: deduct the recipe's ingredients (`recipe_id`, optional `food_ids`) from the pantry quantities | User |
 | `POST` | `/api/pantry/suggest` | **What can I cook?** Body: `ingredients` (optional, else saved pantry), `use_saved_pantry`, `meal_type`, `max_missing` (0-5), `assume_staples`, `apply_profile`, `limit`. Returns `results` (status `ready`/`almost`, `have`, `missing`, `substitutions`, `staples`, `match_percent`), `shopping_list`, `unrecognized` | User |
 
 ### Ingredient Catalog Admin (`/api/foods`)
@@ -371,6 +372,23 @@ Once the server is running, visit:
 | `POST` | `/api/meal-plans/generate` | Generate or regenerate customized daily meal plan (`use_pantry=true` favours recipes you can cook from your pantry) | User |
 | `GET` | `/api/meal-plans/weekly` | Get 7-day balanced weekly meal plan | User |
 | `POST` | `/api/meal-plans/generate-week` | Generate or regenerate complete 7-day plan (supports `use_pantry`) | User |
+| `POST` | `/api/meal-plans/{id}/swap` | Replace one planned meal with another suitable recipe | User |
+| `PUT` | `/api/meal-plans/{id}/lock` | Lock or unlock a meal so regeneration keeps it | User |
+| `PUT` | `/api/meal-plans/{id}/complete` | Mark a planned meal as cooked and log it to history | User |
+
+GET endpoints are read-only: a plan exists only after it is generated. Disliked foods and allergens are excluded, and servings are balanced towards the daily calorie target.
+
+### Shopping List (`/api/shopping`)
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| `GET` | `/api/shopping` | Saved shopping list | User |
+| `POST` | `/api/shopping` | Add items by name | User |
+| `POST` | `/api/shopping/from-recipe` | Add the ingredients a recipe is missing | User |
+| `POST` | `/api/shopping/from-plan` | Add everything the weekly plan needs and the pantry lacks | User |
+| `POST` | `/api/shopping/checkout` | Move bought items into the pantry | User |
+| `PUT` | `/api/shopping/{id}` | Update quantity or checked state | User |
+| `DELETE` | `/api/shopping/{id}` | Remove one item | User |
+| `DELETE` | `/api/shopping` | Clear the list | User |
 
 ### Meal History & Feedback (`/api/history`)
 | Method | Endpoint | Description | Auth Required |
@@ -378,6 +396,7 @@ Once the server is running, visit:
 | `GET` | `/api/history` | Get user meal consumption history | User |
 | `GET` | `/api/history/{id}` | Get specific history log | User |
 | `POST` | `/api/history` | Log meal consumption | User |
+| `PUT` | `/api/recipes/{id}/rating` | Quick 1-5 rating for a recipe (feeds recommendations) | User |
 | `POST` | `/api/history/feedback` | Submit post-meal rating (1-5), feedback, and notes | User |
 
 ### Administrator (`/api/admin`)
@@ -387,6 +406,7 @@ Once the server is running, visit:
 | `GET` | `/api/admin/users` | List registered user accounts | Admin |
 | `DELETE` | `/api/admin/users/{id}` | Moderate/delete user account | Admin |
 | `GET` | `/api/admin/reports` | System diagnostic & accuracy reports | Admin |
+| `POST` | `/api/admin/upload-image` | Upload a recipe or ingredient image, returns its URL | Admin |
 
 ---
 
@@ -462,6 +482,7 @@ Tests cover:
 * Computer vision valid, invalid, corrupted image handling, and history.
 * Ingredient parsing (quantities, plurals, aliases), catalog autocomplete, pantry CRUD and isolation between users.
 * "What can I cook?" ready / almost buckets, substitutions, kitchen basics, shopping list, unrecognised ingredients and pantry-aware recommendations.
+* Quantity-aware pantry matching, pantry deduction after cooking, shopping list lifecycle, plan swap / lock / complete, disliked-food exclusion and recipe ratings.
 * Admin dashboard and reports computed from real data, activity-level calorie targets, and recognition history serialization.
 
 ---

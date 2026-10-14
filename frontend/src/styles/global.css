@@ -1,64 +1,304 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+  --bg: #f8f6f1;
+  --surface: #ffffff;
+  --surface-2: #f3f0e8;
+  --surface-3: #ebe7dc;
+  --line: #e7e2d6;
+  --fg: #1a1c17;
+  --muted: #595d52;
+  --subtle: #868a7e;
+  --brand: #0f7a4a;
+  --brand-hover: #0c6a40;
+  --brand-fg: #ffffff;
+  --brand-soft: #e2f4ea;
+  --brand-strong: #0a5a36;
+  --accent: #e8622c;
+  --accent-soft: #fdebe2;
+  --saffron: #f4a62a;
+  --saffron-soft: #fdf2db;
+  --warn: #a8660a;
+  --warn-soft: #fbf0d6;
+  --danger: #c4372a;
+  --danger-soft: #fce7e4;
+  --info: #2b62c9;
+  --info-soft: #e6eefc;
+  --shadow: 0 1px 2px rgb(40 34 20 / 0.05), 0 2px 8px rgb(40 34 20 / 0.04);
+  --shadow-lift: 0 2px 4px rgb(40 34 20 / 0.05), 0 12px 32px -6px rgb(40 34 20 / 0.14);
+  --glow: 0 8px 24px -8px rgb(15 122 74 / 0.55);
+  --hero-from: #0f7a4a;
+  --hero-via: #13905a;
+  --hero-to: #2aa86c;
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #0e110e;
+  --surface: #171a16;
+  --surface-2: #20241e;
+  --surface-3: #2a2f27;
+  --line: #2b3029;
+  --fg: #f3f2ec;
+  --muted: #b9b8ac;
+  --subtle: #8a8b7f;
+  --brand: #45c482;
+  --brand-hover: #5fd396;
+  --brand-fg: #06170d;
+  --brand-soft: #15301f;
+  --brand-strong: #8be2b1;
+  --accent: #ff8b5e;
+  --accent-soft: #3b2117;
+  --saffron: #f7bb4d;
+  --saffron-soft: #382a10;
+  --warn: #f0b64f;
+  --warn-soft: #362a10;
+  --danger: #ff7b6e;
+  --danger-soft: #3b1d1a;
+  --info: #7fa7ff;
+  --info-soft: #172544;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 4px 14px rgb(0 0 0 / 0.25);
+  --shadow-lift: 0 2px 4px rgb(0 0 0 / 0.45), 0 16px 36px -8px rgb(0 0 0 / 0.6);
+  --glow: 0 8px 24px -8px rgb(69 196 130 / 0.45);
+  --hero-from: #0d3d27;
+  --hero-via: #11553a;
+  --hero-to: #18704b;
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-fg: var(--brand-fg);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-strong: var(--brand-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-saffron: var(--saffron);
+  --color-saffron-soft: var(--saffron-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --shadow-card: var(--shadow);
+  --shadow-lift: var(--shadow-lift);
+  --shadow-glow: var(--glow);
+}
+
 @layer base {
-  :root {
-    --font-heading: 'Outfit', sans-serif;
-    --font-sans: 'Plus Jakarta Sans', sans-serif;
+  html {
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: #f8fafc;
-    color: #0f172a;
+    font-size: 15px;
+    line-height: 1.55;
+    background-color: var(--bg);
+    background-image:
+      radial-gradient(60rem 30rem at 100% -10%, color-mix(in srgb, var(--saffron) 9%, transparent), transparent 70%),
+      radial-gradient(50rem 30rem at -10% 0%, color-mix(in srgb, var(--brand) 7%, transparent), transparent 70%);
+    background-attachment: fixed;
+    color: var(--fg);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
+  h1, h2 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+    font-weight: 650;
+  }
+
+  h3, h4 {
+    letter-spacing: -0.01em;
+    font-weight: 700;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--brand-soft);
   }
 }
 
-/* Custom scrollbars */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--line);
   border-radius: 9999px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
-/* Glassmorphism helpers */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+.no-scrollbar {
+  scrollbar-width: none;
 }
 
-.glass-panel-dark {
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.5);
+@keyframes sheet-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-/* Health Theme Accent Gradients */
-.bg-emerald-gradient {
-  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+@keyframes pop-in {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.bg-emerald-mesh {
-  background-color: #f0fdf4;
-  background-image: radial-gradient(at 10% 20%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
-                    radial-gradient(at 90% 80%, rgba(59, 130, 246, 0.1) 0px, transparent 50%);
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-3deg);
+  }
+}
+
+.animate-sheet-up {
+  animation: sheet-up 0.22s ease-out;
+}
+
+.animate-pop-in {
+  animation: pop-in 0.18s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+.animate-rise-in {
+  animation: rise-in 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+}
+
+.hero-gradient {
+  background:
+    radial-gradient(30rem 16rem at 92% 10%, rgb(255 255 255 / 0.16), transparent 60%),
+    radial-gradient(24rem 14rem at 10% 120%, color-mix(in srgb, var(--saffron) 35%, transparent), transparent 65%),
+    linear-gradient(130deg, var(--hero-from), var(--hero-via) 55%, var(--hero-to));
+}
+
+.dot-grid {
+  background-image: radial-gradient(rgb(255 255 255 / 0.18) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+.glass {
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  backdrop-filter: saturate(1.4) blur(14px);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+}
+
+.recipe-art {
+  background:
+    radial-gradient(circle at 78% 18%, rgb(255 255 255 / 0.55), transparent 38%),
+    radial-gradient(circle at 12% 92%, rgb(255 255 255 / 0.3), transparent 40%),
+    linear-gradient(140deg, var(--art-from), var(--art-to));
+}
+
+.dark .recipe-art {
+  background:
+    radial-gradient(circle at 78% 18%, rgb(255 255 255 / 0.1), transparent 38%),
+    linear-gradient(140deg, var(--art-dark-from), var(--art-dark-to));
+}
+
+.recipe-plate {
+  background: radial-gradient(circle at 50% 40%, rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.65) 62%, rgb(255 255 255 / 0.35) 63%, rgb(255 255 255 / 0.2) 72%, transparent 73%);
+  box-shadow: 0 14px 28px -12px rgb(0 0 0 / 0.35);
+}
+
+.dark .recipe-plate {
+  background: radial-gradient(circle at 50% 40%, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.08) 62%, rgb(255 255 255 / 0.05) 72%, transparent 73%);
+}
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+  border-color: color-mix(in srgb, var(--brand) 25%, var(--line));
 }

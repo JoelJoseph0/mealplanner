@@ -63,6 +63,9 @@ def submit_meal_feedback(
 
     db.commit()
     db.refresh(history)
+    if history.recipe_id and history.feedback in ("positive", "negative", "neutral"):
+        from app.services.feedback_service import set_recipe_rating
+        set_recipe_rating(db, user_id, history.recipe_id, history.feedback)
     return history
 
 

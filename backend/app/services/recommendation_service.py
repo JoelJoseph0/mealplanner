@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session, joinedload
 from app.models.recipe import Recipe
 from app.models.recipe_ingredient import RecipeIngredient
 from app.services.ingredient_service import get_user_pantry_context
+from app.services.feedback_service import get_feedback_map
 from app.models.food import Food
 from app.models.meal_history import MealHistory
 from app.models.dietary_profile import DietaryProfile
@@ -27,15 +28,7 @@ def get_recommendations_for_user(
     profile = db.query(DietaryProfile).filter(DietaryProfile.user_id == user_id).first()
 
     # 2. Gather user's past meal feedback history
-    history_entries = (
-        db.query(MealHistory.recipe_id, MealHistory.feedback)
-        .filter(MealHistory.user_id == user_id, MealHistory.recipe_id.isnot(None))
-        .all()
-    )
-    feedback_map: Dict[int, str] = {}
-    for entry in history_entries:
-        if entry.feedback:
-            feedback_map[entry.recipe_id] = entry.feedback
+    feedback_map: Dict[int, str] = get_feedback_map(db, user_id)
 
     # 3. Resolve recognized food name
     recognized_food_name = request.recognized_food_name

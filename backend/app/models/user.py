@@ -24,3 +24,4 @@ class User(Base):
     meal_plans = relationship("MealPlan", back_populates="user", cascade="all, delete-orphan")
     meal_history = relationship("MealHistory", back_populates="user", cascade="all, delete-orphan")
     pantry_items = relationship("PantryItem", back_populates="user", cascade="all, delete-orphan")
+    shopping_items = relationship("ShoppingItem", back_populates="user", cascade="all, delete-orphan")

@@ -1,65 +1,81 @@
-from datetime import date
-from typing import Optional, Union, Dict, Any
+from typing import Optional
 from fastapi import APIRouter, Depends, Query, status
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.auth.dependencies import get_current_user
 from app.models.user import User
 from app.models.dietary_profile import DietaryProfile
 from app.schemas.meal_plan import (
-    DailyMealPlanResponse,
-    WeeklyMealPlanResponse,
     MealPlanGenerateRequest,
     MealPlanWeekGenerateRequest,
-    MealPlanItemResponse
 )
 from app.schemas.recipe import RecipeResponse
 from app.services.meal_planner_service import (
     get_daily_meal_plan,
     generate_daily_meal_plan,
     get_weekly_meal_plan,
-    generate_weekly_meal_plan
+    generate_weekly_meal_plan,
+    swap_meal,
+    set_meal_locked,
+    set_meal_completed,
 )
 from app.utils.helpers import api_response
 
 router = APIRouter(prefix="/meal-plans", tags=["Meal Plans"])
 
+MEAL_TIMES = {
+    "Breakfast": "08:30 AM",
+    "Morning Snack": "11:00 AM",
+    "Lunch": "01:30 PM",
+    "Evening Snack": "05:00 PM",
+    "Dinner": "08:00 PM",
+}
+
+
+class LockRequest(BaseModel):
+    locked: bool = True
+
+
+class CompleteRequest(BaseModel):
+    completed: bool = True
+
+
+class SwapRequest(BaseModel):
+    use_pantry: bool = False
+
+
+def _serialize_item(item) -> dict:
+    rec = item.recipe
+    servings = item.servings or 1
+    return {
+        "id": item.id,
+        "plan_date": item.plan_date,
+        "meal_type": item.meal_type,
+        "meal_time": MEAL_TIMES.get(item.meal_type, "12:00 PM"),
+        "food_name": rec.name,
+        "recipe_id": item.recipe_id,
+        "servings": servings,
+        "created_at": item.created_at,
+        "image": rec.image_url,
+        "calories": round((rec.calories or 0.0) * servings, 1),
+        "protein": round((rec.protein or 0.0) * servings, 1),
+        "carbohydrates": round((rec.carbohydrates or 0.0) * servings, 1),
+        "fat": round((rec.fat or 0.0) * servings, 1),
+        "fiber": round((rec.fiber or 0.0) * servings, 1),
+        "completed": bool(item.completed),
+        "locked": bool(item.locked),
+        "recipe": RecipeResponse.model_validate(rec),
+    }
+
 
 def _serialize_daily_plan(plan_dict: dict, user_profile: Optional[DietaryProfile] = None) -> dict:
     serialized_meals = {}
     meals_list = []
-    
-    meal_times = {
-        "Breakfast": "08:30 AM",
-        "Morning Snack": "11:00 AM",
-        "Lunch": "01:30 PM",
-        "Evening Snack": "05:00 PM",
-        "Dinner": "08:00 PM",
-    }
 
     for slot, item in plan_dict["meals"].items():
         if item is not None and item.recipe is not None:
-            recipe_val = RecipeResponse.model_validate(item.recipe)
-            servings = item.servings or 1
-            rec = item.recipe
-            meal_data = {
-                "id": item.id,
-                "plan_date": item.plan_date,
-                "meal_type": item.meal_type,
-                "meal_time": meal_times.get(item.meal_type, "12:00 PM"),
-                "food_name": rec.name,
-                "recipe_id": item.recipe_id,
-                "servings": servings,
-                "created_at": item.created_at,
-                "image": rec.image_url,
-                "calories": round((rec.calories or 0.0) * servings, 1),
-                "protein": round((rec.protein or 0.0) * servings, 1),
-                "carbohydrates": round((rec.carbohydrates or 0.0) * servings, 1),
-                "fat": round((rec.fat or 0.0) * servings, 1),
-                "fiber": round((rec.fiber or 0.0) * servings, 1),
-                "completed": False,
-                "recipe": recipe_val
-            }
+            meal_data = _serialize_item(item)
             serialized_meals[slot] = meal_data
             meals_list.append(meal_data)
         else:
@@ -77,8 +93,25 @@ def _serialize_daily_plan(plan_dict: dict, user_profile: Optional[DietaryProfile
         "meals": serialized_meals,
         "meals_list": meals_list,
         "totals": plan_dict["totals"],
-        "target": target
+        "target": target,
+        "generated": bool(plan_dict.get("generated", bool(meals_list))),
     }
+
+
+def _serialize_week(plan: dict, profile: Optional[DietaryProfile]) -> dict:
+    serialized_days = {day: _serialize_daily_plan(day_plan, profile) for day, day_plan in plan["days"].items()}
+    return {
+        "start_date": plan["start_date"],
+        "end_date": plan["end_date"],
+        "days": serialized_days,
+        "weekly_average_calories": plan["weekly_average_calories"],
+        "weekly_totals": plan.get("weekly_totals", {}),
+        "generated": any(day["generated"] for day in serialized_days.values()),
+    }
+
+
+def _profile(db: Session, user_id: int) -> Optional[DietaryProfile]:
+    return db.query(DietaryProfile).filter(DietaryProfile.user_id == user_id).first()
 
 
 @router.get("/daily")
@@ -89,11 +122,10 @@ def get_daily_plan(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Retrieve daily meal plan with nutritional macro totals from actual recipes."""
-    profile = db.query(DietaryProfile).filter(DietaryProfile.user_id == current_user.id).first()
+    """Retrieve the stored daily plan. A plan is only created when the user generates one."""
     plan = get_daily_meal_plan(db, current_user.id, target_date=target_date or date, user_tz=timezone)
     return api_response(
-        data=_serialize_daily_plan(plan, profile),
+        data=_serialize_daily_plan(plan, _profile(db, current_user.id)),
         message="Daily meal plan retrieved successfully"
     )
 
@@ -106,22 +138,17 @@ def create_daily_plan(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Generate or regenerate personalized 5-meal daily plan using real recipes."""
-    plan_date = request.plan_date if request else None
-    timezone = request.timezone if request else None
-    force_regenerate = request.force_regenerate if request else True
-    use_pantry = request.use_pantry if request else False
-    profile = db.query(DietaryProfile).filter(DietaryProfile.user_id == current_user.id).first()
+    """Create or refresh the 5-meal daily plan; locked meals are kept when refreshing."""
     plan = generate_daily_meal_plan(
         db,
         current_user.id,
-        target_date=plan_date,
-        user_tz=timezone,
-        force_regenerate=force_regenerate,
-        use_pantry=use_pantry
+        target_date=request.plan_date if request else None,
+        user_tz=request.timezone if request else None,
+        force_regenerate=request.force_regenerate if request else True,
+        use_pantry=request.use_pantry if request else False
     )
     return api_response(
-        data=_serialize_daily_plan(plan, profile),
+        data=_serialize_daily_plan(plan, _profile(db, current_user.id)),
         message="Daily meal plan generated successfully"
     )
 
@@ -133,19 +160,10 @@ def get_weekly_plan(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Retrieve weekly 7-day meal plan with exact nutritional summary from actual recipes."""
-    profile = db.query(DietaryProfile).filter(DietaryProfile.user_id == current_user.id).first()
+    """Retrieve the stored 7-day plan. Days stay empty until the user generates a plan."""
     plan = get_weekly_meal_plan(db, current_user.id, start_date=start_date, user_tz=timezone)
-    serialized_days = {day: _serialize_daily_plan(day_plan, profile) for day, day_plan in plan["days"].items()}
-
     return api_response(
-        data={
-            "start_date": plan["start_date"],
-            "end_date": plan["end_date"],
-            "days": serialized_days,
-            "weekly_average_calories": plan["weekly_average_calories"],
-            "weekly_totals": plan.get("weekly_totals", {})
-        },
+        data=_serialize_week(plan, _profile(db, current_user.id)),
         message="Weekly meal plan retrieved successfully"
     )
 
@@ -156,8 +174,7 @@ def create_weekly_plan(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Generate or regenerate complete 7-day balanced weekly meal plan without unnecessary repetition."""
-    profile = db.query(DietaryProfile).filter(DietaryProfile.user_id == current_user.id).first()
+    """Create or refresh the 7-day plan without unnecessary repetition; locked meals are kept."""
     plan = generate_weekly_meal_plan(
         db,
         current_user.id,
@@ -166,15 +183,43 @@ def create_weekly_plan(
         force_regenerate=request.force_regenerate,
         use_pantry=request.use_pantry
     )
-    serialized_days = {day: _serialize_daily_plan(day_plan, profile) for day, day_plan in plan["days"].items()}
-
     return api_response(
-        data={
-            "start_date": plan["start_date"],
-            "end_date": plan["end_date"],
-            "days": serialized_days,
-            "weekly_average_calories": plan["weekly_average_calories"],
-            "weekly_totals": plan.get("weekly_totals", {})
-        },
+        data=_serialize_week(plan, _profile(db, current_user.id)),
         message="Weekly meal plan generated successfully"
     )
+
+
+@router.post("/{plan_id}/swap")
+def swap_planned_meal(
+    plan_id: int,
+    request: Optional[SwapRequest] = None,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Replace one planned meal with another suitable recipe for the same slot."""
+    item = swap_meal(db, current_user.id, plan_id, use_pantry=request.use_pantry if request else False)
+    return api_response(data=_serialize_item(item), message="Meal swapped successfully")
+
+
+@router.put("/{plan_id}/lock")
+def lock_planned_meal(
+    plan_id: int,
+    request: LockRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Lock a meal so regenerating the plan keeps it."""
+    item = set_meal_locked(db, current_user.id, plan_id, request.locked)
+    return api_response(data=_serialize_item(item), message="Meal lock updated")
+
+
+@router.put("/{plan_id}/complete")
+def complete_planned_meal(
+    plan_id: int,
+    request: CompleteRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Mark a planned meal as eaten; it is added to (or removed from) the meal history."""
+    item = set_meal_completed(db, current_user.id, plan_id, request.completed)
+    return api_response(data=_serialize_item(item), message="Meal completion updated")

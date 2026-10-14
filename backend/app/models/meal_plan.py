@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, Date, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database import Base
@@ -13,6 +13,9 @@ class MealPlan(Base):
     meal_type = Column(String(50), nullable=False)  # Breakfast, Morning Snack, Lunch, Evening Snack, Dinner
     recipe_id = Column(Integer, ForeignKey("recipes.id", ondelete="CASCADE"), nullable=False)
     servings = Column(Integer, default=1, nullable=False)
+    locked = Column(Boolean, default=False, nullable=False)
+    completed = Column(Boolean, default=False, nullable=False)
+    history_id = Column(Integer, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     # Relationships
