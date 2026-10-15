@@ -5,12 +5,14 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.auth.dependencies import get_current_user
 from app.models.user import User
-from app.schemas.history import MealHistoryCreate, MealFeedbackCreate, MealHistoryResponse
+from app.schemas.history import MealHistoryCreate, MealFeedbackCreate, MealHistoryResponse, RecipeViewCreate
 from app.services.history_service import (
     create_meal_history,
     submit_meal_feedback,
     get_user_meal_history,
-    get_meal_history_by_id
+    get_meal_history_by_id,
+    log_recipe_view,
+    get_user_insights
 )
 from app.utils.helpers import api_response
 
@@ -22,6 +24,7 @@ def list_history(
     target_date: Optional[date] = Query(None, description="Filter by consumption date"),
     meal_type: Optional[str] = Query(None, description="Filter by meal type"),
     food_id: Optional[int] = Query(None, description="Filter by food item ID"),
+    action: Optional[str] = Query(None, pattern="^(cooked|skipped|viewed)$"),
     skip: int = Query(0, ge=0),
     limit: int = Query(50, ge=1, le=100),
     db: Session = Depends(get_db),
@@ -35,12 +38,32 @@ def list_history(
         limit=limit,
         target_date=target_date,
         meal_type=meal_type,
-        food_id=food_id
+        food_id=food_id,
+        action=action
     )
     return api_response(
         data=[MealHistoryResponse.model_validate(h) for h in history_records],
         message="Meal history retrieved successfully"
     )
+
+
+@router.get("/insights")
+def history_insights(
+    days: int = Query(14, ge=7, le=90),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return api_response(data=get_user_insights(db, current_user.id, days), message="Insights retrieved")
+
+
+@router.post("/viewed")
+def record_view(
+    payload: RecipeViewCreate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    record = log_recipe_view(db, current_user.id, payload.recipe_id)
+    return api_response(data={"id": record.id}, message="Recipe view recorded")
 
 
 @router.get("/{history_id}")

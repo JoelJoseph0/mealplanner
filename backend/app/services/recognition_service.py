@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import List, Optional, Dict, Any
 from sqlalchemy.orm import Session, joinedload
 from fastapi import UploadFile, HTTPException, status
@@ -7,6 +9,8 @@ from app.models.food import Food
 from app.models.recipe import Recipe
 from app.models.recipe_ingredient import RecipeIngredient
 from app.models.pantry_item import PantryItem
+from app.models.meal_history import MealHistory
+from app.config import settings
 from app.recommendation.pantry_matcher import match_recipe, rank_matches
 from app.services.ingredient_service import load_catalog, get_user_pantry_context
 from app.utils.ingredient_parser import IngredientIndex
@@ -14,7 +18,7 @@ from app.schemas.nutrition import NutritionResponse
 from app.schemas.recipe import RecipeResponse
 from app.utils.validators import validate_image_file
 from app.utils.file_handler import save_upload_file
-from app.computer_vision.preprocessing import preprocess_image
+from app.computer_vision.preprocessing import assess_quality, tta_views
 from app.computer_vision.prediction import predict_food
 
 
@@ -95,11 +99,12 @@ async def process_and_recognize_food(
     db.add(food_image)
     db.flush()
 
-    # 4. Preprocess image
-    tensor = preprocess_image(image_bytes)
+    # 4. Preprocess image into test-time augmentation views and check photo quality
+    views = tta_views(image_bytes)
+    quality = assess_quality(image_bytes)
 
     # 5. Model Inference
-    pred = predict_food(tensor)
+    pred = predict_food(views)
     _, index = load_catalog(db)
     candidates = _candidate_payload(pred.get("candidates", []), index)
 
@@ -126,6 +131,8 @@ async def process_and_recognize_food(
             "message": pred["message"],
             "nutrition": None,
             "candidates": candidates,
+            "is_ambiguous": pred.get("is_ambiguous", False),
+            "quality": quality,
             "in_pantry": False,
             "added_to_pantry": False,
             "recommended_recipes": []
@@ -168,13 +175,90 @@ async def process_and_recognize_food(
         "image_url": image_url,
         "category": food.category if food else "Unclassified",
         "serving_size": food.nutrition.serving_size if food and food.nutrition else "100g",
-        "message": "Ingredient successfully recognized",
+        "message": pred.get("message") if pred.get("is_ambiguous") else "Ingredient successfully recognized",
         "nutrition": nutrition_data,
         "candidates": candidates,
+        "is_ambiguous": pred.get("is_ambiguous", False),
+        "quality": quality,
         "in_pantry": in_pantry,
         "added_to_pantry": added_to_pantry,
         "recommended_recipes": recommended_recipes
     }
+
+
+def _stored_file(food_image: Optional[FoodImage]) -> Optional[Path]:
+    if not food_image or not food_image.file_path:
+        return None
+    name = food_image.file_path.replace(chr(92), "/").split("/")[-1]
+    return settings.upload_dir_path / name
+
+
+def _image_url(food_image: Optional[FoodImage]) -> Optional[str]:
+    path = _stored_file(food_image)
+    if not path or not path.exists():
+        return None
+    return f"/uploads/food_images/{path.name}"
+
+
+def _remove_images(db: Session, images: List[FoodImage]) -> int:
+    removed = 0
+    image_ids = [image.id for image in images]
+    if not image_ids:
+        return 0
+    recognition_ids = [row[0] for row in db.query(Recognition.id).filter(Recognition.food_image_id.in_(image_ids)).all()]
+    if recognition_ids:
+        db.query(MealHistory).filter(MealHistory.recognition_id.in_(recognition_ids)).update(
+            {MealHistory.recognition_id: None}, synchronize_session=False
+        )
+        db.query(Recognition).filter(Recognition.id.in_(recognition_ids)).delete(synchronize_session=False)
+    for image in images:
+        path = _stored_file(image)
+        if path and path.exists():
+            try:
+                path.unlink()
+            except OSError:
+                pass
+        db.delete(image)
+        removed += 1
+    db.commit()
+    return removed
+
+
+def delete_recognition(db: Session, recognition_id: int, user_id: int) -> None:
+    recognition = (
+        db.query(Recognition)
+        .join(FoodImage, Recognition.food_image_id == FoodImage.id)
+        .filter(Recognition.id == recognition_id, FoodImage.user_id == user_id)
+        .first()
+    )
+    if not recognition:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Recognition with ID {recognition_id} not found")
+    _remove_images(db, [recognition.food_image])
+
+
+def delete_all_recognitions(db: Session, user_id: int) -> int:
+    images = db.query(FoodImage).filter(FoodImage.user_id == user_id).all()
+    return _remove_images(db, images)
+
+
+def purge_old_images(db: Session, retention_days: int) -> int:
+    if retention_days <= 0:
+        return 0
+    cutoff = datetime.now(timezone.utc) - timedelta(days=retention_days)
+    removed = 0
+    for image in db.query(FoodImage).all():
+        created = image.created_at
+        if created is not None and created.tzinfo is None:
+            created = created.replace(tzinfo=timezone.utc)
+        if created and created < cutoff:
+            path = _stored_file(image)
+            if path and path.exists():
+                try:
+                    path.unlink()
+                    removed += 1
+                except OSError:
+                    pass
+    return removed
 
 
 def get_user_recognition_history(db: Session, user_id: int) -> List[Dict[str, Any]]:
@@ -197,7 +281,7 @@ def get_user_recognition_history(db: Session, user_id: int) -> List[Dict[str, An
             "food_name": r.food.name if r.food else r.predicted_name,
             "confidence": r.confidence,
             "created_at": r.created_at,
-            "image_url": f"/uploads/food_images/{r.food_image.file_path.split('/')[-1].split(chr(92))[-1]}" if r.food_image else None,
+            "image_url": _image_url(r.food_image),
             "nutrition": NutritionResponse.model_validate(r.food.nutrition).model_dump() if (r.food and r.food.nutrition) else None
         })
     return results
@@ -224,6 +308,6 @@ def get_recognition_by_id(db: Session, recognition_id: int, user_id: int) -> Dic
         "predicted_name": recognition.predicted_name,
         "confidence": recognition.confidence,
         "created_at": recognition.created_at,
-        "image_url": f"/uploads/food_images/{recognition.food_image.file_path.split('/')[-1].split(chr(92))[-1]}" if recognition.food_image else None,
+        "image_url": _image_url(recognition.food_image),
         "nutrition": NutritionResponse.model_validate(recognition.food.nutrition).model_dump() if (recognition.food and recognition.food.nutrition) else None
     }

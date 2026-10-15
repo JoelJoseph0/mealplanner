@@ -4,6 +4,7 @@ import { CalendarDays, ChefHat, Home, LogOut, Moon, Refrigerator, ScanLine, Shie
 import { useAuth } from '../hooks/useAuth';
 import { useTheme } from '../context/ThemeContext';
 import { Button } from '../components/ui';
+import ReminderManager from '../components/ReminderManager';
 
 const NAV = [
   { to: '/dashboard', label: 'Home', icon: Home },
@@ -140,6 +141,7 @@ export const AppLayout = () => {
 
       <div className="flex min-w-0 flex-1 flex-col">
         {offline && <OfflineBanner />}
+        <ReminderManager />
 
         <header className="glass sticky top-0 z-30 flex items-center justify-between border-b border-line px-4 py-2.5 lg:hidden">
           <Brand compact />

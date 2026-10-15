@@ -15,6 +15,7 @@ import { adminService } from '../../services';
 import { getErrorMessage } from '../../services/api';
 import { Badge, Card, ErrorState, PageHeader, SectionTitle, Skeleton, Stat } from '../../components/ui';
 import { Camera, CalendarDays, Package, Target } from 'lucide-react';
+import ModelEvaluation from '../../components/admin/ModelEvaluation';
 
 const TOOLTIP = { background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 12, color: 'var(--fg)' };
 const AXIS = { fill: 'var(--subtle)', fontSize: 12 };
@@ -45,6 +46,9 @@ export const Reports = () => {
   const recognized = vision.most_recognized_ingredients || [];
   const cooked = planning.most_cooked_recipes?.length ? planning.most_cooked_recipes : planning.most_planned_recipes || [];
   const feedback = satisfaction.feedback_breakdown || {};
+  const actions = planning.meal_actions || {};
+  const trend = planning.nutrition_trend || [];
+  const trendHasData = trend.some((d) => d.meals > 0);
 
   return (
     <div>
@@ -156,6 +160,55 @@ export const Reports = () => {
             </div>
           </Card>
         </section>
+
+        <section>
+          <SectionTitle title="Meal selections" description="What people did with planned and recommended meals." className="mb-4" />
+          <Card>
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                ['Cooked', actions.cooked ?? 0, 'text-brand'],
+                ['Skipped', actions.skipped ?? 0, 'text-warn'],
+                ['Viewed', actions.viewed ?? 0, 'text-info'],
+              ].map(([label, value, tone]) => (
+                <div key={label} className="rounded-2xl bg-surface-2 p-4 text-center">
+                  <p className={`font-display text-3xl font-semibold ${tone}`}>{value}</p>
+                  <p className="mt-1 text-sm font-semibold text-muted">{label}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-muted">
+              {(actions.cooked ?? 0) + (actions.skipped ?? 0) > 0
+                ? `${Math.round(((actions.cooked ?? 0) / ((actions.cooked ?? 0) + (actions.skipped ?? 0))) * 100)}% of tracked planned meals were cooked rather than skipped.`
+                : 'No meals cooked or skipped yet.'}
+            </p>
+          </Card>
+        </section>
+
+        <section>
+          <SectionTitle title="Nutrition trend, last 14 days" description="Average calories cooked per active user each day." className="mb-4" />
+          <Card>
+            {trendHasData ? (
+              <div className="h-72">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={trend} margin={{ left: -16, right: 8, top: 8 }}>
+                    <CartesianGrid stroke="var(--line)" vertical={false} />
+                    <XAxis dataKey="label" tick={AXIS} interval={1} />
+                    <YAxis allowDecimals={false} tick={AXIS} />
+                    <Tooltip contentStyle={TOOLTIP} cursor={{ fill: 'var(--surface-2)' }} formatter={(value) => [`${Math.round(value)} kcal`, 'Calories']} />
+                    <Bar dataKey="calories" name="Calories" fill="var(--brand)" radius={[4, 4, 0, 0]} maxBarSize={26} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            ) : (
+              <Empty>No cooked meals in the last 14 days.</Empty>
+            )}
+          </Card>
+        </section>
+      </div>
+
+      <div className="mt-10">
+        <SectionTitle title="Recognition model evaluation" description="Accuracy, precision, recall, F1-score and the confusion matrix on the test set." className="mb-4" />
+        <ModelEvaluation />
       </div>
     </div>
   );

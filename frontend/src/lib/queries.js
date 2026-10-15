@@ -4,6 +4,7 @@ import {
   pantryService,
   planService,
   recipeService,
+  recognitionService,
   shoppingService,
   userService,
 } from '../services';
@@ -137,8 +138,39 @@ export const useGenerateWeek = () => usePlanMutation(({ start, usePantry, force 
 export const useSwapMeal = () => usePlanMutation(({ id, usePantry }) => planService.swap(id, usePantry));
 export const useLockMeal = () => usePlanMutation(({ id, locked }) => planService.lock(id, locked));
 export const useCompleteMeal = () => usePlanMutation(({ id, completed }) => planService.complete(id, completed));
+export const useSkipMeal = () => usePlanMutation(({ id, skipped }) => planService.skip(id, skipped));
 
-export const useHistory = () => useQuery({ queryKey: ['history'], queryFn: () => historyService.list() });
+export const useHistory = (action) =>
+  useQuery({ queryKey: ['history', action || 'all'], queryFn: () => historyService.list(action ? { action } : {}) });
+
+export const useInsights = (days = 14) =>
+  useQuery({ queryKey: ['history', 'insights', days], queryFn: () => historyService.insights(days) });
+
+export const useRecordView = () => useMutation({ mutationFn: historyService.viewed });
+
+export const useReminders = (enabled = true) =>
+  useQuery({ queryKey: ['reminders'], queryFn: userService.getReminders, enabled, staleTime: 5 * 60_000 });
+
+export const useSaveReminders = () => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: userService.saveReminders,
+    onSuccess: (data) => client.setQueryData(['reminders'], data),
+  });
+};
+
+export const useChangePassword = () =>
+  useMutation({ mutationFn: ({ current, next }) => userService.changePassword(current, next) });
+
+export const useScanHistory = () => useQuery({ queryKey: ['scans'], queryFn: recognitionService.history });
+
+export const useDeleteScan = () => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: (id) => (id === 'all' ? recognitionService.clear() : recognitionService.remove(id)),
+    onSuccess: () => client.invalidateQueries({ queryKey: ['scans'] }),
+  });
+};
 
 export const useLogMeal = () => {
   const client = useQueryClient();

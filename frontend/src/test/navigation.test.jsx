@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthContext } from '../context/AuthContext';
 import AppRoutes from '../routes/AppRoutes';
 
@@ -22,6 +23,7 @@ vi.mock('../pages/admin/Users', () => stub('admin-users-page', 'Admin users'));
 vi.mock('../pages/admin/Ingredients', () => stub('admin-ingredients-page', 'Admin ingredients'));
 vi.mock('../pages/admin/Recipes', () => stub('admin-recipes-page', 'Admin recipes'));
 vi.mock('../pages/admin/Reports', () => stub('admin-reports-page', 'Admin reports'));
+vi.mock('../components/ReminderManager', () => ({ default: () => null }));
 
 const regularUser = { id: 1, full_name: 'Rahul Sharma', email: 'rahul@example.com', role: 'user' };
 const adminUser = { id: 2, full_name: 'System Admin', email: 'admin@mealplanner.com', role: 'admin' };
@@ -35,12 +37,15 @@ const renderAt = (route, { user = null, logout = vi.fn() } = {}) => {
     login: vi.fn(),
     logout,
   };
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   render(
-    <AuthContext.Provider value={value}>
-      <MemoryRouter initialEntries={[route]}>
-        <AppRoutes />
-      </MemoryRouter>
-    </AuthContext.Provider>
+    <QueryClientProvider client={client}>
+      <AuthContext.Provider value={value}>
+        <MemoryRouter initialEntries={[route]}>
+          <AppRoutes />
+        </MemoryRouter>
+      </AuthContext.Provider>
+    </QueryClientProvider>
   );
   return { logout };
 };

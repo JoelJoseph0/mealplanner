@@ -23,7 +23,8 @@ def generate_recommendations(
     recognized_food_name: Optional[str] = None,
     feedback_history: Optional[Dict[int, str]] = None,
     limit: int = 5,
-    pantry_context: Optional[PantryContext] = None
+    pantry_context: Optional[PantryContext] = None,
+    recent_counts: Optional[Dict[int, int]] = None
 ) -> List[Dict[str, Any]]:
     """
     Combines strict elimination filtering and multi-factor scoring to rank recipes.
@@ -59,6 +60,10 @@ def generate_recommendations(
             recipe_feedback_history=feedback_history,
             pantry_coverage=coverage
         )
+        repeats = (recent_counts or {}).get(recipe.id, 0)
+        if repeats:
+            score = round(max(0.0, score - min(30.0, 12.0 * repeats)), 1)
+            reasons.append(f"Lowered for variety: you had this {repeats} time{'s' if repeats > 1 else ''} this week")
         ranked.append({
             "recipe": recipe,
             "score": score,

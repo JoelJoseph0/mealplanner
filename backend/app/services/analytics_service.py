@@ -1,5 +1,5 @@
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -83,6 +83,48 @@ def model_summary() -> Dict[str, Any]:
         return {"trained": False, "num_classes": 0, "class_names": []}
 
 
+def _nutrition_trend(db: Session, days: int = 14, user_id: Optional[int] = None) -> List[Dict[str, Any]]:
+    today = datetime.now(timezone.utc).date()
+    start = today - timedelta(days=days - 1)
+    query = (
+        db.query(MealHistory.consumed_at, MealHistory.user_id, Recipe.calories, Recipe.protein, Recipe.carbohydrates, Recipe.fat)
+        .join(Recipe, MealHistory.recipe_id == Recipe.id)
+        .filter(MealHistory.action == "cooked")
+        .filter(MealHistory.consumed_at >= datetime.combine(start, datetime.min.time()))
+    )
+    if user_id is not None:
+        query = query.filter(MealHistory.user_id == user_id)
+    totals: Dict[Any, Dict[str, float]] = {}
+    users_per_day: Dict[Any, set] = {}
+    for consumed_at, uid, calories, protein, carbs, fat in query.all():
+        stamp = _as_utc(consumed_at)
+        if stamp is None:
+            continue
+        day = stamp.date()
+        bucket = totals.setdefault(day, {"calories": 0.0, "protein": 0.0, "carbohydrates": 0.0, "fat": 0.0, "meals": 0})
+        bucket["calories"] += calories or 0.0
+        bucket["protein"] += protein or 0.0
+        bucket["carbohydrates"] += carbs or 0.0
+        bucket["fat"] += fat or 0.0
+        bucket["meals"] += 1
+        users_per_day.setdefault(day, set()).add(uid)
+    trend = []
+    for offset in range(days):
+        day = start + timedelta(days=offset)
+        bucket = totals.get(day, {"calories": 0.0, "protein": 0.0, "carbohydrates": 0.0, "fat": 0.0, "meals": 0})
+        people = max(1, len(users_per_day.get(day, ()))) if user_id is None else 1
+        trend.append({
+            "date": day.isoformat(),
+            "label": day.strftime("%d %b"),
+            "meals": bucket["meals"],
+            "calories": round(bucket["calories"] / people, 1),
+            "protein": round(bucket["protein"] / people, 1),
+            "carbohydrates": round(bucket["carbohydrates"] / people, 1),
+            "fat": round(bucket["fat"] / people, 1),
+        })
+    return trend
+
+
 def build_reports(db: Session) -> Dict[str, Any]:
     feedback_stats = (
         db.query(MealHistory.feedback, func.count(MealHistory.id))
@@ -116,6 +158,7 @@ def build_reports(db: Session) -> Dict[str, Any]:
     cooked = (
         db.query(Recipe.name, func.count(MealHistory.id))
         .join(MealHistory, MealHistory.recipe_id == Recipe.id)
+        .filter(MealHistory.action == "cooked")
         .group_by(Recipe.name)
         .order_by(func.count(MealHistory.id).desc())
         .limit(5)
@@ -141,11 +184,11 @@ def build_reports(db: Session) -> Dict[str, Any]:
 
     planned_days = db.query(MealPlan.user_id, MealPlan.plan_date).distinct().count()
     total_plan_entries = db.query(func.count(MealPlan.id)).scalar() or 0
-    meals_logged = db.query(func.count(MealHistory.id)).scalar() or 0
+    meals_logged = db.query(func.count(MealHistory.id)).filter(MealHistory.action == "cooked").scalar() or 0
 
     months = _last_months(6)
     scans_by_month = _bucket_by_month([row[0] for row in db.query(Recognition.created_at).all()], months)
-    logs_by_month = _bucket_by_month([row[0] for row in db.query(MealHistory.consumed_at).all()], months)
+    logs_by_month = _bucket_by_month([row[0] for row in db.query(MealHistory.consumed_at).filter(MealHistory.action == "cooked").all()], months)
     users_by_month = _bucket_by_month([row[0] for row in db.query(User.created_at).all()], months)
     pantry_by_month = _bucket_by_month([row[0] for row in db.query(PantryItem.created_at).all()], months)
     monthly_activity = [
@@ -159,6 +202,11 @@ def build_reports(db: Session) -> Dict[str, Any]:
         }
         for year, month in months
     ]
+
+    action_counts = dict(
+        db.query(MealHistory.action, func.count(MealHistory.id)).group_by(MealHistory.action).all()
+    )
+    nutrition_trend = _nutrition_trend(db, days=14)
 
     return {
         "report_name": "Smart Meal Planner System Diagnostic Report",
@@ -180,6 +228,12 @@ def build_reports(db: Session) -> Dict[str, Any]:
             "plan_entries": total_plan_entries,
             "most_planned_recipes": [{"name": n, "count": c} for n, c in planned],
             "most_cooked_recipes": [{"name": n, "count": c} for n, c in cooked],
+            "meal_actions": {
+                "cooked": action_counts.get("cooked", 0),
+                "skipped": action_counts.get("skipped", 0),
+                "viewed": action_counts.get("viewed", 0),
+            },
+            "nutrition_trend": nutrition_trend,
         },
         "pantry": {
             "total_items": total_pantry_items,
@@ -212,6 +266,7 @@ def recent_activity(db: Session, limit: int = 8) -> List[Dict[str, Any]]:
         db.query(MealHistory, User.full_name, Recipe.name)
         .join(User, MealHistory.user_id == User.id)
         .outerjoin(Recipe, MealHistory.recipe_id == Recipe.id)
+        .filter(MealHistory.action != "viewed")
         .order_by(MealHistory.consumed_at.desc())
         .limit(limit)
         .all()
@@ -221,7 +276,7 @@ def recent_activity(db: Session, limit: int = 8) -> List[Dict[str, Any]]:
         if log.feedback:
             detail = f"{detail} (feedback: {log.feedback})"
         events.append({
-            "action": "Meal Logged",
+            "action": "Meal Skipped" if log.action == "skipped" else "Meal Logged",
             "user": name,
             "detail": detail,
             "timestamp": _as_utc(log.consumed_at),

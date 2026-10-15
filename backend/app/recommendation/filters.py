@@ -41,6 +41,19 @@ def is_diet_compatible(recipe_diet: str, user_diet: str) -> bool:
     return True
 
 
+def term_variants(term: str) -> List[str]:
+    """The term itself plus its singular form, so 'peanuts' also matches 'peanut'."""
+    value = term.strip().lower()
+    variants = [value]
+    if len(value) > 3 and value.endswith("ies"):
+        variants.append(value[:-3] + "y")
+    elif len(value) > 3 and value.endswith("es"):
+        variants.append(value[:-2])
+    if len(value) > 3 and value.endswith("s"):
+        variants.append(value[:-1])
+    return [v for v in dict.fromkeys(variants) if v]
+
+
 def contains_allergen(recipe: Recipe, user_allergies: List[str]) -> bool:
     """
     STRICT allergy check.
@@ -52,7 +65,7 @@ def contains_allergen(recipe: Recipe, user_allergies: List[str]) -> bool:
     if not user_allergies:
         return False
 
-    allergies_lower = [a.strip().lower() for a in user_allergies if a.strip()]
+    allergies_lower = [v for a in user_allergies if a.strip() for v in term_variants(a)]
     if not allergies_lower:
         return False
 
@@ -98,6 +111,29 @@ def contains_avoided_foods(recipe: Recipe, avoided_foods: List[str]) -> bool:
     return False
 
 
+INTOLERANCE_TERMS = {
+    "lactose": ["milk", "curd", "yogurt", "paneer", "cheese", "cream", "butter", "khoa", "lassi", "buttermilk", "dairy"],
+    "gluten": ["wheat", "atta", "maida", "semolina", "rava", "sooji", "bread", "pasta", "noodle", "barley", "vermicelli"],
+    "fructose": ["honey", "jaggery", "mango", "apple", "pear"],
+    "histamine": ["fermented", "vinegar", "spinach", "tomato", "cheese"],
+    "caffeine": ["coffee", "tea", "cocoa", "chocolate"],
+    "fodmap": ["onion", "garlic", "wheat", "beans", "chickpea"],
+}
+
+
+def restricted_terms(profile: DietaryProfile) -> List[str]:
+    terms = [a for a in (profile.allergies or []) if a]
+    for item in getattr(profile, "intolerances", None) or []:
+        key = str(item).strip().lower()
+        if not key:
+            continue
+        terms.append(key)
+        for name, extra in INTOLERANCE_TERMS.items():
+            if name in key:
+                terms.extend(extra)
+    return terms
+
+
 def filter_recipes(
     recipes: List[Recipe],
     profile: DietaryProfile
@@ -112,7 +148,7 @@ def filter_recipes(
         return recipes
 
     user_diet = profile.diet_type or "None"
-    allergies = profile.allergies or []
+    allergies = restricted_terms(profile)
     avoided_foods = profile.avoided_foods or []
 
     safe_recipes = []

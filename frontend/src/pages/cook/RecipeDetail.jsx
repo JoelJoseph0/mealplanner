@@ -4,16 +4,14 @@ import {
   ArrowLeft,
   Check,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
+  ChefHat,
   CircleDashed,
   Clock,
   Flame,
   Play,
+  ShieldAlert,
   ShoppingBasket,
-  Timer,
   Users,
-  X,
   XCircle,
 } from 'lucide-react';
 import {
@@ -22,13 +20,18 @@ import {
   usePantry,
   useRateRecipe,
   useRatings,
+  usePreferences,
   useRecipe,
+  useRecordView,
   useShoppingFromRecipe,
 } from '../../lib/queries';
 import { getErrorMessage } from '../../services/api';
 import { RecipeImage, IngredientIcon } from '../../components/food/visuals';
 import { DietDot, RatingButtons } from '../../components/food/RecipeCard';
-import { Badge, Button, Card, Checkbox, Dialog, ErrorState, Meter, Skeleton, useToast } from '../../components/ui';
+import CookMode from '../../components/cook/CookMode';
+import ChefChat from '../../components/assistant/ChefChat';
+import { useCookingGuide } from '../../lib/useCookingGuide';
+import { Badge, Button, Card, Checkbox, Dialog, ErrorState, HealthNote, Skeleton, useToast } from '../../components/ui';
 
 const parseSteps = (instructions) => {
   if (!instructions) return [];
@@ -36,125 +39,6 @@ const parseSteps = (instructions) => {
     .split('\n')
     .map((line) => line.trim().replace(/^\d+[.)]\s*/, ''))
     .filter(Boolean);
-};
-
-const findMinutes = (text) => {
-  const match = text.match(/(\d+)(?:\s*[-–]\s*(\d+))?\s*(?:minutes?|mins?)\b/i);
-  if (!match) return null;
-  return Number(match[2] || match[1]);
-};
-
-const CookMode = ({ recipe, steps, onClose, onFinish }) => {
-  const [index, setIndex] = useState(0);
-  const [remaining, setRemaining] = useState(null);
-  const timerRef = useRef(null);
-  const step = steps[index];
-  const minutes = findMinutes(step);
-  const last = index === steps.length - 1;
-
-  useEffect(() => {
-    let lock = null;
-    const acquire = async () => {
-      try {
-        if (navigator.wakeLock) lock = await navigator.wakeLock.request('screen');
-      } catch {
-        lock = null;
-      }
-    };
-    acquire();
-    const handleKey = (event) => {
-      if (event.key === 'Escape') onClose();
-      if (event.key === 'ArrowRight') setIndex((i) => Math.min(i + 1, steps.length - 1));
-      if (event.key === 'ArrowLeft') setIndex((i) => Math.max(i - 1, 0));
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => {
-      window.removeEventListener('keydown', handleKey);
-      clearInterval(timerRef.current);
-      lock?.release?.().catch(() => {});
-    };
-  }, [onClose, steps.length]);
-
-  const startTimer = () => {
-    clearInterval(timerRef.current);
-    setRemaining(minutes * 60);
-    timerRef.current = setInterval(() => {
-      setRemaining((current) => {
-        if (current === null) return null;
-        if (current <= 1) {
-          clearInterval(timerRef.current);
-          return 0;
-        }
-        return current - 1;
-      });
-    }, 1000);
-  };
-
-  const go = (next) => {
-    clearInterval(timerRef.current);
-    setRemaining(null);
-    setIndex(next);
-  };
-
-  const clock = remaining === null ? null : `${Math.floor(remaining / 60)}:${String(remaining % 60).padStart(2, '0')}`;
-
-  return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-bg" role="dialog" aria-modal="true" aria-label={`Cooking ${recipe.name}`}>
-      <div className="flex items-center justify-between border-b border-line px-4 py-3">
-        <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-fg">{recipe.name}</p>
-          <p className="text-xs text-subtle">
-            Step {index + 1} of {steps.length}
-          </p>
-        </div>
-        <button type="button" onClick={onClose} aria-label="Exit cooking mode" className="rounded-xl p-2 text-muted hover:bg-surface-2">
-          <X className="h-6 w-6" />
-        </button>
-      </div>
-      <div className="px-4 pt-3">
-        <Meter value={index + 1} max={steps.length} />
-      </div>
-
-      <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-8">
-        <p className="font-display text-3xl font-medium leading-snug text-fg sm:text-5xl sm:leading-tight">{step}</p>
-
-        {minutes && (
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            {clock === null ? (
-              <Button variant="soft" size="lg" icon={Timer} onClick={startTimer}>
-                Start {minutes} min timer
-              </Button>
-            ) : (
-              <div
-                className={`flex items-center gap-3 rounded-2xl px-5 py-3 text-3xl font-bold tabular-nums ${
-                  remaining === 0 ? 'bg-brand text-brand-fg' : 'bg-surface-2 text-fg'
-                }`}
-                role="timer"
-              >
-                <Timer className="h-7 w-7" aria-hidden="true" />
-                {remaining === 0 ? 'Time is up' : clock}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-
-      <div className="flex items-center gap-3 border-t border-line px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-        <Button variant="secondary" size="lg" icon={ChevronLeft} disabled={index === 0} onClick={() => go(index - 1)}>
-          Back
-        </Button>
-        {last ? (
-          <Button size="lg" icon={Check} className="flex-1" onClick={onFinish}>
-            Done, I cooked it
-          </Button>
-        ) : (
-          <Button size="lg" iconRight={ChevronRight} className="flex-1" onClick={() => go(index + 1)}>
-            Next step
-          </Button>
-        )}
-      </div>
-    </div>
-  );
 };
 
 export const RecipeDetail = () => {
@@ -168,6 +52,14 @@ export const RecipeDetail = () => {
   const addMissing = useShoppingFromRecipe();
   const logMeal = useLogMeal();
   const consume = useConsumeIngredients();
+  const { data: prefs } = usePreferences();
+  const recordView = useRecordView();
+  const { personal } = useCookingGuide(recipeId);
+  const recordViewRef = useRef(recordView.mutate);
+
+  useEffect(() => {
+    if (recipeId) recordViewRef.current(Number(recipeId), { onError: () => null });
+  }, [recipeId]);
 
   const [cooking, setCooking] = useState(false);
   const [finishing, setFinishing] = useState(false);
@@ -238,6 +130,16 @@ export const RecipeDetail = () => {
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back
       </button>
+
+      {personal?.allergen_conflicts?.length > 0 && (
+        <div className="mb-4 flex items-start gap-3 rounded-2xl border border-danger/30 bg-danger-soft p-4" role="alert">
+          <ShieldAlert className="mt-0.5 h-5 w-5 shrink-0 text-danger" aria-hidden="true" />
+          <div>
+            <p className="font-semibold text-fg">This recipe may not suit you</p>
+            <p className="text-sm text-muted">It appears to contain {personal.allergen_conflicts.join(', ')}, which is on your allergy or intolerance list.</p>
+          </div>
+        </div>
+      )}
 
       <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-card">
         <div className="group relative h-56 sm:h-80">
@@ -348,6 +250,16 @@ export const RecipeDetail = () => {
           )}
         </Card>
       </div>
+
+      <Card className="mt-6">
+        <h2 className="flex items-center gap-2 text-2xl font-semibold text-fg">
+          <ChefHat className="h-6 w-6 text-brand" aria-hidden="true" /> Ask the chef
+        </h2>
+        <p className="mb-4 mt-1 text-sm text-muted">Questions about substitutions, timing or technique? Chef Assistant knows this recipe and your kitchen.</p>
+        <ChefChat recipe={recipe} className="max-h-[32rem]" />
+      </Card>
+
+      <HealthNote className="mt-6" conditions={prefs?.health_conditions || []} compact={!prefs?.health_conditions?.length} />
 
       {cooking && <CookMode recipe={recipe} steps={steps} onClose={() => setCooking(false)} onFinish={openFinish} />}
 

@@ -1,4 +1,6 @@
+import json
 from typing import Optional
+from pathlib import Path
 from fastapi import APIRouter, Depends, Query, status, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
 from sqlalchemy import func
@@ -12,7 +14,8 @@ from app.models.recognition import Recognition
 from app.models.meal_plan import MealPlan
 from app.models.meal_history import MealHistory
 from app.models.pantry_item import PantryItem
-from app.schemas.user import UserResponse
+from app.schemas.user import UserResponse, AdminUserUpdate
+from pydantic import BaseModel, Field
 from app.schemas.food import FoodCreate, FoodUpdate, FoodWithNutritionResponse
 from app.schemas.nutrition import NutritionCreate, NutritionUpdate, NutritionResponse
 from app.schemas.recipe import RecipeCreate, RecipeUpdate, RecipeResponse
@@ -130,6 +133,115 @@ def delete_user_account(
     db.delete(user)
     db.commit()
     return api_response(message=f"User account {user_id} successfully deleted")
+
+
+@router.put("/users/{user_id}")
+def update_user_account(
+    user_id: int,
+    payload: AdminUserUpdate,
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin)
+):
+    """Activate, deactivate or change the role of a user account."""
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"User with ID {user_id} not found")
+    if user.id == admin.id and (payload.is_active is False or payload.role == "user"):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="You cannot deactivate or demote your own account")
+    if payload.is_active is not None:
+        user.is_active = payload.is_active
+    if payload.role is not None:
+        user.role = payload.role
+    db.commit()
+    db.refresh(user)
+    return api_response(data=UserResponse.model_validate(user), message="User account updated")
+
+
+class CategoryRename(BaseModel):
+    name: str = Field(..., min_length=2, max_length=100)
+    new_name: str = Field(..., min_length=2, max_length=100)
+
+
+@router.get("/categories")
+def list_food_categories(
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin)
+):
+    """List ingredient categories with how many catalog items use each."""
+    rows = (
+        db.query(Food.category, func.count(Food.id))
+        .group_by(Food.category)
+        .order_by(Food.category)
+        .all()
+    )
+    return api_response(
+        data=[{"name": name, "count": count} for name, count in rows if name],
+        message="Categories retrieved successfully"
+    )
+
+
+@router.put("/categories")
+def rename_food_category(
+    payload: CategoryRename,
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin)
+):
+    """Rename a category, or merge it into another by giving an existing name."""
+    old_name = payload.name.strip()
+    new_name = " ".join(payload.new_name.split())
+    updated = (
+        db.query(Food)
+        .filter(Food.category == old_name)
+        .update({Food.category: new_name}, synchronize_session=False)
+    )
+    if not updated:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Category '{old_name}' not found")
+    db.commit()
+    return api_response(data={"updated": updated, "name": new_name}, message=f"Moved {updated} ingredient{'s' if updated != 1 else ''} to {new_name}")
+
+
+EVALUATION_REPORT = Path(__file__).resolve().parent.parent.parent / "ml" / "evaluation" / "report.json"
+
+
+@router.get("/model-evaluation")
+def model_evaluation(admin: User = Depends(require_admin)):
+    """Return the latest test-set evaluation: accuracy, per-class precision, recall, F1 and the confusion matrix."""
+    if not EVALUATION_REPORT.exists():
+        return api_response(data={"available": False, "model": model_summary()}, message="No evaluation report yet")
+    with open(EVALUATION_REPORT, "r", encoding="utf-8") as f:
+        report = json.load(f)
+    per_class = [
+        {
+            "name": name,
+            "precision": round(values.get("precision", 0.0), 4),
+            "recall": round(values.get("recall", 0.0), 4),
+            "f1": round(values.get("f1-score", 0.0), 4),
+            "support": int(values.get("support", 0)),
+        }
+        for name, values in (report.get("classification_report") or {}).items()
+        if isinstance(values, dict) and name not in ("accuracy", "macro avg", "weighted avg")
+    ]
+    return api_response(
+        data={
+            "available": True,
+            "accuracy": report.get("accuracy"),
+            "top3_accuracy": report.get("top3_accuracy"),
+            "precision_macro": report.get("precision_macro"),
+            "recall_macro": report.get("recall_macro"),
+            "f1_macro": report.get("f1_macro"),
+            "precision_weighted": report.get("precision_weighted"),
+            "recall_weighted": report.get("recall_weighted"),
+            "f1_weighted": report.get("f1_weighted"),
+            "test_images": report.get("test_images"),
+            "class_names": report.get("class_names") or [row["name"] for row in per_class],
+            "confusion_matrix": report.get("confusion_matrix"),
+            "most_confused": report.get("most_confused") or [],
+            "evaluated_at": report.get("evaluated_at"),
+            "per_class": per_class,
+            "model": model_summary(),
+        },
+        message="Model evaluation retrieved successfully"
+    )
 
 
 # Food management endpoints under admin prefix

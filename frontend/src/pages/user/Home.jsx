@@ -86,7 +86,7 @@ const TodayPlan = () => {
                 </p>
                 <Link
                   to={`/recipes/${meal.recipe_id}`}
-                  className={`block truncate font-semibold hover:text-brand ${meal.completed ? 'text-subtle line-through' : 'text-fg'}`}
+                  className={`block truncate font-semibold hover:text-brand ${meal.completed || meal.skipped ? 'text-subtle line-through' : 'text-fg'}`}
                 >
                   {meal.food_name}
                 </Link>

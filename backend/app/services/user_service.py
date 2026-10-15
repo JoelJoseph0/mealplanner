@@ -1,10 +1,11 @@
-from typing import Optional
+from typing import Any, Dict, Optional
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.models.user import User
 from app.models.dietary_profile import DietaryProfile
 from app.schemas.user import UserProfileUpdate, UserPreferencesUpdate
 from app.utils.helpers import calculate_daily_targets
+from app.auth.password import hash_password, verify_password
 
 
 def get_user_by_id(db: Session, user_id: int) -> User:
@@ -60,23 +61,29 @@ def update_user_profile(db: Session, user: User, profile_in: UserProfileUpdate) 
     if profile_in.activity_level is not None:
         profile.activity_level = profile_in.activity_level
 
-    # Recalculate baseline targets using updated biometrics
-    if profile.weight and profile.height and user.age and user.gender:
-        targets = calculate_daily_targets(
-            weight=profile.weight,
-            height=profile.height,
-            age=user.age,
-            gender=user.gender,
-            activity_level=profile.activity_level
-        )
-        profile.daily_calories = targets["daily_calories"]
-        profile.protein_target = targets["protein_target"]
-        profile.carbohydrate_target = targets["carbohydrate_target"]
-        profile.fat_target = targets["fat_target"]
+    recalculate_targets(user, profile)
 
     db.commit()
     db.refresh(user)
     return user
+
+
+def recalculate_targets(user: User, profile: DietaryProfile) -> bool:
+    if not (profile.weight and profile.height and user.age and user.gender):
+        return False
+    targets = calculate_daily_targets(
+        weight=profile.weight,
+        height=profile.height,
+        age=user.age,
+        gender=user.gender,
+        activity_level=profile.activity_level,
+        goal=profile.goal
+    )
+    profile.daily_calories = targets["daily_calories"]
+    profile.protein_target = targets["protein_target"]
+    profile.carbohydrate_target = targets["carbohydrate_target"]
+    profile.fat_target = targets["fat_target"]
+    return True
 
 
 def update_user_preferences(db: Session, user_id: int, prefs_in: UserPreferencesUpdate) -> DietaryProfile:
@@ -99,7 +106,72 @@ def update_user_preferences(db: Session, user_id: int, prefs_in: UserPreferences
         profile.carbohydrate_target = prefs_in.carbohydrate_target
     if prefs_in.fat_target is not None:
         profile.fat_target = prefs_in.fat_target
+    if prefs_in.intolerances is not None:
+        profile.intolerances = [i.strip() for i in prefs_in.intolerances if i and i.strip()]
+    if prefs_in.health_conditions is not None:
+        profile.health_conditions = [c.strip() for c in prefs_in.health_conditions if c and c.strip()]
+    if prefs_in.goal is not None and prefs_in.goal != profile.goal:
+        profile.goal = prefs_in.goal
+        user = db.query(User).filter(User.id == user_id).first()
+        if user:
+            recalculate_targets(user, profile)
 
     db.commit()
     db.refresh(profile)
     return profile
+
+
+def change_password(db: Session, user: User, current_password: str, new_password: str) -> None:
+    if not verify_password(current_password, user.password_hash):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Your current password is incorrect")
+    if current_password == new_password:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Choose a password different from your current one")
+    if not any(c.isalpha() for c in new_password) or not any(c.isdigit() for c in new_password):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Use at least one letter and one number")
+    user.password_hash = hash_password(new_password)
+    db.commit()
+
+
+DEFAULT_REMINDER_TIMES = {
+    "Breakfast": "08:30",
+    "Morning Snack": "11:00",
+    "Lunch": "13:30",
+    "Evening Snack": "17:00",
+    "Dinner": "20:00",
+}
+
+
+def get_reminder_settings(db: Session, user_id: int) -> Dict[str, Any]:
+    profile = get_or_create_dietary_profile(db, user_id)
+    stored = dict(profile.reminders or {})
+    slots = dict(stored.get("slots") or {})
+    merged = {}
+    for slot, default_time in DEFAULT_REMINDER_TIMES.items():
+        current = slots.get(slot) or {}
+        merged[slot] = {
+            "enabled": bool(current.get("enabled", True)),
+            "time": current.get("time") or default_time,
+        }
+    return {
+        "enabled": bool(stored.get("enabled", False)),
+        "lead_minutes": int(stored.get("lead_minutes", 15)),
+        "plan_reminder": bool(stored.get("plan_reminder", True)),
+        "slots": merged,
+    }
+
+
+def update_reminder_settings(db: Session, user_id: int, settings: Dict[str, Any]) -> Dict[str, Any]:
+    profile = get_or_create_dietary_profile(db, user_id)
+    slots = {
+        name: {"enabled": bool(value.get("enabled", True)), "time": value.get("time") or DEFAULT_REMINDER_TIMES.get(name)}
+        for name, value in (settings.get("slots") or {}).items()
+        if name in DEFAULT_REMINDER_TIMES
+    }
+    profile.reminders = {
+        "enabled": bool(settings.get("enabled", False)),
+        "lead_minutes": int(settings.get("lead_minutes", 15)),
+        "plan_reminder": bool(settings.get("plan_reminder", True)),
+        "slots": slots,
+    }
+    db.commit()
+    return get_reminder_settings(db, user_id)

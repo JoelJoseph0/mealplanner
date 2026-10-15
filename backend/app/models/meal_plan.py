@@ -15,6 +15,7 @@ class MealPlan(Base):
     servings = Column(Integer, default=1, nullable=False)
     locked = Column(Boolean, default=False, nullable=False)
     completed = Column(Boolean, default=False, nullable=False)
+    skipped = Column(Boolean, default=False, nullable=False)
     history_id = Column(Integer, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 

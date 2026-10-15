@@ -310,6 +310,31 @@ Once the server is running, visit:
 | `GET` | `/api/users/preferences` | Retrieve diet, allergies, avoided foods, calorie goal | User |
 | `PUT` | `/api/users/preferences` | Update dietary preferences and allergies | User |
 
+### Account settings (`/api/users`)
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| `POST` | `/api/users/change-password` | Change password (`current_password`, `new_password`) | User |
+| `GET` | `/api/users/reminders` | Meal reminder settings with default slot times | User |
+| `PUT` | `/api/users/reminders` | Save reminders: `enabled`, `lead_minutes`, `plan_reminder`, per-slot `enabled` and `time` | User |
+
+`PUT /api/users/preferences` also accepts `goal` (`maintain`, `lose`, `gain`, `muscle`), `intolerances` and `health_conditions`. Changing the goal recalculates calorie and macro targets; intolerances are filtered like allergies (for example lactose removes milk, curd and paneer recipes).
+
+### Cooking Assistant (`/api/assistant`)
+Powered by a local language model served by [Ollama](https://ollama.com) (default `qwen2.5:latest`). Nothing leaves your machine.
+
+| Method | Endpoint | Description | Auth Required |
+|---|---|---|---|
+| `GET` | `/api/assistant/status?warm=true` | Whether Ollama is reachable and the model installed; `warm` loads the model in the background | User |
+| `GET` | `/api/assistant/recipes/{id}/guide` | Cached detailed guide if one exists, otherwise a guide built from the stored steps; plus `personal` warnings (allergen conflicts, missing ingredients) | User |
+| `POST` | `/api/assistant/recipes/{id}/guide/stream` | Generate the detailed guide, streamed as server-sent events (`meta`, `step`, `tips`, `done`, or `unavailable`); saved on success. `?refresh=true` regenerates | User |
+| `POST` | `/api/assistant/recipes/{id}/ask` | Ask a question (`question`, `history`, optional `current_step`); the answer streams as `token` events | User |
+| `POST` | `/api/assistant/recipes/{id}/prime` | Pre-process the recipe prompt so the first question is answered sooner | User |
+| `DELETE` | `/api/assistant/recipes/{id}/guide` | Discard the cached guide | Admin |
+
+The assistant is grounded in the recipe, the ingredient catalog (aliases and curated substitutes), and the person's diet, allergies, intolerances and pantry. Allergen warnings are computed in code, never by the model. Guides are cached per recipe and invalidated automatically when the recipe changes. Settings: `OLLAMA_URL`, `OLLAMA_MODEL`, `OLLAMA_KEEP_ALIVE`, `OLLAMA_TIMEOUT`, `OLLAMA_NUM_CTX` and `ASSISTANT_ENABLED` in `.env`.
+
+On CPU a 7B model writes roughly 3 tokens a second, so a first guide takes a few minutes. Generate them ahead of time with `python pregenerate_guides.py` (options `--limit N`, `--ids 1 2 3`, `--refresh`); a GPU for the Ollama container (`--gpus all`) or a smaller model such as `qwen2.5:3b` makes it much faster.
+
 ### Ingredients (`/api/ingredients`)
 | Method | Endpoint | Description | Auth Required |
 |---|---|---|---|
@@ -343,6 +368,8 @@ Once the server is running, visit:
 | `GET` | `/api/recognition/history` | List user's past predictions | User |
 | `GET` | `/api/recognition/{id}` | Get specific past recognition record | User |
 
+Scans can be deleted with `DELETE /api/recognition/{id}` or all at once with `DELETE /api/recognition/history`. Stored photos older than `IMAGE_RETENTION_DAYS` (default 30) are removed at startup.
+
 ### Nutrition (`/api/nutrition`)
 | Method | Endpoint | Description | Auth Required |
 |---|---|---|---|
@@ -375,6 +402,7 @@ Once the server is running, visit:
 | `POST` | `/api/meal-plans/{id}/swap` | Replace one planned meal with another suitable recipe | User |
 | `PUT` | `/api/meal-plans/{id}/lock` | Lock or unlock a meal so regeneration keeps it | User |
 | `PUT` | `/api/meal-plans/{id}/complete` | Mark a planned meal as cooked and log it to history | User |
+| `PUT` | `/api/meal-plans/{id}/skip` | Mark a planned meal as skipped (`skipped: true/false`); logged to history and ranked lower later | User |
 
 GET endpoints are read-only: a plan exists only after it is generated. Disliked foods and allergens are excluded, and servings are balanced towards the daily calorie target.
 
@@ -397,6 +425,8 @@ GET endpoints are read-only: a plan exists only after it is generated. Disliked 
 | `GET` | `/api/history/{id}` | Get specific history log | User |
 | `POST` | `/api/history` | Log meal consumption | User |
 | `PUT` | `/api/recipes/{id}/rating` | Quick 1-5 rating for a recipe (feeds recommendations) | User |
+| `GET` | `/api/history/insights?days=14` | Personal report: daily calorie trend, macro averages vs targets, cooked/skipped/viewed counts, favourites, scans | User |
+| `POST` | `/api/history/viewed` | Record that a recipe was viewed (once per recipe per day) | User |
 | `POST` | `/api/history/feedback` | Submit post-meal rating (1-5), feedback, and notes | User |
 
 ### Administrator (`/api/admin`)
@@ -407,6 +437,10 @@ GET endpoints are read-only: a plan exists only after it is generated. Disliked 
 | `DELETE` | `/api/admin/users/{id}` | Moderate/delete user account | Admin |
 | `GET` | `/api/admin/reports` | System diagnostic & accuracy reports | Admin |
 | `POST` | `/api/admin/upload-image` | Upload a recipe or ingredient image, returns its URL | Admin |
+| `PUT` | `/api/admin/users/{id}` | Enable or disable an account, or change its role | Admin |
+| `GET` | `/api/admin/categories` | Ingredient categories with item counts | Admin |
+| `PUT` | `/api/admin/categories` | Rename a category, or merge it into another (`name`, `new_name`) | Admin |
+| `GET` | `/api/admin/model-evaluation` | Test-set accuracy, top-3 accuracy, macro and weighted precision/recall/F1, per-class metrics, confusion matrix and most confused pairs | Admin |
 
 ---
 
@@ -420,21 +454,21 @@ The CV system recognises **raw ingredients** (vegetables, fruits, eggs) so users
    * File size: Maximum 10 MB
    * Integrity check: Verified through Pillow stream decoding (rejects renamed binaries or executable files).
 2. **Safe Storage**: Saved in `uploads/food_images/` with UUID-generated filenames.
-3. **Preprocessing**:
+3. **Preprocessing** (`app/computer_vision/preprocessing.py`):
    * Pillow EXIF orientation correction (phone photos are not rotated sideways) and RGB conversion.
-   * Bicubic / area interpolation downsampling to `224x224`.
-   * Normalized float32 matrix `[0.0, 1.0]`.
-   * Batch expansion to `(1, 224, 224, 3)`.
-4. **Inference**:
+   * Three **test-time augmentation views** of every photo: the full image, its mirror image and an 80% centre crop. Each is resized to `224x224` (area interpolation when shrinking, cubic when enlarging) and scaled to `[0.0, 1.0]`.
+   * An OpenCV **photo quality check** (brightness, contrast and sharpness via the Laplacian variance) that returns plain-language tips such as "The photo looks blurry" next to the result.
+4. **Inference** (`app/computer_vision/prediction.py`):
    * Loaded once via thread-safe singleton `ModelLoader`.
-   * Evaluates probabilities across the ingredient classes listed in `model_meta.json` / `class_names.json` (28 classes in the shipped model: `Tomato`, `Onion`, `Potato`, `Carrot`, `Brinjal`, `Green Chilli`, ...), and returns the top-3 candidates.
-   * Threshold validation (`CONFIDENCE_THRESHOLD = 0.45`):
+   * The three views are scored in one batch and their probabilities averaged, then **temperature calibrated** with the value stored in `model_meta.json` (fitted on the validation set during training).
+   * Returns the top-3 candidates. Threshold validation (`CONFIDENCE_THRESHOLD = 0.45`):
      * If confidence $\ge 0.45$: maps the prediction to the ingredient catalog, optionally adds it to the pantry, and returns nutrition per 100g plus recipes that use it, ranked by pantry coverage.
      * If confidence $< 0.45$: flags `"Unknown Ingredient"` and returns the candidates so the user can pick the right one.
+   * `is_ambiguous` is set when the top two classes are close (margin under 0.15 with confidence under 0.7), and the message asks the user to confirm between the two.
 5. **Dataset**: `python ml/training/prepare_dataset.py` downloads the Apache-2.0 licensed [Food_and_Vegetables](https://huggingface.co/datasets/SunnyAgarwal4274/Food_and_Vegetables) image set, maps its folders onto catalog ingredient names (e.g. `eggplant` to `Brinjal`, `chilli pepper` and `jalepeno` to `Green Chilli`), keeps up to 100 images per class (about 64 MB in total), downsizes them to 320 px and holds out 15% as a test split. You can add your own photos to `ml/dataset/<split>/<Ingredient Name>/` as well.
-6. **Training**: `python ml/training/train.py` (MobileNetV3Large by default; `--architecture MobileNetV3Small` trains the lighter variant). Phase 1 trains a new classification head on a frozen ImageNet-pretrained MobileNetV3 with random flip, rotation, zoom, translation, contrast and brightness augmentation; phase 2 fine-tunes the top 30 backbone layers at a low learning rate. Early stopping keeps the best epoch. The script writes `food_classifier.keras`, `model_meta.json` and refreshes `class_names.json` from the dataset folders. It refuses to save a model when there are no training images.
-7. **Evaluation**: `python ml/evaluation/evaluate.py` scores the model on the held-out test split, prints accuracy, top-3 accuracy, macro precision/recall/F1, saves `confusion_matrix.png` and `report.json`, and records the test metrics in `model_meta.json` (shown on the admin dashboard and reports).
-8. **Shipped model results** (28 ingredient classes, 1,965 training / 272 validation / 348 held-out test images): MobileNetV3Large reaches 94.5% validation accuracy and, on the unseen test split, 89.1% top-1 accuracy, 97.7% top-3 accuracy and 0.89 macro F1. With the same pipeline MobileNetV3Small scored 84.8% top-1. Remaining mistakes are spread across visually similar pairs (apple vs. pomegranate, green chilli vs. capsicum, onion vs. garlic, potato vs. sweet potato), which is why the API always returns the top-3 candidates.
+6. **Training**: `python ml/training/train.py` (MobileNetV3Large by default; `--architecture MobileNetV3Small` trains the lighter variant). Phase 1 trains a new classification head on a frozen ImageNet-pretrained MobileNetV3 with random flip, rotation, zoom, translation, contrast and brightness augmentation; phase 2 fine-tunes the top backbone layers at a cosine-decayed learning rate. Class weights compensate for ingredients with fewer photos, label smoothing is optional, and early stopping keeps the best epoch. After training it fits a calibration temperature on the validation set. The script writes `food_classifier.keras`, `model_meta.json` and refreshes `class_names.json`. Add `--candidate <name>` to train into `ml/models/candidates/<name>` without touching the live model, and `--promote <name>` to copy a candidate over the live one after it has been evaluated.
+7. **Evaluation**: `python ml/evaluation/evaluate.py` scores the model on the held-out test split with the same pipeline the app uses. It reports single-view and test-time-augmentation accuracy, top-3 accuracy, macro and weighted precision/recall/F1, calibration error before and after temperature scaling, the confusion matrix and the most confused pairs. Results are saved to `report.json` and `confusion_matrix.png`, and the test metrics are recorded in `model_meta.json` (shown on the admin dashboard and reports). Use `--candidate <name>` to evaluate a candidate.
+8. **Shipped model results** (28 ingredient classes, 1,965 training / 272 validation / 348 held-out test images): MobileNetV3Large scores 89.1% top-1 on a single view and **91.1% with test-time augmentation**, 97.4% top-3 accuracy and 0.909 macro F1, with a calibration error of 0.042. With the same pipeline MobileNetV3Small scored 84.8% top-1. A retraining experiment (class weights, label smoothing, deeper fine-tuning, cosine schedule) reached 95.6% validation accuracy but only 89.4% on the test split with augmentation, so it was not promoted; the validation split is small and early stopping selects on it, so the test split is the number to trust. Remaining mistakes are spread across visually similar pairs (apple vs. pomegranate, green chilli vs. capsicum, onion vs. garlic, potato vs. sweet potato), which is why the API always returns the top-3 candidates.
 9. **Fallback**: if no trained model is found, or its output size does not match the configured classes, the API still starts with an untrained network that always reports low confidence, so users can pick from candidates or type ingredients instead.
 
 ---
@@ -482,6 +516,7 @@ Tests cover:
 * Computer vision valid, invalid, corrupted image handling, and history.
 * Ingredient parsing (quantities, plurals, aliases), catalog autocomplete, pantry CRUD and isolation between users.
 * "What can I cook?" ready / almost buckets, substitutions, kitchen basics, shopping list, unrecognised ingredients and pantry-aware recommendations.
+* Nutrition goals, intolerance filtering, password change, reminder settings, plan skipping, recipe view logging, variety ranking, personal insights, admin user/category management, model evaluation report and scan deletion.
 * Quantity-aware pantry matching, pantry deduction after cooking, shopping list lifecycle, plan swap / lock / complete, disliked-food exclusion and recipe ratings.
 * Admin dashboard and reports computed from real data, activity-level calorie targets, and recognition history serialization.
 

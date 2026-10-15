@@ -19,6 +19,7 @@ from app.services.meal_planner_service import (
     swap_meal,
     set_meal_locked,
     set_meal_completed,
+    set_meal_skipped,
 )
 from app.utils.helpers import api_response
 
@@ -35,6 +36,10 @@ MEAL_TIMES = {
 
 class LockRequest(BaseModel):
     locked: bool = True
+
+
+class SkipRequest(BaseModel):
+    skipped: bool = True
 
 
 class CompleteRequest(BaseModel):
@@ -64,6 +69,7 @@ def _serialize_item(item) -> dict:
         "fat": round((rec.fat or 0.0) * servings, 1),
         "fiber": round((rec.fiber or 0.0) * servings, 1),
         "completed": bool(item.completed),
+        "skipped": bool(getattr(item, "skipped", False)),
         "locked": bool(item.locked),
         "recipe": RecipeResponse.model_validate(rec),
     }
@@ -223,3 +229,15 @@ def complete_planned_meal(
     """Mark a planned meal as eaten; it is added to (or removed from) the meal history."""
     item = set_meal_completed(db, current_user.id, plan_id, request.completed)
     return api_response(data=_serialize_item(item), message="Meal completion updated")
+
+
+@router.put("/{plan_id}/skip")
+def skip_planned_meal(
+    plan_id: int,
+    request: SkipRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Mark a planned meal as skipped so it is recorded and ranked lower in future plans."""
+    item = set_meal_skipped(db, current_user.id, plan_id, request.skipped)
+    return api_response(data=_serialize_item(item), message="Meal skip updated")

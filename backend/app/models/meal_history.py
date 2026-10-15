@@ -14,6 +14,7 @@ class MealHistory(Base):
     recognition_id = Column(Integer, ForeignKey("recognitions.id", ondelete="SET NULL"), nullable=True)
     meal_type = Column(String(50), nullable=False)  # Breakfast, Morning Snack, Lunch, Evening Snack, Dinner
     consumed_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    action = Column(String(20), default="cooked", nullable=False)
     feedback = Column(String(20), nullable=True)  # positive, negative, neutral
     rating = Column(Integer, nullable=True)        # 1 - 5
     notes = Column(Text, nullable=True)

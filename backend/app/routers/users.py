@@ -3,9 +3,16 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.auth.dependencies import get_current_user
 from app.models.user import User
-from app.schemas.user import UserResponse, UserProfileUpdate, UserPreferencesUpdate
+from app.schemas.user import UserResponse, UserProfileUpdate, UserPreferencesUpdate, PasswordChange, ReminderSettings
 from app.schemas.dietary_profile import DietaryProfileResponse
-from app.services.user_service import update_user_profile, update_user_preferences, get_or_create_dietary_profile
+from app.services.user_service import (
+    update_user_profile,
+    update_user_preferences,
+    get_or_create_dietary_profile,
+    change_password,
+    get_reminder_settings,
+    update_reminder_settings,
+)
 from app.utils.helpers import api_response
 
 router = APIRouter(prefix="/users", tags=["Users"])
@@ -59,3 +66,31 @@ def update_preferences(
         data=DietaryProfileResponse.model_validate(profile),
         message="Dietary preferences updated successfully"
     )
+
+
+@router.post("/change-password")
+def update_password(
+    payload: PasswordChange,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    change_password(db, current_user, payload.current_password, payload.new_password)
+    return api_response(message="Password changed successfully")
+
+
+@router.get("/reminders")
+def read_reminders(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    return api_response(data=get_reminder_settings(db, current_user.id), message="Reminder settings retrieved")
+
+
+@router.put("/reminders")
+def save_reminders(
+    payload: ReminderSettings,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    data = update_reminder_settings(db, current_user.id, payload.model_dump())
+    return api_response(data=data, message="Reminder settings saved")

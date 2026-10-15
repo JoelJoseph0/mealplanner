@@ -14,6 +14,11 @@ class MealHistoryCreate(BaseModel):
     feedback: Optional[str] = None
     rating: Optional[int] = Field(None, ge=1, le=5)
     notes: Optional[str] = None
+    action: Optional[str] = Field("cooked", pattern="^(cooked|skipped|viewed)$")
+
+
+class RecipeViewCreate(BaseModel):
+    recipe_id: int
 
 
 class MealFeedbackCreate(BaseModel):
@@ -52,6 +57,7 @@ class MealHistoryResponse(BaseModel):
     recognition_id: Optional[int] = None
     meal_type: str
     consumed_at: datetime
+    action: str = "cooked"
     feedback: Optional[str] = None
     rating: Optional[int] = None
     notes: Optional[str] = None

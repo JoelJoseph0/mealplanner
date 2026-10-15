@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { markOnboarded } from '../../lib/onboarding';
 import { useAddToPantry, useSavePreferences, useSaveProfile } from '../../lib/queries';
 import { getErrorMessage } from '../../services/api';
-import { ACTIVITY_LEVELS, ALLERGIES_LIST, DIET_TYPES, GENDERS, QUICK_PICK_INGREDIENTS } from '../../utils/constants';
+import { ACTIVITY_LEVELS, ALLERGIES_LIST, DIET_TYPES, GENDERS, NUTRITION_GOALS, QUICK_PICK_INGREDIENTS } from '../../utils/constants';
 import IngredientPicker from '../../components/pantry/IngredientPicker';
 import { Button, Card, Chip, Input, Meter, Select, useToast } from '../../components/ui';
 
@@ -24,6 +24,7 @@ export const Welcome = () => {
   const [allergies, setAllergies] = useState([]);
   const [body, setBody] = useState({ age: '', gender: 'Male', height: '', weight: '', activity_level: 'Moderately Active' });
   const [items, setItems] = useState([]);
+  const [goal, setGoal] = useState('maintain');
   const [saving, setSaving] = useState(false);
 
   const finish = () => {
@@ -41,6 +42,7 @@ export const Welcome = () => {
         if (body.age) payload.age = Number(body.age);
         if (body.height) payload.height = Number(body.height);
         if (body.weight) payload.weight = Number(body.weight);
+        await savePrefs.mutateAsync({ goal });
         await saveProfile.mutateAsync(payload);
       } else {
         if (items.length) await addToPantry.mutateAsync({ names: items });
@@ -135,6 +137,29 @@ export const Welcome = () => {
                   options={ACTIVITY_LEVELS.map((a) => ({ value: a.value, label: a.label }))}
                 />
               </div>
+              <h2 className="mt-8 text-xl font-semibold text-fg">What is your goal?</h2>
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {NUTRITION_GOALS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    aria-pressed={goal === option.value}
+                    onClick={() => setGoal(option.value)}
+                    className={`flex items-center gap-3 rounded-2xl border p-3.5 text-left transition-colors ${
+                      goal === option.value ? 'border-brand bg-brand-soft' : 'border-line hover:bg-surface-2'
+                    }`}
+                  >
+                    <span className="text-2xl" aria-hidden="true">{option.emoji}</span>
+                    <span>
+                      <span className={`block font-semibold ${goal === option.value ? 'text-brand' : 'text-fg'}`}>{option.label}</span>
+                      <span className="block text-xs text-muted">{option.hint}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <p className="mt-4 text-xs text-subtle">
+                For general guidance only. If you have a medical condition, check your plan with a doctor or registered dietitian.
+              </p>
             </div>
           )}
 

@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Dict, Optional, List
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, ConfigDict, Field
 from app.schemas.dietary_profile import DietaryProfileResponse
@@ -41,6 +41,31 @@ class UserPreferencesUpdate(BaseModel):
     protein_target: Optional[float] = None
     carbohydrate_target: Optional[float] = None
     fat_target: Optional[float] = None
+    goal: Optional[str] = Field(None, pattern="^(maintain|lose|gain|muscle)$")
+    intolerances: Optional[List[str]] = None
+    health_conditions: Optional[List[str]] = None
+
+
+class PasswordChange(BaseModel):
+    current_password: str = Field(..., min_length=1)
+    new_password: str = Field(..., min_length=6, max_length=128)
+
+
+class ReminderSlot(BaseModel):
+    enabled: bool = True
+    time: Optional[str] = Field(None, pattern="^([01][0-9]|2[0-3]):[0-5][0-9]$")
+
+
+class ReminderSettings(BaseModel):
+    enabled: bool = False
+    lead_minutes: int = Field(15, ge=0, le=120)
+    slots: Dict[str, ReminderSlot] = Field(default_factory=dict)
+    plan_reminder: bool = True
+
+
+class AdminUserUpdate(BaseModel):
+    is_active: Optional[bool] = None
+    role: Optional[str] = Field(None, pattern="^(user|admin)$")
 
 
 class UserResponse(UserBase):

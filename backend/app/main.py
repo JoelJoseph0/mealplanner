@@ -26,6 +26,7 @@ from app.routers import (
     meal_plans_router,
     history_router,
     admin_router,
+    assistant_router,
 )
 from app.computer_vision.model_loader import get_model_loader
 
@@ -52,6 +53,16 @@ async def lifespan(app: FastAPI):
 
     # Ensure upload directory exists
     settings.upload_dir_path.mkdir(parents=True, exist_ok=True)
+
+    try:
+        from app.database import SessionLocal
+        from app.services.recognition_service import purge_old_images
+        with SessionLocal() as session:
+            purged = purge_old_images(session, settings.IMAGE_RETENTION_DAYS)
+        if purged:
+            logger.info(f"Removed {purged} scan photos older than {settings.IMAGE_RETENTION_DAYS} days.")
+    except Exception as e:
+        logger.error(f"Error purging old scan photos: {e}")
 
     # Preload computer-vision model in background
     try:
@@ -191,3 +202,4 @@ app.include_router(recommendations_router, prefix="/api")
 app.include_router(meal_plans_router, prefix="/api")
 app.include_router(history_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
+app.include_router(assistant_router, prefix="/api")

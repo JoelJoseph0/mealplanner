@@ -1,8 +1,12 @@
-from datetime import datetime, date, timezone
-from typing import List, Optional
+from datetime import datetime, date, timedelta, timezone
+from typing import Any, Dict, List, Optional
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.models.meal_history import MealHistory
+from app.models.recipe import Recipe
+from app.models.recognition import Recognition
+from app.models.food_image import FoodImage
 from app.schemas.history import MealHistoryCreate, MealFeedbackCreate
 
 
@@ -21,12 +25,126 @@ def create_meal_history(
         consumed_at=history_in.consumed_at or datetime.now(timezone.utc),
         feedback=history_in.feedback,
         rating=history_in.rating,
-        notes=history_in.notes
+        notes=history_in.notes,
+        action=history_in.action or "cooked"
     )
     db.add(history)
     db.commit()
     db.refresh(history)
     return history
+
+
+def log_recipe_view(db: Session, user_id: int, recipe_id: int) -> Optional[MealHistory]:
+    recipe = db.query(Recipe).filter(Recipe.id == recipe_id).first()
+    if not recipe:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Recipe not found")
+    start = datetime.combine(datetime.now(timezone.utc).date(), datetime.min.time())
+    existing = (
+        db.query(MealHistory)
+        .filter(
+            MealHistory.user_id == user_id,
+            MealHistory.recipe_id == recipe_id,
+            MealHistory.action == "viewed",
+            MealHistory.consumed_at >= start,
+        )
+        .first()
+    )
+    if existing:
+        return existing
+    history = MealHistory(
+        user_id=user_id,
+        recipe_id=recipe_id,
+        meal_type=recipe.meal_type,
+        consumed_at=datetime.now(timezone.utc),
+        action="viewed",
+    )
+    db.add(history)
+    db.commit()
+    db.refresh(history)
+    return history
+
+
+def get_user_insights(db: Session, user_id: int, days: int = 14) -> Dict[str, Any]:
+    from app.services.analytics_service import _nutrition_trend
+    from app.services.user_service import get_or_create_dietary_profile
+
+    profile = get_or_create_dietary_profile(db, user_id)
+    trend = _nutrition_trend(db, days=days, user_id=user_id)
+    since = datetime.now(timezone.utc) - timedelta(days=days)
+
+    actions = dict(
+        db.query(MealHistory.action, func.count(MealHistory.id))
+        .filter(MealHistory.user_id == user_id, MealHistory.consumed_at >= since)
+        .group_by(MealHistory.action)
+        .all()
+    )
+    top = (
+        db.query(Recipe.name, func.count(MealHistory.id))
+        .join(MealHistory, MealHistory.recipe_id == Recipe.id)
+        .filter(MealHistory.user_id == user_id, MealHistory.action == "cooked")
+        .group_by(Recipe.name)
+        .order_by(func.count(MealHistory.id).desc())
+        .limit(5)
+        .all()
+    )
+    by_slot = dict(
+        db.query(MealHistory.meal_type, func.count(MealHistory.id))
+        .filter(MealHistory.user_id == user_id, MealHistory.action == "cooked", MealHistory.consumed_at >= since)
+        .group_by(MealHistory.meal_type)
+        .all()
+    )
+    scans = (
+        db.query(Recognition.predicted_name, func.count(Recognition.id))
+        .join(FoodImage, Recognition.food_image_id == FoodImage.id)
+        .filter(FoodImage.user_id == user_id)
+        .group_by(Recognition.predicted_name)
+        .order_by(func.count(Recognition.id).desc())
+        .limit(5)
+        .all()
+    )
+    scan_total = (
+        db.query(func.count(Recognition.id))
+        .join(FoodImage, Recognition.food_image_id == FoodImage.id)
+        .filter(FoodImage.user_id == user_id)
+        .scalar()
+        or 0
+    )
+    avg_rating = (
+        db.query(func.avg(MealHistory.rating))
+        .filter(MealHistory.user_id == user_id, MealHistory.rating.isnot(None))
+        .scalar()
+    )
+
+    active_days = [d for d in trend if d["meals"] > 0]
+    def average(key: str) -> float:
+        return round(sum(d[key] for d in active_days) / len(active_days), 1) if active_days else 0.0
+
+    return {
+        "days": days,
+        "trend": trend,
+        "targets": {
+            "calories": profile.daily_calories or 2000.0,
+            "protein": profile.protein_target or 75.0,
+            "carbohydrates": profile.carbohydrate_target or 250.0,
+            "fat": profile.fat_target or 65.0,
+        },
+        "averages": {
+            "calories": average("calories"),
+            "protein": average("protein"),
+            "carbohydrates": average("carbohydrates"),
+            "fat": average("fat"),
+        },
+        "active_days": len(active_days),
+        "actions": {
+            "cooked": actions.get("cooked", 0),
+            "skipped": actions.get("skipped", 0),
+            "viewed": actions.get("viewed", 0),
+        },
+        "by_meal_type": by_slot,
+        "top_recipes": [{"name": n, "count": c} for n, c in top],
+        "scans": {"total": scan_total, "top": [{"name": n, "count": c} for n, c in scans]},
+        "average_rating": round(float(avg_rating), 2) if avg_rating else None,
+    }
 
 
 def submit_meal_feedback(
@@ -76,7 +194,8 @@ def get_user_meal_history(
     limit: int = 100,
     target_date: Optional[date] = None,
     meal_type: Optional[str] = None,
-    food_id: Optional[int] = None
+    food_id: Optional[int] = None,
+    action: Optional[str] = None
 ) -> List[MealHistory]:
     """Retrieve logged meal entries for authenticated user with optional date/meal_type/food filters."""
     query = db.query(MealHistory).filter(MealHistory.user_id == user_id)
@@ -90,6 +209,10 @@ def get_user_meal_history(
         query = query.filter(MealHistory.meal_type.ilike(f"%{meal_type}%"))
     if food_id:
         query = query.filter(MealHistory.food_id == food_id)
+    if action:
+        query = query.filter(MealHistory.action == action)
+    else:
+        query = query.filter(MealHistory.action != "viewed")
 
     return query.order_by(MealHistory.consumed_at.desc()).offset(skip).limit(limit).all()
 

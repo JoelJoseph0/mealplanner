@@ -91,3 +91,25 @@ export const WEEKDAYS = [
 
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
 export const MAX_FILE_SIZE_MB = 10;
+
+export const NUTRITION_GOALS = [
+  { value: 'maintain', label: 'Maintain weight', emoji: '⚖️', hint: 'Balanced meals at your usual energy needs.' },
+  { value: 'lose', label: 'Lose weight', emoji: '🥗', hint: 'About 500 kcal less a day, with more protein and fibre.' },
+  { value: 'gain', label: 'Gain weight', emoji: '🍚', hint: 'About 300 kcal more a day from energy-dense meals.' },
+  { value: 'muscle', label: 'Build muscle', emoji: '💪', hint: 'A little more energy and noticeably more protein.' },
+];
+
+export const INTOLERANCES_LIST = ['Lactose', 'Gluten', 'Fructose', 'Histamine', 'Caffeine', 'FODMAP'];
+
+export const HEALTH_CONDITIONS_LIST = [
+  'Diabetes',
+  'High blood pressure',
+  'High cholesterol',
+  'Heart disease',
+  'Kidney disease',
+  'Thyroid condition',
+  'PCOS',
+  'Pregnancy',
+];
+
+export const MEAL_SLOTS = ['Breakfast', 'Morning Snack', 'Lunch', 'Evening Snack', 'Dinner'];

@@ -10,12 +10,28 @@ def api_response(data: Any = None, message: str = "Operation completed successfu
     }
 
 
+GOAL_RULES = {
+    "maintain": (0.0, (0.20, 0.50, 0.30)),
+    "lose": (-500.0, (0.30, 0.40, 0.30)),
+    "gain": (300.0, (0.20, 0.50, 0.30)),
+    "muscle": (250.0, (0.30, 0.45, 0.25)),
+}
+
+GOAL_LABELS = {
+    "maintain": "Maintain weight",
+    "lose": "Lose weight",
+    "gain": "Gain weight",
+    "muscle": "Build muscle",
+}
+
+
 def calculate_daily_targets(
     weight: Optional[float],
     height: Optional[float],
     age: Optional[int],
     gender: Optional[str],
-    activity_level: Optional[str]
+    activity_level: Optional[str],
+    goal: Optional[str] = None
 ) -> Dict[str, float]:
     """
     Calculate estimated calorie and macro targets using Mifflin-St Jeor equation.
@@ -50,10 +66,14 @@ def calculate_daily_targets(
     multiplier = activity_multipliers.get((activity_level or "moderate").strip().lower(), 1.55)
     tdee = round(bmr * multiplier, 1)
 
-    # Standard balanced macronutrient split: 20% protein, 50% carbs, 30% fat
-    protein_g = round((tdee * 0.20) / 4.0, 1)
-    carbs_g = round((tdee * 0.50) / 4.0, 1)
-    fat_g = round((tdee * 0.30) / 9.0, 1)
+    adjustment, split = GOAL_RULES.get((goal or "maintain").lower(), GOAL_RULES["maintain"])
+    floor = 1500.0 if gender.lower() == "male" else 1200.0
+    tdee = round(max(min(floor, tdee), tdee + adjustment), 1)
+    protein_share, carb_share, fat_share = split
+
+    protein_g = round((tdee * protein_share) / 4.0, 1)
+    carbs_g = round((tdee * carb_share) / 4.0, 1)
+    fat_g = round((tdee * fat_share) / 9.0, 1)
 
     return {
         "daily_calories": tdee,

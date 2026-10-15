@@ -20,6 +20,10 @@ class DietaryProfile(Base):
     height = Column(Float, nullable=True)  # in cm
     weight = Column(Float, nullable=True)  # in kg
     activity_level = Column(String(50), nullable=True)  # sedentary, light, moderate, active, very_active
+    goal = Column(String(30), default="maintain", nullable=False)
+    intolerances = Column(JSON, default=list, nullable=False)
+    health_conditions = Column(JSON, default=list, nullable=False)
+    reminders = Column(JSON, default=dict, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 

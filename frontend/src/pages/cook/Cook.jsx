@@ -20,6 +20,7 @@ import {
   EmptyState,
   ErrorState,
   GridSkeleton,
+  HealthNote,
   PageHeader,
   SearchBar,
   Segmented,
@@ -333,6 +334,7 @@ export const Cook = () => {
           )}
         </div>
       )}
+      <HealthNote className="mt-8" compact />
     </div>
   );
 };

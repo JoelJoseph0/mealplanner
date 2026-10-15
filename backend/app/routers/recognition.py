@@ -6,7 +6,9 @@ from app.models.user import User
 from app.services.recognition_service import (
     process_and_recognize_food,
     get_user_recognition_history,
-    get_recognition_by_id
+    get_recognition_by_id,
+    delete_recognition,
+    delete_all_recognitions
 )
 from app.utils.helpers import api_response
 
@@ -42,6 +44,27 @@ def recognition_history(
         data=history,
         message="Recognition history retrieved successfully"
     )
+
+
+@router.delete("/history")
+def clear_recognition_history(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Delete every scan and stored photo belonging to the current user."""
+    removed = delete_all_recognitions(db, current_user.id)
+    return api_response(data={"removed": removed}, message=f"Deleted {removed} scan{'s' if removed != 1 else ''}")
+
+
+@router.delete("/{recognition_id}")
+def remove_recognition(
+    recognition_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """Delete one scan and its stored photo."""
+    delete_recognition(db, recognition_id, current_user.id)
+    return api_response(message="Scan deleted")
 
 
 @router.get("/{recognition_id}")

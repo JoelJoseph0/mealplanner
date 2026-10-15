@@ -46,6 +46,10 @@ export const userService = {
   },
   updatePreferences: async ({ avoid_foods: avoidFoods, ...rest }) =>
     unwrap(await api.put('/users/preferences', { ...rest, avoided_foods: rest.avoided_foods ?? avoidFoods ?? [] })),
+  changePassword: async (currentPassword, newPassword) =>
+    unwrap(await api.post('/users/change-password', { current_password: currentPassword, new_password: newPassword })),
+  getReminders: async () => unwrap(await api.get('/users/reminders')),
+  saveReminders: async (settings) => unwrap(await api.put('/users/reminders', settings)),
 };
 
 export const pantryService = {
@@ -102,6 +106,7 @@ export const planService = {
   swap: async (planId, usePantry = false) => unwrap(await api.post(`/meal-plans/${planId}/swap`, { use_pantry: usePantry })),
   lock: async (planId, locked) => unwrap(await api.put(`/meal-plans/${planId}/lock`, { locked })),
   complete: async (planId, completed) => unwrap(await api.put(`/meal-plans/${planId}/complete`, { completed })),
+  skip: async (planId, skipped) => unwrap(await api.put(`/meal-plans/${planId}/skip`, { skipped })),
 };
 
 export const historyService = {
@@ -109,6 +114,8 @@ export const historyService = {
   log: async (payload) => unwrap(await api.post('/history', payload)),
   feedback: async (historyId, feedback) =>
     unwrap(await api.post('/history/feedback', { history_id: historyId, feedback })),
+  viewed: async (recipeId) => unwrap(await api.post('/history/viewed', { recipe_id: recipeId })),
+  insights: async (days = 14) => unwrap(await api.get('/history/insights', { params: { days } })),
 };
 
 export const recognitionService = {
@@ -124,6 +131,9 @@ export const recognitionService = {
       })
     );
   },
+  history: async () => asList(unwrap(await api.get('/recognition/history'))),
+  remove: async (id) => unwrap(await api.delete(`/recognition/${id}`)),
+  clear: async () => unwrap(await api.delete('/recognition/history')),
 };
 
 export const nutritionService = {
@@ -135,6 +145,10 @@ export const adminService = {
   reports: async () => unwrap(await api.get('/admin/reports')),
   users: async () => asList(unwrap(await api.get('/admin/users', { params: { limit: 100 } }))),
   deleteUser: async (id) => unwrap(await api.delete(`/admin/users/${id}`)),
+  updateUser: async (id, changes) => unwrap(await api.put(`/admin/users/${id}`, changes)),
+  categories: async () => asList(unwrap(await api.get('/admin/categories'))),
+  renameCategory: async (name, newName) => unwrap(await api.put('/admin/categories', { name, new_name: newName })),
+  modelEvaluation: async () => unwrap(await api.get('/admin/model-evaluation')),
   ingredients: async () => asList(unwrap(await api.get('/foods', { params: { limit: 500 } }))),
   createIngredient: async (payload) => unwrap(await api.post('/admin/foods', payload)),
   updateIngredient: async (id, payload) => unwrap(await api.put(`/admin/foods/${id}`, payload)),
@@ -147,4 +161,11 @@ export const adminService = {
     formData.append('file', file);
     return unwrap(await api.post('/admin/upload-image', formData, { headers: { 'Content-Type': 'multipart/form-data' } }));
   },
+};
+
+export const assistantService = {
+  status: async (warm = false) => unwrap(await api.get('/assistant/status', { params: { warm } })),
+  guide: async (recipeId) => unwrap(await api.get(`/assistant/recipes/${recipeId}/guide`)),
+  prime: async (recipeId) => unwrap(await api.post(`/assistant/recipes/${recipeId}/prime`)),
+  clearGuide: async (recipeId) => unwrap(await api.delete(`/assistant/recipes/${recipeId}/guide`)),
 };

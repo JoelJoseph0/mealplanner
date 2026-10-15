@@ -44,12 +44,14 @@ Demo accounts (created by `python seed.py` in the backend):
 | `/dashboard` | Home: today's plan, what you can cook now, expiring items |
 | `/pantry` | Kitchen: stock with quantities and expiry, plus the saved shopping list (`?tab=shopping`) |
 | `/cook` | Cook: ready and almost-ready recipes, substitutions, add missing items to the shopping list, all recipes (`?tab=all`) |
-| `/recipes/:id` | Recipe detail with cook mode; cooking deducts the pantry and logs the meal |
+| `/recipes/:id` | Recipe detail with an allergy check, **Ask the chef** chat and a step-by-step cook mode (get-ready checklist, tips, what to look for, timers, and a chat that knows your current step); cooking deducts the pantry and logs the meal |
 | `/plan` | Plan: create a day or week, swap, lock and complete meals, build the shopping list |
 | `/scan` | Scan an ingredient photo, confirm it and add it to the kitchen |
-| `/me` | Profile, diet and targets (`?tab=diet`), meal history (`?tab=history`) |
+| `/me` | Profile; goal, diet, allergies, intolerances, health conditions and targets (`?tab=diet`); insights with nutrition trends (`?tab=insights`); meal history filtered by cooked, skipped or viewed (`?tab=history`); reminders, password and scan privacy (`?tab=settings`) |
 | `/welcome` | First-run setup wizard |
 | `/admin`, `/admin/users`, `/admin/ingredients`, `/admin/recipes`, `/admin/reports` | Admin console |
+
+Meal reminders run while the app is open and use browser notifications when allowed. Nutrition screens carry a general-guidance notice, and users who list a health condition are reminded to check plans with a professional.
 
 Old routes such as `/recommendations`, `/daily-plan` and `/profile` redirect to the sections above. The five main sections appear as a sidebar on desktop and bottom tabs on mobile, with light and dark themes.
 

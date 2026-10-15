@@ -5,7 +5,7 @@ import { nutritionService } from '../../services';
 import { getErrorMessage } from '../../services/api';
 import { usePreferences } from '../../lib/queries';
 import { IngredientIcon } from '../../components/food/visuals';
-import { Badge, Button, Card, ErrorState, Meter, Skeleton } from '../../components/ui';
+import { Badge, Button, Card, ErrorState, HealthNote, Meter, Skeleton } from '../../components/ui';
 
 export const NutritionDetail = () => {
   const { foodId } = useParams();
@@ -88,6 +88,7 @@ export const NutritionDetail = () => {
         >
           Recipes using {data.food_name}
         </Button>
+        <HealthNote className="mt-6" conditions={prefs?.health_conditions || []} compact={!prefs?.health_conditions?.length} />
       </Card>
     </div>
   );

@@ -8,8 +8,8 @@ def _augmentation_block() -> tf.keras.Sequential:
     return tf.keras.Sequential(
         [
             tf.keras.layers.RandomFlip("horizontal"),
-            tf.keras.layers.RandomRotation(0.08),
-            tf.keras.layers.RandomZoom(0.15),
+            tf.keras.layers.RandomRotation(0.1),
+            tf.keras.layers.RandomZoom((-0.25, 0.1)),
             tf.keras.layers.RandomTranslation(0.08, 0.08),
             tf.keras.layers.RandomContrast(0.15),
             tf.keras.layers.RandomBrightness(0.12, value_range=(0.0, 1.0)),
@@ -88,7 +88,8 @@ def build_transfer_learning_model(
 def unfreeze_for_fine_tuning(
     model: tf.keras.Model,
     unfreeze_layers: int = 30,
-    learning_rate: float = 1e-5
+    learning_rate=1e-5,
+    label_smoothing: float = 0.0
 ) -> tf.keras.Model:
     backbone = model.get_layer(BACKBONE_LAYER_NAME)
     backbone.trainable = True
@@ -100,7 +101,7 @@ def unfreeze_for_fine_tuning(
 
     model.compile(
         optimizer=tf.keras.optimizers.Adam(learning_rate=learning_rate),
-        loss="categorical_crossentropy",
+        loss=tf.keras.losses.CategoricalCrossentropy(label_smoothing=label_smoothing),
         metrics=["accuracy"]
     )
     return model

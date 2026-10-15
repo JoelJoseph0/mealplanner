@@ -10,6 +10,8 @@ import {
   Package,
   RefreshCw,
   Shuffle,
+  SkipForward,
+  Undo2,
   ShoppingCart,
   WandSparkles,
 } from 'lucide-react';
@@ -19,6 +21,8 @@ import {
   useGenerateWeek,
   useLockMeal,
   useShoppingFromPlan,
+  useSkipMeal,
+  usePreferences,
   useSwapMeal,
   useWeek,
 } from '../../lib/queries';
@@ -26,9 +30,11 @@ import { addDays, formatLong, mondayOf, toISODate, todayISO, weekDays } from '..
 import { getErrorMessage } from '../../services/api';
 import { RecipeImage } from '../../components/food/visuals';
 import {
+  Badge,
   Button,
   Card,
   Chip,
+  HealthNote,
   EmptyState,
   ErrorState,
   Meter,
@@ -42,7 +48,7 @@ import {
 const SLOTS = ['Breakfast', 'Morning Snack', 'Lunch', 'Evening Snack', 'Dinner'];
 const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-const MealRow = ({ slot, meal, busy, onSwap, onLock, onComplete }) => {
+const MealRow = ({ slot, meal, busy, onSwap, onLock, onComplete, onSkip }) => {
   if (!meal) {
     return (
       <li className="flex items-center gap-3 p-4 text-sm text-subtle">
@@ -52,7 +58,7 @@ const MealRow = ({ slot, meal, busy, onSwap, onLock, onComplete }) => {
     );
   }
   return (
-    <li className="flex flex-wrap items-center gap-3 p-3 sm:p-4">
+    <li className={`flex flex-wrap items-center gap-3 p-3 transition-colors sm:p-4 ${meal.skipped ? 'bg-surface-2/60' : ''}`}>
       <button
         type="button"
         onClick={() => onComplete(meal)}
@@ -73,16 +79,29 @@ const MealRow = ({ slot, meal, busy, onSwap, onLock, onComplete }) => {
         </p>
         <Link
           to={`/recipes/${meal.recipe_id}`}
-          className={`line-clamp-2 font-semibold hover:text-brand ${meal.completed ? 'text-subtle line-through' : 'text-fg'}`}
+          className={`line-clamp-2 font-semibold hover:text-brand ${meal.completed || meal.skipped ? 'text-subtle line-through' : 'text-fg'}`}
         >
           {meal.food_name}
         </Link>
+        {meal.skipped && <Badge tone="warn">Skipped</Badge>}
         <p className="text-sm text-muted">
           {Math.round(meal.calories)} kcal · {Math.round(meal.protein)} g protein
           {meal.servings > 1 && ` · ${meal.servings} servings`}
         </p>
       </div>
       <div className="flex items-center gap-1">
+        <button
+          type="button"
+          onClick={() => onSkip(meal)}
+          aria-pressed={meal.skipped}
+          aria-label={meal.skipped ? `Undo skipping ${meal.food_name}` : `Skip ${meal.food_name}`}
+          title={meal.skipped ? 'Undo skip' : 'Skip this meal'}
+          className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
+            meal.skipped ? 'bg-warn-soft text-warn' : 'text-subtle hover:bg-surface-2 hover:text-fg'
+          }`}
+        >
+          {meal.skipped ? <Undo2 className="h-5 w-5" /> : <SkipForward className="h-5 w-5" />}
+        </button>
         <button
           type="button"
           onClick={() => onLock(meal)}
@@ -122,6 +141,8 @@ export const Plan = () => {
   const swap = useSwapMeal();
   const lock = useLockMeal();
   const complete = useCompleteMeal();
+  const skip = useSkipMeal();
+  const { data: prefs } = usePreferences();
   const fromPlan = useShoppingFromPlan();
 
   const days = useMemo(() => weekDays(new Date(`${weekStart}T00:00:00`)), [weekStart]);
@@ -299,6 +320,9 @@ export const Plan = () => {
                           onComplete={(meal) =>
                             run(() => complete.mutateAsync({ id: meal.id, completed: !meal.completed }), meal.completed ? null : 'Added to your meal history.')
                           }
+                          onSkip={(meal) =>
+                            run(() => skip.mutateAsync({ id: meal.id, skipped: !meal.skipped }), meal.skipped ? null : 'Skipped. We will suggest it less often.')
+                          }
                         />
                       ))}
                     </ul>
@@ -367,6 +391,7 @@ export const Plan = () => {
                     .
                   </p>
                 </Card>
+                <HealthNote conditions={prefs?.health_conditions || []} compact={!prefs?.health_conditions?.length} />
               </div>
             </div>
           )}

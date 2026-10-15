@@ -50,7 +50,8 @@
   "trained_at": "2026-10-13T05:40:07+00:00",
   "tensorflow_version": "2.21.0",
   "test_images": 348,
-  "test_accuracy": 0.8908,
-  "test_top3_accuracy": 0.977,
-  "test_f1_macro": 0.8881
+  "test_accuracy": 0.9109,
+  "test_top3_accuracy": 0.9741,
+  "test_f1_macro": 0.9088,
+  "test_single_view_accuracy": 0.8908
 }

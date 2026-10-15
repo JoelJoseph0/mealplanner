@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ChefHat, History as HistoryIcon, Plus, Save, Target, UserRound } from 'lucide-react';
+import { BarChart3, History as HistoryIcon, Plus, Save, Settings, Target, UserRound } from 'lucide-react';
 import {
   useHistory,
   useHistoryFeedback,
@@ -13,16 +13,29 @@ import { RecipeImage } from '../../components/food/visuals';
 import { RatingButtons } from '../../components/food/RecipeCard';
 import { getErrorMessage } from '../../services/api';
 import { relativeTime } from '../../lib/dates';
-import { ACTIVITY_LEVELS, ALLERGIES_LIST, DIET_TYPES, GENDERS } from '../../utils/constants';
 import {
+  ACTIVITY_LEVELS,
+  ALLERGIES_LIST,
+  DIET_TYPES,
+  GENDERS,
+  HEALTH_CONDITIONS_LIST,
+  INTOLERANCES_LIST,
+  NUTRITION_GOALS,
+} from '../../utils/constants';
+import InsightsTab from './InsightsTab';
+import SettingsTab from './SettingsTab';
+import {
+  Badge,
   Button,
   Card,
   Chip,
   EmptyState,
   ErrorState,
+  HealthNote,
   Input,
   ListSkeleton,
   PageHeader,
+  Segmented,
   Select,
   Tabs,
   useToast,
@@ -207,6 +220,9 @@ const DietTab = () => {
         protein_target: prefs.protein_target || 75,
         carbohydrate_target: prefs.carbohydrate_target || 250,
         fat_target: prefs.fat_target || 65,
+        goal: prefs.goal || 'maintain',
+        intolerances: prefs.intolerances || [],
+        health_conditions: prefs.health_conditions || [],
       });
     }
   }, [prefs]);
@@ -214,25 +230,41 @@ const DietTab = () => {
   if (isLoading || !form) return <ListSkeleton rows={4} />;
   if (isError) return <ErrorState message="Could not load your preferences." onRetry={refetch} />;
 
-  const toggleAllergy = (name) =>
-    setForm((c) => ({ ...c, allergies: c.allergies.includes(name) ? c.allergies.filter((a) => a !== name) : [...c.allergies, name] }));
+  const toggleIn = (field, name) =>
+    setForm((c) => ({ ...c, [field]: c[field].includes(name) ? c[field].filter((a) => a !== name) : [...c[field], name] }));
+  const toggleAllergy = (name) => toggleIn('allergies', name);
+  const goalChanged = form.goal !== (prefs.goal || 'maintain');
+  const intoleranceOptions = [...INTOLERANCES_LIST, ...form.intolerances.filter((a) => !INTOLERANCES_LIST.includes(a))];
+  const conditionOptions = [...HEALTH_CONDITIONS_LIST, ...form.health_conditions.filter((a) => !HEALTH_CONDITIONS_LIST.includes(a))];
   const setNumber = (field) => (event) => setForm((c) => ({ ...c, [field]: event.target.value }));
   const allergyOptions = [...ALLERGIES_LIST, ...form.allergies.filter((a) => !ALLERGIES_LIST.includes(a))];
 
   const submit = async (event) => {
     event.preventDefault();
     try {
-      await savePrefs.mutateAsync({
+      const payload = {
         diet_type: form.diet_type,
         allergies: form.allergies,
         preferred_foods: form.preferred_foods,
         avoid_foods: form.avoid_foods,
-        daily_calories: Number(form.daily_calories),
-        protein_target: Number(form.protein_target),
-        carbohydrate_target: Number(form.carbohydrate_target),
-        fat_target: Number(form.fat_target),
-      });
-      toast.success('Preferences saved. Recipes and plans will follow them from now on.');
+        intolerances: form.intolerances,
+        health_conditions: form.health_conditions,
+        goal: form.goal,
+      };
+      if (!goalChanged) {
+        Object.assign(payload, {
+          daily_calories: Number(form.daily_calories),
+          protein_target: Number(form.protein_target),
+          carbohydrate_target: Number(form.carbohydrate_target),
+          fat_target: Number(form.fat_target),
+        });
+      }
+      await savePrefs.mutateAsync(payload);
+      toast.success(
+        goalChanged
+          ? 'Goal saved. Your daily targets were recalculated for it.'
+          : 'Preferences saved. Recipes and plans will follow them from now on.'
+      );
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -240,6 +272,31 @@ const DietTab = () => {
 
   return (
     <form onSubmit={submit} className="space-y-6">
+      <Card>
+        <h2 className="text-xl font-semibold text-fg">Your goal</h2>
+        <p className="mt-0.5 text-sm text-muted">Sets your calorie and protein targets, and which meals rank higher.</p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {NUTRITION_GOALS.map((goal) => {
+            const active = form.goal === goal.value;
+            return (
+              <button
+                key={goal.value}
+                type="button"
+                aria-pressed={active}
+                onClick={() => setForm((c) => ({ ...c, goal: goal.value }))}
+                className={`rounded-2xl border p-4 text-left transition-all ${
+                  active ? 'border-brand bg-brand-soft shadow-glow' : 'border-line hover:-translate-y-0.5 hover:bg-surface-2'
+                }`}
+              >
+                <span className="text-2xl" aria-hidden="true">{goal.emoji}</span>
+                <span className={`mt-2 block font-semibold ${active ? 'text-brand' : 'text-fg'}`}>{goal.label}</span>
+                <span className="mt-0.5 block text-xs text-muted">{goal.hint}</span>
+              </button>
+            );
+          })}
+        </div>
+      </Card>
+
       <Card>
         <h2 className="text-xl font-semibold text-fg">Diet type</h2>
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
@@ -276,6 +333,33 @@ const DietTab = () => {
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card>
+          <h2 className="text-xl font-semibold text-fg">Intolerances</h2>
+          <p className="mb-4 mt-0.5 text-sm text-muted">Foods that commonly contain these are left out, for example milk and paneer for lactose.</p>
+          <div className="flex flex-wrap gap-2">
+            {intoleranceOptions.map((name) => (
+              <Chip key={name} active={form.intolerances.includes(name)} onClick={() => toggleIn('intolerances', name)}>
+                {name}
+              </Chip>
+            ))}
+          </div>
+        </Card>
+        <Card>
+          <h2 className="text-xl font-semibold text-fg">Health conditions</h2>
+          <p className="mb-4 mt-0.5 text-sm text-muted">Optional. We do not change your plan for these, but we will remind you to check it with a professional.</p>
+          <div className="flex flex-wrap gap-2">
+            {conditionOptions.map((name) => (
+              <Chip key={name} active={form.health_conditions.includes(name)} onClick={() => toggleIn('health_conditions', name)}>
+                {name}
+              </Chip>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      <HealthNote conditions={form.health_conditions} />
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card>
           <TagInput
             label="Foods you love"
             hint="Recipes with these rank higher."
@@ -299,12 +383,16 @@ const DietTab = () => {
         <h2 className="flex items-center gap-2 text-xl font-semibold text-fg">
           <Target className="h-5 w-5 text-brand" aria-hidden="true" /> Daily targets
         </h2>
-        <p className="mb-4 mt-0.5 text-sm text-muted">Meal plans are sized to these. Saving your profile recalculates them from your body metrics.</p>
+        <p className="mb-4 mt-0.5 text-sm text-muted">
+          {goalChanged
+            ? 'These will be recalculated for your new goal when you save.'
+            : 'Meal plans are sized to these. Saving your profile or changing your goal recalculates them from your body metrics.'}
+        </p>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          <Input label="Calories (kcal)" type="number" min="500" value={form.daily_calories} onChange={setNumber('daily_calories')} />
-          <Input label="Protein (g)" type="number" min="0" value={form.protein_target} onChange={setNumber('protein_target')} />
-          <Input label="Carbs (g)" type="number" min="0" value={form.carbohydrate_target} onChange={setNumber('carbohydrate_target')} />
-          <Input label="Fat (g)" type="number" min="0" value={form.fat_target} onChange={setNumber('fat_target')} />
+          <Input label="Calories (kcal)" type="number" min="500" disabled={goalChanged} value={form.daily_calories} onChange={setNumber('daily_calories')} />
+          <Input label="Protein (g)" type="number" min="0" disabled={goalChanged} value={form.protein_target} onChange={setNumber('protein_target')} />
+          <Input label="Carbs (g)" type="number" min="0" disabled={goalChanged} value={form.carbohydrate_target} onChange={setNumber('carbohydrate_target')} />
+          <Input label="Fat (g)" type="number" min="0" disabled={goalChanged} value={form.fat_target} onChange={setNumber('fat_target')} />
         </div>
       </Card>
 
@@ -317,22 +405,54 @@ const DietTab = () => {
   );
 };
 
+const HISTORY_FILTERS = [
+  { value: '', label: 'Cooked and skipped' },
+  { value: 'cooked', label: 'Cooked' },
+  { value: 'skipped', label: 'Skipped' },
+  { value: 'viewed', label: 'Viewed' },
+];
+
+const ACTION_BADGE = {
+  cooked: { tone: 'brand', label: 'Cooked' },
+  skipped: { tone: 'warn', label: 'Skipped' },
+  viewed: { tone: 'info', label: 'Viewed' },
+};
+
+const EMPTY_HISTORY = {
+  viewed: { emoji: '👀', title: 'No recipes viewed yet' },
+  skipped: { emoji: '⏭️', title: 'Nothing skipped' },
+};
+
 const HistoryTab = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { data: items = [], isLoading, isError, refetch } = useHistory();
+  const [filter, setFilter] = useState('');
+  const { data: items = [], isLoading, isError, refetch } = useHistory(filter);
   const feedback = useHistoryFeedback();
 
-  if (isLoading) return <ListSkeleton rows={5} />;
+  const header = (
+    <div className="mb-4 overflow-x-auto no-scrollbar">
+      <Segmented options={HISTORY_FILTERS} value={filter} onChange={setFilter} />
+    </div>
+  );
+
   if (isError) return <ErrorState message="Could not load your meal history." onRetry={refetch} />;
-  if (items.length === 0) {
+  if (isLoading || items.length === 0) {
+    const empty = EMPTY_HISTORY[filter] || { emoji: '🍽️', title: 'No meals logged yet' };
     return (
-      <EmptyState
-        icon={ChefHat}
-        title="No meals logged yet"
-        description="Press I cooked this on a recipe, or tick a meal in your plan, and it will show up here."
-        action={<Button to="/cook">Find something to cook</Button>}
-      />
+      <>
+        {header}
+        {isLoading ? (
+          <ListSkeleton rows={5} />
+        ) : (
+          <EmptyState
+            emoji={empty.emoji}
+            title={empty.title}
+            description="Press I cooked this on a recipe, or tick or skip a meal in your plan, and it will show up here."
+            action={<Button to="/cook">Find something to cook</Button>}
+          />
+        )}
+      </>
     );
   }
 
@@ -343,8 +463,11 @@ const HistoryTab = () => {
     );
 
   return (
-    <ul className="space-y-3">
+    <>
+      {header}
+      <ul className="space-y-3">
       {items.map((item) => {
+        const badge = ACTION_BADGE[item.action] || ACTION_BADGE.cooked;
         const recipe = item.recipe;
         const name = recipe?.name || item.food?.name || 'Logged meal';
         return (
@@ -358,26 +481,32 @@ const HistoryTab = () => {
               <RecipeImage recipe={recipe || { name, meal_type: item.meal_type }} emojiSize="text-3xl" />
             </button>
             <div className="min-w-0 flex-1 basis-48">
-              <p className="truncate font-semibold text-fg">{name}</p>
+              <div className="flex items-center gap-2">
+                <p className="truncate font-semibold text-fg">{name}</p>
+                <Badge tone={badge.tone}>{badge.label}</Badge>
+              </div>
               <p className="text-sm text-muted">
                 {item.meal_type} · {relativeTime(item.consumed_at)}
                 {recipe?.calories != null && ` · ${Math.round(recipe.calories)} kcal`}
               </p>
             </div>
-            <RatingButtons
-              value={item.feedback === 'neutral' ? null : item.feedback}
-              onChange={(value) => rate(item, value || 'neutral')}
-            />
+            {item.action !== 'viewed' && (
+              <RatingButtons
+                value={item.feedback === 'neutral' ? null : item.feedback}
+                onChange={(value) => rate(item, value || 'neutral')}
+              />
+            )}
           </li>
         );
       })}
-    </ul>
+      </ul>
+    </>
   );
 };
 
 export const Me = () => {
   const [params, setParams] = useSearchParams();
-  const tab = ['profile', 'diet', 'history'].includes(params.get('tab')) ? params.get('tab') : 'profile';
+  const tab = ['profile', 'diet', 'history', 'insights', 'settings'].includes(params.get('tab')) ? params.get('tab') : 'profile';
 
   return (
     <div>
@@ -389,12 +518,16 @@ export const Me = () => {
         tabs={[
           { id: 'profile', label: 'Profile', icon: UserRound },
           { id: 'diet', label: 'Diet and targets', icon: Target },
+          { id: 'insights', label: 'Insights', icon: BarChart3 },
           { id: 'history', label: 'Meal history', icon: HistoryIcon },
+          { id: 'settings', label: 'Reminders and privacy', icon: Settings },
         ]}
       />
       {tab === 'profile' && <ProfileTab />}
       {tab === 'diet' && <DietTab />}
+      {tab === 'insights' && <InsightsTab />}
       {tab === 'history' && <HistoryTab />}
+      {tab === 'settings' && <SettingsTab />}
     </div>
   );
 };

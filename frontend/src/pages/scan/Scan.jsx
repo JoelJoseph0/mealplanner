@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { AlertTriangle, Camera, Check, ChefHat, ImagePlus, Keyboard, RefreshCw, ScanLine, Sparkles } from 'lucide-react';
+import { AlertTriangle, Camera, Check, ChefHat, ImagePlus, Keyboard, Lightbulb, RefreshCw, ScanLine, Sparkles } from 'lucide-react';
 import { nutritionService, recognitionService } from '../../services';
 import { getErrorMessage } from '../../services/api';
 import { useAddToPantry, usePantry } from '../../lib/queries';
@@ -100,6 +100,7 @@ export const Scan = () => {
 
   const confident = result?.food_id && !result.is_low_confidence;
   const alternatives = (result?.candidates || []).filter((c) => c.food_id);
+  const qualityTips = result?.quality?.warnings || [];
   const macros = nutrition.data;
 
   return (
@@ -189,7 +190,9 @@ export const Scan = () => {
                   <div className="flex items-start gap-3">
                     {selected && <IngredientIcon name={selected.name} size="lg" />}
                     <div className="min-w-0">
-                      <p className="text-sm text-muted">{confident ? 'This looks like' : 'We are not sure. Is it one of these?'}</p>
+                      <p className="text-sm text-muted">
+                        {!confident ? 'We are not sure. Is it one of these?' : result.is_ambiguous ? 'This could be' : 'This looks like'}
+                      </p>
                       <h2 className="text-3xl font-semibold text-fg">{selected ? selected.name : 'Unknown ingredient'}</h2>
                     </div>
                   </div>
@@ -200,6 +203,26 @@ export const Scan = () => {
                         {confidenceLabel(result.confidence)} · {Math.round(result.confidence * 100)}%
                       </Badge>
                       <Meter value={result.confidence * 100} max={100} tone={result.confidence >= 0.85 ? 'brand' : 'accent'} className="mt-2" />
+                    </div>
+                  )}
+
+                  {result.is_ambiguous && confident && alternatives.length > 1 && (
+                    <p className="mt-3 rounded-xl bg-warn-soft p-3 text-sm text-fg" role="status">
+                      {result.message}
+                    </p>
+                  )}
+
+                  {qualityTips.length > 0 && (!confident || result.is_ambiguous || result.confidence < 0.85) && (
+                    <div className="mt-3 flex items-start gap-2 rounded-xl bg-info-soft p-3 text-sm text-fg">
+                      <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-info" aria-hidden="true" />
+                      <div>
+                        <p className="font-semibold">For a better result</p>
+                        <ul className="mt-0.5 list-disc pl-4 text-muted">
+                          {qualityTips.map((tip) => (
+                            <li key={tip}>{tip}</li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   )}
 

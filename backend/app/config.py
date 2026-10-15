@@ -20,6 +20,14 @@ class Settings(BaseSettings):
     FRONTEND_URL: str = "http://localhost:5173"
     MAX_UPLOAD_SIZE: int = 10485760  # 10 MB in bytes
     UPLOAD_DIR: str = "uploads/food_images"
+    IMAGE_RETENTION_DAYS: int = 30
+
+    OLLAMA_URL: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = "qwen2.5:latest"
+    OLLAMA_KEEP_ALIVE: str = "30m"
+    OLLAMA_TIMEOUT: float = 300.0
+    OLLAMA_NUM_CTX: int = 4096
+    ASSISTANT_ENABLED: bool = True
     CONFIDENCE_THRESHOLD: float = 0.45
     MODEL_PATH: str = "ml/models/food_classifier.keras"
     MODEL_META_PATH: str = "ml/models/model_meta.json"

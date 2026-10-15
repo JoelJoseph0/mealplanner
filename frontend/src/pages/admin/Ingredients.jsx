@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import { FolderCog, Pencil, Plus, Trash2 } from 'lucide-react';
 import { adminService } from '../../services';
 import { getErrorMessage } from '../../services/api';
 import { INGREDIENT_CATEGORIES } from '../../utils/constants';
 import { IngredientIcon } from '../../components/food/visuals';
+import CategoryManager from '../../components/admin/CategoryManager';
 import {
   Badge,
   Button,
@@ -56,6 +57,7 @@ export const Ingredients = () => {
   const client = useQueryClient();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
+  const [managing, setManaging] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [open, setOpen] = useState(false);
@@ -150,6 +152,7 @@ export const Ingredients = () => {
   };
 
   const setField = (field) => (event) => setForm((c) => ({ ...c, [field]: event.target.value }));
+  const categoryOptions = [...new Set([...INGREDIENT_CATEGORIES, ...data.map((f) => f.category).filter(Boolean)])].sort();
 
   return (
     <div>
@@ -158,9 +161,14 @@ export const Ingredients = () => {
         emoji="🥬"
         description="The catalog users add to their kitchen, with local names, swaps and nutrition per serving."
         actions={
-          <Button icon={Plus} onClick={openCreate}>
-            Add ingredient
-          </Button>
+          <>
+            <Button variant="secondary" icon={FolderCog} onClick={() => setManaging(true)}>
+              Categories
+            </Button>
+            <Button icon={Plus} onClick={openCreate}>
+              Add ingredient
+            </Button>
+          </>
         }
       />
 
@@ -173,7 +181,7 @@ export const Ingredients = () => {
           className="rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm font-semibold text-fg focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/25"
         >
           <option value="All">All categories</option>
-          {INGREDIENT_CATEGORIES.map((c) => (
+          {categoryOptions.map((c) => (
             <option key={c} value={c}>
               {c}
             </option>
@@ -268,7 +276,7 @@ export const Ingredients = () => {
           )}
           <div className="grid gap-4 sm:grid-cols-2">
             <Input label="Name" value={form.name} onChange={setField('name')} required />
-            <Select label="Category" value={form.category} onChange={setField('category')} options={INGREDIENT_CATEGORIES} />
+            <Select label="Category" value={form.category} onChange={setField('category')} options={categoryOptions} />
           </div>
           <Input label="Other names" hint="Comma separated, e.g. tomatoes, thakkali, tamatar" value={form.aliases} onChange={setField('aliases')} />
           <Input label="Substitutes" hint="Comma separated ingredient names that can replace it" value={form.substitutes} onChange={setField('substitutes')} />
@@ -289,6 +297,8 @@ export const Ingredients = () => {
           </div>
         </form>
       </Dialog>
+
+      <CategoryManager open={managing} onClose={() => setManaging(false)} />
 
       <ConfirmDialog
         open={Boolean(target)}

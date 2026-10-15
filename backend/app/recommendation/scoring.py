@@ -91,6 +91,17 @@ def calculate_recipe_score(
 
     score = (points / possible) * 100.0 if possible else 0.0
 
+    goal = (getattr(profile, "goal", None) or "maintain").lower() if profile else "maintain"
+    if goal == "lose" and (recipe.calories or 0.0) <= expected_meal_calories and (recipe.fiber or 0.0) >= 4.0:
+        score += 5.0
+        reasons.append("Filling and lighter, suits your weight-loss goal")
+    elif goal == "muscle" and (recipe.protein or 0.0) >= 20.0:
+        score += 5.0
+        reasons.append("Protein-rich, suits your muscle-building goal")
+    elif goal == "gain" and (recipe.calories or 0.0) >= expected_meal_calories:
+        score += 5.0
+        reasons.append("Energy-dense, suits your weight-gain goal")
+
     if recipe_feedback_history and recipe.id in recipe_feedback_history:
         feedback = recipe_feedback_history[recipe.id]
         if feedback == "positive":

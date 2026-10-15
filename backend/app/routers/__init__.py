@@ -11,6 +11,7 @@ from app.routers.recommendations import router as recommendations_router
 from app.routers.meal_plans import router as meal_plans_router
 from app.routers.history import router as history_router
 from app.routers.admin import router as admin_router
+from app.routers.assistant import router as assistant_router
 
 __all__ = [
     "auth_router",
@@ -26,4 +27,5 @@ __all__ = [
     "meal_plans_router",
     "history_router",
     "admin_router",
+    "assistant_router",
 ]

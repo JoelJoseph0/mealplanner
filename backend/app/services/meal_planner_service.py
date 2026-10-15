@@ -541,8 +541,39 @@ def set_meal_locked(db: Session, user_id: int, plan_id: int, locked: bool) -> Me
     return _owned_item(db, user_id, plan_id)
 
 
+def set_meal_skipped(db: Session, user_id: int, plan_id: int, skipped: bool) -> MealPlan:
+    item = _owned_item(db, user_id, plan_id)
+    if skipped and not item.skipped:
+        if item.completed:
+            _unlog_completed(db, item)
+        history = MealHistory(
+            user_id=user_id,
+            recipe_id=item.recipe_id,
+            meal_type=item.meal_type,
+            consumed_at=datetime.now(timezone.utc),
+            action="skipped",
+            notes="Skipped from meal plan"
+        )
+        db.add(history)
+        db.flush()
+        item.history_id = history.id
+        item.skipped = True
+    elif not skipped and item.skipped:
+        if item.history_id:
+            history = db.query(MealHistory).filter(MealHistory.id == item.history_id).first()
+            if history and history.action == "skipped":
+                db.delete(history)
+        item.history_id = None
+        item.skipped = False
+    db.commit()
+    return _owned_item(db, user_id, plan_id)
+
+
 def set_meal_completed(db: Session, user_id: int, plan_id: int, completed: bool) -> MealPlan:
     item = _owned_item(db, user_id, plan_id)
+    if completed and item.skipped:
+        set_meal_skipped(db, user_id, plan_id, False)
+        item = _owned_item(db, user_id, plan_id)
     if completed and not item.completed:
         history = MealHistory(
             user_id=user_id,

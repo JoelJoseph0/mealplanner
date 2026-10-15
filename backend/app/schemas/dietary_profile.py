@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -15,6 +15,10 @@ class DietaryProfileBase(BaseModel):
     height: Optional[float] = Field(default=None, ge=50.0, le=250.0)
     weight: Optional[float] = Field(default=None, ge=20.0, le=300.0)
     activity_level: Optional[str] = Field(default="moderate")
+    goal: str = Field(default="maintain")
+    intolerances: List[str] = Field(default_factory=list)
+    health_conditions: List[str] = Field(default_factory=list)
+    reminders: Dict[str, Any] = Field(default_factory=dict)
 
 
 class DietaryProfileCreate(DietaryProfileBase):

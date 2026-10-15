@@ -14,6 +14,16 @@ ADDED_COLUMNS = {
         "locked": "BOOLEAN NOT NULL DEFAULT FALSE",
         "completed": "BOOLEAN NOT NULL DEFAULT FALSE",
         "history_id": "INTEGER",
+        "skipped": "BOOLEAN NOT NULL DEFAULT FALSE",
+    },
+    "dietary_profiles": {
+        "goal": "VARCHAR(30) NOT NULL DEFAULT 'maintain'",
+        "intolerances": "JSON NOT NULL DEFAULT '[]'",
+        "health_conditions": "JSON NOT NULL DEFAULT '[]'",
+        "reminders": "JSON NOT NULL DEFAULT '{}'",
+    },
+    "meal_histories": {
+        "action": "VARCHAR(20) NOT NULL DEFAULT 'cooked'",
     },
 }
 

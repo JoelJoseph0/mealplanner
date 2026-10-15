@@ -1,4 +1,6 @@
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, List
+from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 from app.models.recipe import Recipe
 from app.models.recipe_ingredient import RecipeIngredient
@@ -46,6 +48,19 @@ def get_recommendations_for_user(
 
     pantry_context = get_user_pantry_context(db, user_id) if request.use_pantry else None
 
+    since = datetime.now(timezone.utc) - timedelta(days=7)
+    recent_counts: Dict[int, int] = dict(
+        db.query(MealHistory.recipe_id, func.count(MealHistory.id))
+        .filter(
+            MealHistory.user_id == user_id,
+            MealHistory.recipe_id.isnot(None),
+            MealHistory.action.in_(["cooked", "skipped"]),
+            MealHistory.consumed_at >= since,
+        )
+        .group_by(MealHistory.recipe_id)
+        .all()
+    )
+
     # 5. Execute recommendation engine
     recommendations = generate_recommendations(
         all_recipes=all_recipes,
@@ -55,7 +70,8 @@ def get_recommendations_for_user(
         recognized_food_name=recognized_food_name,
         feedback_history=feedback_map,
         limit=request.limit or 5,
-        pantry_context=pantry_context
+        pantry_context=pantry_context,
+        recent_counts=recent_counts
     )
 
     return {

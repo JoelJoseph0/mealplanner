@@ -11,6 +11,7 @@ from app.models.shopping_item import ShoppingItem
 from app.models.recipe_rating import RecipeRating
 from app.models.meal_plan import MealPlan
 from app.models.meal_history import MealHistory
+from app.models.recipe_guide import RecipeGuide
 
 __all__ = [
     "User",
@@ -26,4 +27,5 @@ __all__ = [
     "RecipeRating",
     "MealPlan",
     "MealHistory",
+    "RecipeGuide",
 ]
